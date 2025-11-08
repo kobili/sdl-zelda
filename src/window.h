@@ -3,13 +3,25 @@
 
 #include "SDL.h"
 
-struct Window {
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+
+class Window {
+public:
+    Window();
+    ~Window();
+
+    bool init();
+    void free();
+
+    SDL_Renderer* get_renderer();
+
+    int get_width();
+    int get_height();
+
+private:
+    SDL_Window* m_window;
+    SDL_Renderer* m_renderer;
+
+    int m_w, m_h;
 };
-
-Window* create_window();
-
-void free_window(Window* window);
 
 #endif

@@ -14,6 +14,7 @@ SpriteSheet::SpriteSheet() {
 
 SpriteSheet::~SpriteSheet() {
     free();
+    printf("Destroyed sprite sheet\n");
 }
 
 
@@ -26,8 +27,6 @@ void SpriteSheet::free() {
 
     m_sprite_width_px = 0;
     m_sprite_height_px = 0;
-
-    printf("Destroyed sprite sheet\n");
 }
 
 

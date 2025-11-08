@@ -16,12 +16,12 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    Window* window = create_window();
-    if (window == NULL) {
+    Window window;
+    if (!window.init()) {
         printf("Failed to create window. Exiting...\n");
         return -1;
     }
-    SDL_Renderer* renderer = window->renderer;
+    SDL_Renderer* renderer = window.get_renderer();
 
     SpriteSheet sprite_sheet;
     if (!sprite_sheet.load_sprite_sheet(renderer, "resources/link_walk_sprite.png", 16, 16)) {
@@ -42,15 +42,10 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        SDL_Rect src = sprite_sheet.get_sprite(0, 0);
-
         sprite_sheet.render_sprite(0, 0, 0, 0);
 
         SDL_RenderPresent(renderer);
     }
-
-    free_window(window);
-    window = NULL;
 
     teardown_sdl();
 }

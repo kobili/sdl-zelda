@@ -12,6 +12,7 @@ Texture::Texture() {
 
 Texture::~Texture() {
     free();
+    printf("Destroyed texture\n");
 }
 
 
@@ -27,8 +28,6 @@ void Texture::free() {
 
     w = 0;
     h = 0;
-
-    printf("Destroyed texture\n");
 }
 
 
