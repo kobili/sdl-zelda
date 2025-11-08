@@ -9,6 +9,22 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 
+int init_sdl() {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("Failed to initialize SDL: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    int img_flags = IMG_INIT_PNG;
+    if (!(IMG_Init(img_flags) & img_flags)) {
+        printf("Failed to initialize SDL_Image: %s\n", IMG_GetError());
+        return -1;
+    }
+
+    return 0;
+}
+
+
 struct Window {
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -44,6 +60,12 @@ Window* create_window() {
     window->renderer = renderer;
 
     return window;
+}
+
+void free_window(Window* window) {
+    SDL_DestroyRenderer(window->renderer);
+    SDL_DestroyWindow(window->window);
+    free(window);
 }
 
 
@@ -82,6 +104,12 @@ Texture* load_texture(SDL_Renderer* renderer, const char* path) {
 }
 
 
+void free_texture(Texture* texture) {
+    SDL_DestroyTexture(texture->texture);
+    free(texture);
+}
+
+
 struct SpriteSheet {
     Texture* texture;
     int rows;
@@ -116,15 +144,14 @@ SDL_Rect get_sprite(SpriteSheet sprite_sheet, int x, int y) {
 }
 
 
-int main(int argc, char* args[]) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("Failed to initialize SDL: %s\n", SDL_GetError());
-        return -1;
-    }
+void free_sprite_sheet(SpriteSheet* sprite_sheet) {
+    free_texture(sprite_sheet->texture);
+    free(sprite_sheet);
+}
 
-    int img_flags = IMG_INIT_PNG;
-    if (!(IMG_Init(img_flags) & img_flags)) {
-        printf("Failed to initialize SDL_Image: %s\n", IMG_GetError());
+
+int main(int argc, char* args[]) {
+    if (init_sdl() < 0) {
         return -1;
     }
 
@@ -169,13 +196,10 @@ int main(int argc, char* args[]) {
         SDL_RenderPresent(renderer);
     }
 
-    SDL_DestroyTexture(sprite_sheet.texture->texture);
-    free(sprite_sheet.texture);
+    free_texture(sprite_sheet.texture);
     sprite_sheet.texture = NULL;
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window->window);
-    free(window);
+    free_window(window);
     window = NULL;
 
     SDL_Quit();
