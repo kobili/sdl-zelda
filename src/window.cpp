@@ -1,6 +1,7 @@
 #include "window.h"
 #include "constants.h"
 
+
 Window* create_window() {
     SDL_Window* sdl_window = SDL_CreateWindow(
         "Zeldeep",
@@ -36,4 +37,6 @@ void free_window(Window* window) {
     SDL_DestroyRenderer(window->renderer);
     SDL_DestroyWindow(window->window);
     free(window);
+
+    printf("destroyed window\n");
 }

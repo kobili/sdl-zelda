@@ -23,14 +23,11 @@ int main(int argc, char* args[]) {
     }
     SDL_Renderer* renderer = window->renderer;
 
-    Texture* texture = load_texture(renderer, "resources/link_walk_sprite.png");
-    if (texture == NULL) {
-        printf("failed to load texture. Exiting...\n");
+    SpriteSheet* sprite_sheet = create_sprite_sheet(renderer, "resources/link_walk_sprite.png", 16, 16);
+    if (sprite_sheet == NULL) {
+        printf("failed to create sprite sheet. Exiting...\n");
         return -1;
     }
-
-    SpriteSheet sprite_sheet = create_sprite_sheet(texture, 16, 16);
-    texture = NULL;
 
     SDL_Event e;
     int running = 1;
@@ -49,7 +46,7 @@ int main(int argc, char* args[]) {
 
         SDL_RenderCopy(
             renderer,
-            sprite_sheet.texture->texture,
+            sprite_sheet->texture->texture,
             &src,
             NULL
         );
@@ -57,8 +54,7 @@ int main(int argc, char* args[]) {
         SDL_RenderPresent(renderer);
     }
 
-    free_texture(sprite_sheet.texture);
-    sprite_sheet.texture = NULL;
+    free_sprite_sheet(sprite_sheet);
 
     free_window(window);
     window = NULL;

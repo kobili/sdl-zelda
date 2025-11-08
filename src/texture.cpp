@@ -34,4 +34,6 @@ Texture* load_texture(SDL_Renderer* renderer, const char* path) {
 void free_texture(Texture* texture) {
     SDL_DestroyTexture(texture->texture);
     free(texture);
+
+    printf("destroyed texture\n");
 }
