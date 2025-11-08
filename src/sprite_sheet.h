@@ -4,17 +4,26 @@
 #include "texture.h"
 
 
-struct SpriteSheet {
-    Texture* texture;
-    int rows;
-    int cols;
-    int sprite_width_px;
-    int sprite_height_px;
+class SpriteSheet {
+public:
+    SpriteSheet();
+    ~SpriteSheet();
+
+    bool load_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px);
+    bool load_sprite_sheet(SDL_Renderer* renderer, const char* path, int sprite_width_px, int sprite_height_px);
+
+    SDL_Rect get_sprite(int x, int y);
+
+    void free();
+
+    void render_sprite(int i, int j, int x, int y);
+
+private:
+    Texture* m_texture;
+
+    int m_rows, m_cols;
+    int m_sprite_width_px, m_sprite_height_px;
 };
 
-SpriteSheet* create_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px);
-SpriteSheet* create_sprite_sheet(SDL_Renderer* renderer, const char* path, int sprite_width_px, int sprite_height_px);
-SDL_Rect get_sprite(SpriteSheet* sprite_sheet, int x, int y);
-void free_sprite_sheet(SpriteSheet* sprite_sheet);
 
 #endif

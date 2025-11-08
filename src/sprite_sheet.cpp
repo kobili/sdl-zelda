@@ -1,45 +1,72 @@
 #include "sprite_sheet.h"
 
 
-SpriteSheet* create_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px) {
-    SpriteSheet* sprite_sheet = (SpriteSheet*) malloc(sizeof(SpriteSheet));
-    sprite_sheet->texture = texture;
+SpriteSheet::SpriteSheet() {
+    m_texture = NULL;
 
-    sprite_sheet->sprite_width_px = sprite_width_px;
-    sprite_sheet->sprite_height_px = sprite_height_px;
+    m_rows = 0;
+    m_cols = 0;
 
-    sprite_sheet->cols = texture->w / sprite_width_px;
-    sprite_sheet->rows = texture->h / sprite_height_px;
-
-    return sprite_sheet;
+    m_sprite_width_px = 0;
+    m_sprite_height_px = 0;
 }
 
 
-SpriteSheet* create_sprite_sheet(SDL_Renderer* renderer, const char* path, int sprite_width_px, int sprite_height_px) {
-    Texture* texture = load_texture(renderer, path);
-    if (texture == NULL) {
-        return NULL;
+SpriteSheet::~SpriteSheet() {
+    free();
+}
+
+
+void SpriteSheet::free() {
+    delete m_texture;
+    m_texture = NULL;
+
+    m_rows = 0;
+    m_cols = 0;
+
+    m_sprite_width_px = 0;
+    m_sprite_height_px = 0;
+
+    printf("Destroyed sprite sheet\n");
+}
+
+
+bool SpriteSheet::load_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px) {
+    m_texture = texture;
+
+    m_sprite_width_px = sprite_width_px;
+    m_sprite_height_px = sprite_height_px;
+
+    m_cols = texture->get_width() / sprite_width_px;
+    m_rows = texture->get_height() / sprite_height_px;
+
+    return true;
+}
+
+
+bool SpriteSheet::load_sprite_sheet(SDL_Renderer* renderer, const char* path, int sprite_width_px, int sprite_height_px) {
+    Texture* texture = new Texture();
+    if (!texture->load_texture(renderer, path)) {
+        delete texture;
+        return false;
     }
 
-    return create_sprite_sheet(texture, sprite_width_px, sprite_height_px);
+    return load_sprite_sheet(texture, sprite_width_px, sprite_height_px);
 }
 
 
-SDL_Rect get_sprite(SpriteSheet* sprite_sheet, int x, int y) {
+SDL_Rect SpriteSheet::get_sprite(int x, int y) {
     SDL_Rect src;
-    src.w = sprite_sheet->sprite_width_px;
-    src.h = sprite_sheet->sprite_height_px;
+    src.w = m_sprite_width_px;
+    src.h = m_sprite_height_px;
 
-    src.x = x * sprite_sheet->sprite_width_px;
-    src.y = y * sprite_sheet->sprite_height_px;
+    src.x = x * m_sprite_width_px;
+    src.y = y * m_sprite_height_px;
 
     return src;
 }
 
-
-void free_sprite_sheet(SpriteSheet* sprite_sheet) {
-    free_texture(sprite_sheet->texture);
-    free(sprite_sheet);
-
-    printf("destroyed sprite sheet\n");
+void SpriteSheet::render_sprite(int i, int j, int x, int y) {
+    SDL_Rect src = get_sprite(i, j);
+    m_texture->render(x, y, &src);
 }

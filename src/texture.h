@@ -3,13 +3,25 @@
 
 #include "SDL.h"
 
-struct Texture {
-    SDL_Texture* texture;
-    int w;
-    int h;
-};
 
-Texture* load_texture(SDL_Renderer* renderer, const char* path);
-void free_texture(Texture* texture);
+class Texture {
+public:
+    Texture();
+    ~Texture();
+
+    void free();
+    bool load_texture(SDL_Renderer* renderer, const char* path);
+
+    void render(int x, int y, SDL_Rect* clip = nullptr);
+
+    int get_width();
+    int get_height();
+
+private:
+    SDL_Texture* m_texture;
+    SDL_Renderer* m_renderer;
+
+    int w, h;
+};
 
 #endif
