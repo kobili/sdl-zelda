@@ -3,6 +3,7 @@
 
 #include "sprite_sheet.h"
 
+
 class Enemy {
 public:
     Enemy();
@@ -21,11 +22,15 @@ public:
 
     void move();
 
+    SDL_Rect& get_collider();
+    void update_collider();
+
 private:
     int x, y;
     int vel_x, vel_y;
 
     SpriteSheet* sprite_sheet;
+    SDL_Rect collider;
 };
 
 

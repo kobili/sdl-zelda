@@ -9,4 +9,5 @@ build:
 		src/sdl_utils.cpp \
 		src/player.cpp \
 		src/enemy.cpp \
+		src/utils.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

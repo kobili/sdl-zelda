@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "sprite_sheet.h"
+#include <vector>
 
 
 const int DEFAULT_VELOCITY = 2;
@@ -24,13 +25,22 @@ public:
 
     void handle_event(SDL_Event& e);
 
-    void move();
+    void move(std::vector<SDL_Rect*> colliders);
+
+    SDL_Rect& get_collider();
+
+    /**
+     * Reposition the collider so that it lines up with the player's position
+     */
+    void update_collider();
 
 private:
     // position in level space; NOT screen space
     int x, y;
     int vel_x, vel_y;
     SpriteSheet* m_sprite_sheet;
+
+    SDL_Rect collider;
 };
 
 #endif

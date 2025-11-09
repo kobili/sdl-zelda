@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include "constants.h"
+#include "utils.h"
 
 
 Player::Player() {
@@ -8,6 +9,9 @@ Player::Player() {
     y = 0;
     vel_x = 0;
     vel_y = 0;
+
+    collider.x = 0;
+    collider.y = 0;
 }
 
 
@@ -23,10 +27,14 @@ int Player::get_y() {
 
 void Player::set_sprite_sheet(SpriteSheet* sprite_sheet) {
     m_sprite_sheet = sprite_sheet;
+
+    collider.w = sprite_sheet->get_sprite_width();
+    collider.h = sprite_sheet->get_sprite_height();
 }
 
 
 void Player::render(int scale_x, int scale_y) {
+    // TODO: add a check for a null sprite_sheet
     m_sprite_sheet->render_sprite(
         0,
         0,
@@ -81,22 +89,27 @@ void Player::handle_event(SDL_Event& e) {
 }
 
 
-void Player::move() {
+void Player::move(std::vector<SDL_Rect*> colliders) {
     x += vel_x;
+    update_collider();
 
-    if (x < 0) {
-        x = 0;
-    }
-    if (x > NES_SCREEN_WIDTH - m_sprite_sheet->get_sprite_width()) {
-        x = NES_SCREEN_WIDTH - m_sprite_sheet->get_sprite_width();
+    if (x < 0 || x > NES_SCREEN_WIDTH - m_sprite_sheet->get_sprite_width() || check_collisions(collider, colliders)) {
+        x -= vel_x;
     }
 
     y += vel_y;
+    update_collider();
 
-    if (y < 0) {
-        y = 0;
+    if (y < 0 || y > NES_SCREEN_HEIGHT - m_sprite_sheet->get_sprite_height() || check_collisions(collider, colliders)) {
+        y -= vel_y;
     }
-    if (y > NES_SCREEN_HEIGHT - m_sprite_sheet->get_sprite_height()) {
-        y = NES_SCREEN_HEIGHT - m_sprite_sheet->get_sprite_height();
-    }
+}
+
+SDL_Rect& Player::get_collider() {
+    return collider;
+}
+
+void Player::update_collider() {
+    collider.x = x;
+    collider.y = y;
 }

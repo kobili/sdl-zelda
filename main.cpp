@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -49,6 +50,9 @@ int main(int argc, char* args[]) {
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 
+    std::vector<SDL_Rect*> colliders;
+    colliders.push_back(&oktorok.get_collider());
+
     SDL_Event e;
     int running = 1;
 
@@ -61,7 +65,7 @@ int main(int argc, char* args[]) {
             player.handle_event(e);
         }
 
-        player.move();
+        player.move(colliders);
 
         int scaling_factor_x = window.get_width() / NES_SCREEN_WIDTH;
         int scaling_factor_y = window.get_height() / NES_SCREEN_HEIGHT;

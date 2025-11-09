@@ -7,6 +7,9 @@ Enemy::Enemy() {
     vel_y = 0;
 
     sprite_sheet = NULL;
+
+    collider.x = 0;
+    collider.y = 0;
 }
 
 void Enemy::render(int scale_x, int scale_y) {
@@ -23,16 +26,30 @@ void Enemy::render(int scale_x, int scale_y) {
 
 void Enemy::set_sprite_sheet(SpriteSheet* sprite_sheet) {
     this->sprite_sheet = sprite_sheet;
+    collider.w = sprite_sheet->get_sprite_width();
+    collider.h = sprite_sheet->get_sprite_height();
 }
 
 void Enemy::set_x(int x) {
     this->x = x;
+    collider.x = x;
 }
 
 void Enemy::set_y(int y) {
     this->y = y;
+    collider.y = y;
 }
 
 void Enemy::move() {
     // stub
+    update_collider();
+}
+
+SDL_Rect& Enemy::get_collider() {
+    return collider;
+}
+
+void Enemy::update_collider() {
+    collider.x = x;
+    collider.y = y;
 }
