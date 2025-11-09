@@ -7,4 +7,5 @@ build:
 		src/texture.cpp \
 		src/sprite_sheet.cpp \
 		src/sdl_utils.cpp \
+		src/player.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

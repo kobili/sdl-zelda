@@ -9,6 +9,7 @@
 #include "src/texture.h"
 #include "src/sprite_sheet.h"
 #include "src/sdl_utils.h"
+#include "src/player.h"
 
 
 int main(int argc, char* args[]) {
@@ -29,6 +30,9 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
+    Player player;
+    player.set_sprite_sheet(&sprite_sheet);
+
     SDL_Event e;
     int running = 1;
 
@@ -37,7 +41,11 @@ int main(int argc, char* args[]) {
             if (e.type == SDL_QUIT) {
                 running = 0;
             }
+
+            player.handle_event(e);
         }
+
+        player.move();
 
         int scaling_factor_x = window.get_width() / NES_SCREEN_WIDTH;
         int scaling_factor_y = window.get_height() / NES_SCREEN_HEIGHT;
@@ -45,14 +53,7 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        sprite_sheet.render_sprite(
-            0,
-            0,
-            ( (NES_SCREEN_WIDTH / 2) - (sprite_sheet.get_sprite_width() / 2) ) * scaling_factor_x,
-            ( (NES_SCREEN_HEIGHT / 2) - (sprite_sheet.get_sprite_height() / 2) ) * scaling_factor_y,
-            scaling_factor_x,
-            scaling_factor_y
-        );
+        player.render(scaling_factor_x, scaling_factor_y);
 
         SDL_RenderPresent(renderer);
     }
