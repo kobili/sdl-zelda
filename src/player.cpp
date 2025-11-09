@@ -10,6 +10,8 @@ Player::Player() {
     vel_x = 0;
     vel_y = 0;
 
+    m_sprite_sheet = NULL;
+
     collider.x = 0;
     collider.y = 0;
 }

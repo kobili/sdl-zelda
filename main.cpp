@@ -41,12 +41,12 @@ int main(int argc, char* args[]) {
     player.set_sprite_sheet(&sprite_sheet);
 
     Enemy oktorok;
-    SpriteSheet oktorok_sprite_sheet;
-    if (!oktorok_sprite_sheet.load_sprite_sheet(renderer, "resources/oktorok_sprites.png", 16, 16)) {
+    SpriteSheet* oktorok_sprite_sheet = new SpriteSheet();
+    if (!oktorok_sprite_sheet->load_sprite_sheet(renderer, "resources/oktorok_sprites.png", 16, 16)) {
         printf("failed to load oktorok sprites. Exiting...\n");
         return -1;
     }
-    oktorok.set_sprite_sheet(&oktorok_sprite_sheet);
+    oktorok.set_sprite_sheet(oktorok_sprite_sheet);
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 
