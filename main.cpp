@@ -33,12 +33,12 @@ int main(int argc, char* args[]) {
     }
 
     Player player;
-    SpriteSheet sprite_sheet;
-    if (!sprite_sheet.load_sprite_sheet(renderer, "resources/link_walk_sprite.png", 16, 16)) {
+    SpriteSheet* sprite_sheet = new SpriteSheet();
+    if (!sprite_sheet->load_sprite_sheet(renderer, "resources/link_walk_sprite.png", 16, 16)) {
         printf("failed to create sprite sheet. Exiting...\n");
         return -1;
     }
-    player.set_sprite_sheet(&sprite_sheet);
+    player.set_sprite_sheet(sprite_sheet);
 
     Enemy oktorok;
     SpriteSheet* oktorok_sprite_sheet = new SpriteSheet();

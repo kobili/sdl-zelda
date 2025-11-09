@@ -41,6 +41,14 @@ void Entity::set_sprite_sheet(SpriteSheet* sprite_sheet) {
     m_collider.h = sprite_sheet->get_sprite_height();
 }
 
+int Entity::get_x() {
+    return x;
+}
+
+int Entity::get_y() {
+    return y;
+}
+
 void Entity::set_x(int x) {
     this->x = x;
     update_collider();
