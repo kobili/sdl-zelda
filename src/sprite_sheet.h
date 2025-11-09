@@ -10,13 +10,20 @@ public:
     ~SpriteSheet();
 
     bool load_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px);
-    bool load_sprite_sheet(SDL_Renderer* renderer, const char* path, int sprite_width_px, int sprite_height_px);
+    bool load_sprite_sheet(
+        SDL_Renderer* renderer,
+        const char* path,
+        int sprite_width_px,
+        int sprite_height_px
+    );
 
     SDL_Rect get_sprite(int x, int y);
+    int get_sprite_width();
+    int get_sprite_height();
 
     void free();
 
-    void render_sprite(int i, int j, int x, int y);
+    void render_sprite(int i, int j, int x, int y, int scale_x = 0, int scale_y = 0);
 
 private:
     Texture* m_texture;

@@ -39,10 +39,20 @@ int main(int argc, char* args[]) {
             }
         }
 
+        int scaling_factor_x = window.get_width() / NES_SCREEN_WIDTH;
+        int scaling_factor_y = window.get_height() / NES_SCREEN_HEIGHT;
+
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        sprite_sheet.render_sprite(0, 0, 0, 0);
+        sprite_sheet.render_sprite(
+            0,
+            0,
+            ( (NES_SCREEN_WIDTH / 2) - (sprite_sheet.get_sprite_width() / 2) ) * scaling_factor_x,
+            ( (NES_SCREEN_HEIGHT / 2) - (sprite_sheet.get_sprite_height() / 2) ) * scaling_factor_y,
+            scaling_factor_x,
+            scaling_factor_y
+        );
 
         SDL_RenderPresent(renderer);
     }

@@ -43,7 +43,12 @@ bool SpriteSheet::load_sprite_sheet(Texture* texture, int sprite_width_px, int s
 }
 
 
-bool SpriteSheet::load_sprite_sheet(SDL_Renderer* renderer, const char* path, int sprite_width_px, int sprite_height_px) {
+bool SpriteSheet::load_sprite_sheet(
+    SDL_Renderer* renderer,
+    const char* path,
+    int sprite_width_px,
+    int sprite_height_px
+) {
     Texture* texture = new Texture();
     if (!texture->load_texture(renderer, path)) {
         delete texture;
@@ -65,7 +70,18 @@ SDL_Rect SpriteSheet::get_sprite(int x, int y) {
     return src;
 }
 
-void SpriteSheet::render_sprite(int i, int j, int x, int y) {
+
+int SpriteSheet::get_sprite_width() {
+    return m_sprite_width_px;
+}
+
+
+int SpriteSheet::get_sprite_height() {
+    return m_sprite_height_px;
+}
+
+
+void SpriteSheet::render_sprite(int i, int j, int x, int y, int scale_x, int scale_y) {
     SDL_Rect src = get_sprite(i, j);
-    m_texture->render(x, y, &src);
+    m_texture->render(x, y, &src, scale_x, scale_y);
 }
