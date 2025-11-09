@@ -19,6 +19,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
+    // TODO: Make window resizable
     Window window;
     if (!window.init()) {
         printf("Failed to create window. Exiting...\n");

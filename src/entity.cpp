@@ -24,7 +24,11 @@ void Entity::free() {
 }
 
 void Entity::render(int scale_x, int scale_y) {
-    // TODO: add a check for a null sprite sheet
+    if (m_sprite_sheet == NULL) {
+        printf("Entity has no sprites loaded. Skipping...\n");
+        return;
+    }
+
     m_sprite_sheet->render_sprite(
         0,
         0,
