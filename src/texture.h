@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include "SDL.h"
+#include <string>
 
 
 class Texture {
@@ -22,6 +23,8 @@ private:
     SDL_Renderer* m_renderer;
 
     int w, h;
+
+    std::string file_path;
 };
 
 #endif

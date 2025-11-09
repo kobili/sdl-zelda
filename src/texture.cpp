@@ -7,12 +7,14 @@ Texture::Texture() {
     m_renderer = NULL;
     w = 0;
     h = 0;
+
+    file_path = "";
 }
 
 
 Texture::~Texture() {
     free();
-    printf("Destroyed texture\n");
+    printf("Destroyed texture %s\n", file_path.c_str());
 }
 
 
@@ -52,6 +54,8 @@ bool Texture::load_texture(SDL_Renderer* renderer, const char* path) {
         printf("Failed to load texture: %s\n", SDL_GetError());
         return false;
     }
+
+    file_path = path;
 
     return true;
 }
