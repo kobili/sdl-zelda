@@ -8,4 +8,5 @@ build:
 		src/sprite_sheet.cpp \
 		src/sdl_utils.cpp \
 		src/player.cpp \
+		src/enemy.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
