@@ -13,8 +13,8 @@ Texture::Texture() {
 
     file_path = "";
 
-    scaling_factor_x = 0;
-    scaling_factor_y = 0;
+    scaling_factor_x = 1;
+    scaling_factor_y = 1;
 }
 
 
@@ -85,11 +85,13 @@ void Texture::render(int x, int y, SDL_Rect* clip) {
     }
 
     if (scaling_factor_x) {
+        dst.x = std::round(dst.x * scaling_factor_x);
         dst.w = std::round(dst.w * scaling_factor_x);
     }
 
     if (scaling_factor_x) {
-        dst.h = std::round(dst.h * scaling_factor_x);
+        dst.y = std::round(dst.y * scaling_factor_y);
+        dst.h = std::round(dst.h * scaling_factor_y);
     }
 
     SDL_RenderCopy(
