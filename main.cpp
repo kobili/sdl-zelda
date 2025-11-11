@@ -18,6 +18,7 @@
 #include "src/managers/sprite_manager.h"
 #include "src/managers/managers.h"
 #include "src/tiles/tileset.h"
+#include "src/tiles/tile.h"
 
 
 int main(int argc, char* args[]) {
@@ -48,6 +49,8 @@ int main(int argc, char* args[]) {
 
     Tileset tileset = Tileset(texture_manager->get_texture("resources/tileset_overworld_forest.png"), 16, 16);
 
+    std::vector<Tile> tiles = get_screen_1_tiles(&tileset);
+
     SDL_Event e;
     int running = 1;
 
@@ -68,7 +71,9 @@ int main(int argc, char* args[]) {
 
         // background->render(0, 0, NULL);
 
-        render_screen_01(tileset);
+        for (int i = 0; i < tiles.size(); i++) {
+            tiles[i].render();
+        }
         
         // player.render();
         // oktorok.render();

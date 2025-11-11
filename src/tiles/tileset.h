@@ -31,8 +31,4 @@ public:
     Texture* m_texture;  // non-owning
 };
 
-
-void render_screen_01(Tileset& tileset);
-
-
 #endif

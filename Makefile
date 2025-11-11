@@ -15,4 +15,5 @@ build:
 		src/managers/sprite_manager.cpp \
 		src/managers/managers.cpp \
 		src/tiles/tileset.cpp \
+		src/tiles/tile.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
