@@ -11,4 +11,5 @@ build:
 		src/entity.cpp \
 		src/utils.cpp \
 		src/observer.cpp \
+		src/texture_manager.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
