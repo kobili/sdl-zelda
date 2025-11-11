@@ -23,7 +23,7 @@ public:
     bool load_texture(std::string file_path);
     Texture* get_texture(std::string file_path);
 
-    bool load_sprite(Texture* texture, int sprite_width_px, int sprite_height_px);
+    bool load_sprite(std::string texture_name, int sprite_width_px, int sprite_height_px);
     SpriteSheet* get_sprite(std::string texture_name);
 
     bool load_tileset(std::string texture_name, int tile_width_px, int tile_height_px);

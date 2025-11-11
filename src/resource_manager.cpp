@@ -31,12 +31,18 @@ Texture* ResourceManager::get_texture(std::string file_path) {
 }
 
 
-bool ResourceManager::load_sprite(Texture* texture, int sprite_width_px, int sprite_height_px) {
+bool ResourceManager::load_sprite(std::string texture_name, int sprite_width_px, int sprite_height_px) {
+    Texture* texture = get_texture(texture_name);
+    if (texture == NULL) {
+        printf("Failed to load sprite %s: Texture not loaded\n", texture_name.c_str());
+        return false;
+    }
+
     std::unique_ptr<SpriteSheet> sprite_sheet (new SpriteSheet(texture, sprite_width_px, sprite_height_px));
 
-    m_sprite_map.insert(std::make_pair(texture->get_file_path(), std::move(sprite_sheet)));
+    m_sprite_map.insert(std::make_pair(texture_name, std::move(sprite_sheet)));
 
-    printf("loaded sprite for %s\n", texture->get_file_path().c_str());
+    printf("loaded sprite for %s\n", texture_name.c_str());
     return true;
 }
 
@@ -109,8 +115,7 @@ bool load_sprites(ResourceManager* manager) {
     for (int i = 0; i < texture_files.size(); i++) {
         std::string texture_file = texture_files[i];
 
-        Texture* texture = manager->get_texture(texture_file);
-        if (!manager->load_sprite(texture, 16, 16)) {
+        if (!manager->load_sprite(texture_file, 16, 16)) {
             printf("failed to load sprite for %s\n", texture_file.c_str());
             return false;
         }
