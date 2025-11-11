@@ -15,6 +15,7 @@
 #include "src/player.h"
 #include "src/enemy.h"
 #include "src/texture_manager.h"
+#include "src/sprite_manager.h"
 
 
 std::unique_ptr<TextureManager> load_textures(Window* window) {
@@ -37,6 +38,27 @@ std::unique_ptr<TextureManager> load_textures(Window* window) {
 }
 
 
+std::unique_ptr<SpriteManager> load_sprites(TextureManager* textures) {
+    std::vector<std::string> texture_files = {
+        "resources/link_walk_sprite.png",
+        "resources/oktorok_sprites.png",
+    };
+
+    std::unique_ptr<SpriteManager> sprite_manager (new SpriteManager());
+    for (int i = 0; i < texture_files.size(); i++) {
+        std::string texture_file = texture_files[i];
+
+        Texture* texture = textures->get_texture(texture_file);
+        if (!sprite_manager->load_sprite(texture, 16, 16)) {
+            printf("failed to load sprite for %s\n", texture_file.c_str());
+            return NULL;
+        }
+    }
+
+    return sprite_manager;
+}
+
+
 int main(int argc, char* args[]) {
     if (init_sdl() < 0) {
         return -1;
@@ -50,18 +72,15 @@ int main(int argc, char* args[]) {
     SDL_Renderer* renderer = window.get_renderer();
 
     auto texture_manager = load_textures(&window);
+    auto sprite_manager = load_sprites(texture_manager.get());
 
     Texture* background = texture_manager->get_texture("resources/screen_01.png");
 
     Player player;
-    SpriteSheet sprite_sheet;
-    sprite_sheet.load_sprite_sheet(texture_manager->get_texture("resources/link_walk_sprite.png"), 16, 16);
-    player.set_sprite_sheet(&sprite_sheet);
+    player.set_sprite_sheet(sprite_manager->get_sprite("resources/link_walk_sprite.png"));
 
     Enemy oktorok;
-    SpriteSheet oktorok_sprite_sheet;
-    oktorok_sprite_sheet.load_sprite_sheet(texture_manager->get_texture("resources/oktorok_sprites.png"), 16, 16);
-    oktorok.set_sprite_sheet(&oktorok_sprite_sheet);
+    oktorok.set_sprite_sheet(sprite_manager->get_sprite("resources/oktorok_sprites.png"));
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 

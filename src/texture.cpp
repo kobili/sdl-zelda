@@ -113,6 +113,11 @@ int Texture::get_height() {
 }
 
 
+std::string Texture::get_file_path() {
+    return file_path;
+}
+
+
 void Texture::observe(int w, int h) {
     scaling_factor_x =  (double) w / (double) NES_SCREEN_WIDTH;
     scaling_factor_y = (double) h / (double) NES_SCREEN_HEIGHT;

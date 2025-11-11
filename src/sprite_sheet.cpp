@@ -12,6 +12,17 @@ SpriteSheet::SpriteSheet() {
 }
 
 
+SpriteSheet::SpriteSheet(Texture* texture, int sprite_width_px, int sprite_height_px) {
+    m_texture = texture;
+
+    m_sprite_width_px = sprite_width_px;
+    m_sprite_height_px = sprite_height_px;
+
+    m_cols = texture->get_width() / sprite_width_px;
+    m_rows = texture->get_height() / sprite_height_px;
+}
+
+
 bool SpriteSheet::load_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px) {
     m_texture = texture;
 

@@ -24,6 +24,7 @@ public:
 
     int get_width();
     int get_height();
+    std::string get_file_path();
 
     void observe(int w, int h) override;
 

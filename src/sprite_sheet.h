@@ -7,6 +7,7 @@
 class SpriteSheet {
 public:
     SpriteSheet();
+    SpriteSheet(Texture* texture, int sprite_width_px, int sprite_height_px);
 
     bool load_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px);
     bool load_sprite_sheet(
