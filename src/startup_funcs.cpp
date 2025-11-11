@@ -5,6 +5,7 @@ bool load_textures(ResourceManager* manager) {
     std::vector<std::string> texture_files = {
         "resources/screen_01.png",
         "resources/sprites/link.png",
+        "resources/overworld__full.png",
         "resources/sprites/oktorok__red.png",
         "resources/tilesets/overworld__forest.png",
         "resources/tilesets/overworld__death_mountain.png"

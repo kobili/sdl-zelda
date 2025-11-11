@@ -38,18 +38,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    Texture* background = manager.get_texture("resources/screen_01.png");
-
-    Player player = Player(manager.get_sprite("resources/sprites/link.png"));
-
-    Enemy oktorok = Enemy(manager.get_sprite("resources/sprites/oktorok__red.png"));
-    oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
-    oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
-
-    std::vector<SDL_Rect*> colliders;
-    colliders.push_back(&oktorok.get_collider());
-
-    std::vector<Tile> tiles = get_screen_1_tiles(manager.get_tileset("resources/tilesets/overworld__forest.png"));
+    Texture* full_overworld = manager.get_texture("resources/overworld__full.png");
 
     SDL_Event e;
     int running = 1;
@@ -61,22 +50,12 @@ int main(int argc, char* args[]) {
             }
 
             window.handle_event(e);
-            player.handle_event(e);
         }
-
-        player.move(colliders);
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        // background->render(0, 0, NULL);
-
-        for (int i = 0; i < tiles.size(); i++) {
-            tiles[i].render();
-        }
-
-        player.render();
-        oktorok.render();
+        full_overworld->render(-7 * 256, -7 * 176, NULL);
 
         SDL_RenderPresent(renderer);
     }
