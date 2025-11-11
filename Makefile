@@ -13,4 +13,5 @@ build:
 		src/window_observer.cpp \
 		src/texture_manager.cpp \
 		src/sprite_manager.cpp \
+		src/tileset.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

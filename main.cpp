@@ -16,6 +16,7 @@
 #include "src/enemy.h"
 #include "src/texture_manager.h"
 #include "src/sprite_manager.h"
+#include "src/tileset.h"
 
 
 std::unique_ptr<TextureManager> load_textures(Window* window) {
@@ -23,6 +24,8 @@ std::unique_ptr<TextureManager> load_textures(Window* window) {
         "resources/screen_01.png",
         "resources/link_walk_sprite.png",
         "resources/oktorok_sprites.png",
+        "resources/tileset_overworld_forest.png",
+        "resources/tileset_overworld_death_mountain.png"
     };
 
     std::unique_ptr<TextureManager> texture_manager (new TextureManager(window));
@@ -85,6 +88,8 @@ int main(int argc, char* args[]) {
     std::vector<SDL_Rect*> colliders;
     colliders.push_back(&oktorok.get_collider());
 
+    Tileset tileset = Tileset(texture_manager->get_texture("resources/tileset_overworld_forest.png"), 16, 16);
+
     SDL_Event e;
     int running = 1;
 
@@ -103,11 +108,12 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        background->render(0, 0, NULL);
+        // background->render(0, 0, NULL);
 
-        player.render();
-
-        oktorok.render();
+        render_screen_01(tileset);
+        
+        // player.render();
+        // oktorok.render();
 
         SDL_RenderPresent(renderer);
     }
