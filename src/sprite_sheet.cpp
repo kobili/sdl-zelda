@@ -81,7 +81,7 @@ int SpriteSheet::get_sprite_height() {
 }
 
 
-void SpriteSheet::render_sprite(int i, int j, int x, int y, int scale_x, int scale_y) {
+void SpriteSheet::render_sprite(int i, int j, int x, int y, double scale_x, double scale_y) {
     SDL_Rect src = get_sprite(i, j);
     m_texture->render(x, y, &src, scale_x, scale_y);
 }

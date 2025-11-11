@@ -17,6 +17,8 @@ public:
     int get_width();
     int get_height();
 
+    void handle_event(SDL_Event& e);
+
 private:
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;

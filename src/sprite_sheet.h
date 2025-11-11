@@ -23,7 +23,7 @@ public:
 
     void free();
 
-    void render_sprite(int i, int j, int x, int y, int scale_x = 0, int scale_y = 0);
+    void render_sprite(int i, int j, int x, int y, double scale_x = 0, double scale_y = 0);
 
 private:
     Texture* m_texture;

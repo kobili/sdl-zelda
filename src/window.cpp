@@ -24,7 +24,7 @@ bool Window::init() {
         SDL_WINDOWPOS_UNDEFINED,
         SCREEN_WIDTH,
         SCREEN_HEIGHT,
-        SDL_WINDOW_SHOWN
+        SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
     );
 
     if (m_window == NULL) {
@@ -72,4 +72,16 @@ int Window::get_width() {
 
 int Window::get_height() {
     return m_h;
+}
+
+
+void Window::handle_event(SDL_Event& e) {
+    if (e.type == SDL_WINDOWEVENT) {
+        switch (e.window.event) {
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+            m_w = e.window.data1;
+            m_h = e.window.data2;
+            break;
+        }
+    }
 }

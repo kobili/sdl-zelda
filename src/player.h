@@ -5,10 +5,10 @@
 
 #include "entity.h"
 
-const int DEFAULT_VELOCITY = 2;
+const int DEFAULT_VELOCITY = 1;
 
 
-class Player : public Entity{
+class Player : public Entity {
 public:
     void handle_event(SDL_Event& e);
 

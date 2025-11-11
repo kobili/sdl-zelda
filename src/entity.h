@@ -17,7 +17,7 @@ public:
      * \param scale_x The horizontal scaling factor from level to screen space
      * \param scale_y The vertical scaling factor from level to screen space
      */
-    void render(int scale_x, int scale_y);
+    void render(double scale_x, double scale_y);
 
     void set_sprite_sheet(SpriteSheet* sprite_sheet);
 

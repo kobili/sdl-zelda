@@ -1,6 +1,7 @@
 #include "texture.h"
 
 #include "SDL_image.h"
+#include <cmath>
 
 Texture::Texture() {
     m_texture = NULL;
@@ -61,7 +62,7 @@ bool Texture::load_texture(SDL_Renderer* renderer, const char* path) {
 }
 
 
-void Texture::render(int x, int y, SDL_Rect* clip, int scale_x, int scale_y) {
+void Texture::render(int x, int y, SDL_Rect* clip, double scale_x, double scale_y) {
     if (m_renderer == NULL) {
         printf("Texture has no renderer attached. Skipping render operation\n");
         return;
@@ -79,11 +80,11 @@ void Texture::render(int x, int y, SDL_Rect* clip, int scale_x, int scale_y) {
     }
 
     if (scale_x) {
-        dst.w = dst.w * scale_x;
+        dst.w = std::round(dst.w * scale_x);
     }
 
     if (scale_y) {
-        dst.h = dst.h * scale_y;
+        dst.h = std::round(dst.h * scale_y);
     }
 
     SDL_RenderCopy(

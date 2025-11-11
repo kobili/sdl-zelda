@@ -63,13 +63,17 @@ int main(int argc, char* args[]) {
                 running = 0;
             }
 
+            window.handle_event(e);
             player.handle_event(e);
         }
 
         player.move(colliders);
 
-        int scaling_factor_x = window.get_width() / NES_SCREEN_WIDTH;
-        int scaling_factor_y = window.get_height() / NES_SCREEN_HEIGHT;
+        double scaling_factor_x = (double) window.get_width() / (double) NES_SCREEN_WIDTH;
+        double scaling_factor_y = (double) window.get_height() / (double) NES_SCREEN_HEIGHT;
+
+        // printf("window_x: %d, window_y: %d\n", window.get_width(), window.get_height());
+        // printf("scale_x: %f, scale_y: %f\n", scaling_factor_x, scaling_factor_y);
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);

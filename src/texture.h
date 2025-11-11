@@ -13,7 +13,7 @@ public:
     void free();
     bool load_texture(SDL_Renderer* renderer, const char* path);
 
-    void render(int x, int y, SDL_Rect* clip = nullptr, int scale_x = 0, int scale_y = 0);
+    void render(int x, int y, SDL_Rect* clip = nullptr, double scale_x = 0, double scale_y = 0);
 
     int get_width();
     int get_height();
