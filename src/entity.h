@@ -9,6 +9,8 @@
 class Entity {
 public:
     Entity();
+    Entity(SpriteSheet* sprite_sheet);
+
     void render();
 
     void set_sprite_sheet(SpriteSheet* sprite_sheet);

@@ -3,6 +3,8 @@
 
 #include "entity.h"
 
-class Enemy : public Entity {};
+class Enemy : public Entity {
+    using Entity::Entity;
+};
 
 #endif

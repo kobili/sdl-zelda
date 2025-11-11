@@ -13,6 +13,19 @@ Entity::Entity() {
     m_collider.y = 0;
 }
 
+
+Entity::Entity(SpriteSheet* sprite_sheet) {
+    x = 0;
+    y = 0;
+    vel_x = 0;
+    vel_y = 0;
+
+    m_sprite_sheet = sprite_sheet;
+    m_collider.w = sprite_sheet->get_sprite_width();
+    m_collider.h = sprite_sheet->get_sprite_height();
+}
+
+
 void Entity::render() {
     if (m_sprite_sheet == NULL) {
         printf("Entity has no sprites loaded. Skipping...\n");

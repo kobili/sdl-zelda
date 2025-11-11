@@ -76,11 +76,9 @@ int main(int argc, char* args[]) {
 
     Texture* background = texture_manager->get_texture("resources/screen_01.png");
 
-    Player player;
-    player.set_sprite_sheet(sprite_manager->get_sprite("resources/link_walk_sprite.png"));
+    Player player = Player(sprite_manager->get_sprite("resources/link_walk_sprite.png"));
 
-    Enemy oktorok;
-    oktorok.set_sprite_sheet(sprite_manager->get_sprite("resources/oktorok_sprites.png"));
+    Enemy oktorok = Enemy(sprite_manager->get_sprite("resources/oktorok_sprites.png"));
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 
