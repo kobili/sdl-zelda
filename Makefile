@@ -14,4 +14,5 @@ build:
 		src/resource_manager.cpp \
 		src/tiles/tileset.cpp \
 		src/tiles/tile.cpp \
+		src/startup_funcs.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

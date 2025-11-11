@@ -17,6 +17,7 @@
 #include "src/resource_manager.h"
 #include "src/tiles/tileset.h"
 #include "src/tiles/tile.h"
+#include "src/startup_funcs.h"
 
 
 int main(int argc, char* args[]) {

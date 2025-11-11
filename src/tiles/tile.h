@@ -18,6 +18,4 @@ private:
     int level_x, level_y;
 };
 
-std::vector<Tile> get_screen_1_tiles(Tileset* tileset);
-
 #endif
