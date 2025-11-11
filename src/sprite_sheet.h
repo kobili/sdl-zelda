@@ -22,7 +22,7 @@ public:
     int get_sprite_height();
     Texture* get_texture();
 
-    void render_sprite(int i, int j, int x, int y);
+    void render_sprite(int i, int j, int x, int y, double scale_x = 1.0, double scale_y = 1.0);
 
 private:
     Texture* m_texture;  // non-owning reference

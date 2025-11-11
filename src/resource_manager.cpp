@@ -12,7 +12,6 @@ bool ResourceManager::load_texture(std::string file_path) {
     if (!texture->load_texture(m_renderer, file_path.c_str())) {
         return false;
     }
-    texture->start_observing(m_window);
 
     m_texture_map.insert(std::make_pair(file_path, std::move(texture)));
 

@@ -6,7 +6,7 @@
 #include "window_observer.h"
 
 
-class Texture : public WindowObserver {
+class Texture {
 public:
     Texture();
     ~Texture();
@@ -20,21 +20,17 @@ public:
     * \param x The x position in level space
     * \param y The y position in level space
     */
-    void render(int x, int y, SDL_Rect* clip = nullptr);
+    void render(int x, int y, SDL_Rect* clip = nullptr, double scale_x  = 1.0, double scale_y = 1.0);
 
     int get_width();
     int get_height();
     std::string get_file_path();
-
-    void on_window_resize(int w, int h) override;
 
 private:
     SDL_Texture* m_texture;
     SDL_Renderer* m_renderer;  // non-owning reference
 
     int w, h;
-
-    double scaling_factor_x, scaling_factor_y;
 
     std::string file_path;
 };

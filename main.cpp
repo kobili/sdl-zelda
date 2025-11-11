@@ -41,7 +41,7 @@ int main(int argc, char* args[]) {
 
     Texture* full_overworld = manager.get_texture("resources/overworld__full.png");
     
-    Camera camera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT);
+    Camera camera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT, &window);
     Player player = Player(manager.get_sprite("resources/sprites/link.png"));
     player.set_x(7 * NES_SCREEN_WIDTH);
     player.set_y(7 * NES_SCREEN_HEIGHT);
@@ -73,7 +73,7 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        full_overworld->render(0 - camera.get_x(), 0 - camera.get_y(), NULL);
+        full_overworld->render(0 - camera.get_x(), 0 - camera.get_y(), NULL, camera.get_scale_x(), camera.get_scale_y());
         player.render(camera);
         enemy.render(camera);
 

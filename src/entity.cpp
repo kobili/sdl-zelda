@@ -32,7 +32,13 @@ void Entity::render(Camera& camera) {
         return;
     }
 
-    m_sprite_sheet->render_sprite(0, 0, x - camera.get_x(), y - camera.get_y()); 
+    m_sprite_sheet->render_sprite(
+        0, 0,
+        x - camera.get_x(),
+        y - camera.get_y(),
+        camera.get_scale_x(),
+        camera.get_scale_y()
+    ); 
 }
 
 void Entity::set_sprite_sheet(SpriteSheet* sprite_sheet) {
