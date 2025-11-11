@@ -18,6 +18,7 @@
 #include "src/tiles/tileset.h"
 #include "src/tiles/tile.h"
 #include "src/startup_funcs.h"
+#include "src/camera.h"
 
 
 int main(int argc, char* args[]) {
@@ -39,6 +40,8 @@ int main(int argc, char* args[]) {
     }
 
     Texture* full_overworld = manager.get_texture("resources/overworld__full.png");
+    
+    Camera camera(7 * 256, 7 * 176);
 
     SDL_Event e;
     int running = 1;
@@ -50,12 +53,15 @@ int main(int argc, char* args[]) {
             }
 
             window.handle_event(e);
+            camera.handle_event(e);
         }
+
+        camera.move();
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        full_overworld->render(-7 * 256, -7 * 176, NULL);
+        full_overworld->render(0 - camera.get_x(), 0 - camera.get_y(), NULL);
 
         SDL_RenderPresent(renderer);
     }

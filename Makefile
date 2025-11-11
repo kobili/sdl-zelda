@@ -15,4 +15,5 @@ build:
 		src/tiles/tileset.cpp \
 		src/tiles/tile.cpp \
 		src/startup_funcs.cpp \
+		src/camera.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
