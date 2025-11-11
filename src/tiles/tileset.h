@@ -1,7 +1,7 @@
 #ifndef TILESET_H
 #define TILESET_H
 
-#include "texture.h"
+#include "../texture.h"
 
 
 class Tileset {

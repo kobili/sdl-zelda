@@ -17,7 +17,7 @@
 #include "src/managers/texture_manager.h"
 #include "src/managers/sprite_manager.h"
 #include "src/managers/managers.h"
-#include "src/tileset.h"
+#include "src/tiles/tileset.h"
 
 
 int main(int argc, char* args[]) {
