@@ -29,7 +29,7 @@ public:
 
 private:
     SDL_Texture* m_texture;
-    SDL_Renderer* m_renderer;
+    SDL_Renderer* m_renderer;  // non-owning reference
 
     int w, h;
 

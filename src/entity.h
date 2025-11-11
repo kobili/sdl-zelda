@@ -9,9 +9,6 @@
 class Entity {
 public:
     Entity();
-    ~Entity();
-    void free();
-
     void render();
 
     void set_sprite_sheet(SpriteSheet* sprite_sheet);
@@ -31,7 +28,7 @@ protected:
     int x, y;
     int vel_x, vel_y;
 
-    SpriteSheet* m_sprite_sheet;
+    SpriteSheet* m_sprite_sheet;  // non-owning reference
     SDL_Rect m_collider;
 };
 

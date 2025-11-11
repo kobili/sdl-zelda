@@ -12,24 +12,6 @@ SpriteSheet::SpriteSheet() {
 }
 
 
-SpriteSheet::~SpriteSheet() {
-    free();
-    printf("Destroyed sprite sheet\n");
-}
-
-
-void SpriteSheet::free() {
-    delete m_texture;
-    m_texture = NULL;
-
-    m_rows = 0;
-    m_cols = 0;
-
-    m_sprite_width_px = 0;
-    m_sprite_height_px = 0;
-}
-
-
 bool SpriteSheet::load_sprite_sheet(Texture* texture, int sprite_width_px, int sprite_height_px) {
     m_texture = texture;
 

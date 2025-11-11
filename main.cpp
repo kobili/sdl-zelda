@@ -38,32 +38,23 @@ int main(int argc, char* args[]) {
 
     for (int i = 0; i < texture_files.size(); i++) {
         std::string file_path = texture_files[i];
-        printf("loading %s\n", file_path.c_str());
         if (!texture_manager.load_texture(file_path)) {
             printf("failed to load texture: %s. Exiting...\n", file_path.c_str());
             return -1;
         }
     }
 
-    // Texture background;
-    // if (!background.load_texture(renderer, "resources/screen_01.png")) {
-    //     printf("failed to load background. Exiting...\n");
-    //     return -1;
-    // }
-    // background.start_observing(&window);
     Texture* background = texture_manager.get_texture("resources/screen_01.png");
 
     Player player;
-    SpriteSheet* sprite_sheet = new SpriteSheet();
-    sprite_sheet->load_sprite_sheet(texture_manager.get_texture("resources/link_walk_sprite.png"), 16, 16);
-    // sprite_sheet->get_texture()->start_observing(&window);
-    player.set_sprite_sheet(sprite_sheet);
+    SpriteSheet sprite_sheet;
+    sprite_sheet.load_sprite_sheet(texture_manager.get_texture("resources/link_walk_sprite.png"), 16, 16);
+    player.set_sprite_sheet(&sprite_sheet);
 
     Enemy oktorok;
-    SpriteSheet* oktorok_sprite_sheet = new SpriteSheet();
-    oktorok_sprite_sheet->load_sprite_sheet(texture_manager.get_texture("resources/oktorok_sprites.png"), 16, 16);
-    // oktorok_sprite_sheet->get_texture()->start_observing(&window);
-    oktorok.set_sprite_sheet(oktorok_sprite_sheet);
+    SpriteSheet oktorok_sprite_sheet;
+    oktorok_sprite_sheet.load_sprite_sheet(texture_manager.get_texture("resources/oktorok_sprites.png"), 16, 16);
+    oktorok.set_sprite_sheet(&oktorok_sprite_sheet);
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 

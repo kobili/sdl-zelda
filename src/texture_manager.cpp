@@ -20,6 +20,8 @@ bool TextureManager::load_texture(std::string file_path) {
 
     m_texture_map.insert(std::make_pair(file_path, std::move(texture)));
 
+    printf("loaded texture %s\n", file_path.c_str());
+
     return true;
 }
 

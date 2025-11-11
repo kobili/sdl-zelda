@@ -13,16 +13,6 @@ Entity::Entity() {
     m_collider.y = 0;
 }
 
-Entity::~Entity() {
-    free();
-    printf("destroyed entity\n");
-}
-
-void Entity::free() {
-    delete m_sprite_sheet;
-    m_sprite_sheet = NULL;
-}
-
 void Entity::render() {
     if (m_sprite_sheet == NULL) {
         printf("Entity has no sprites loaded. Skipping...\n");
