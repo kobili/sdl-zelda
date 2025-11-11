@@ -7,4 +7,7 @@ const int SCREEN_HEIGHT = 352;
 const int NES_SCREEN_WIDTH = 256;
 const int NES_SCREEN_HEIGHT = 176;
 
+const int OVERWORLD_WIDTH = NES_SCREEN_WIDTH * 16;
+const int OVERWORLD_HEIGHT = NES_SCREEN_HEIGHT * 8;
+
 #endif

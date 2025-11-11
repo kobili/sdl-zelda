@@ -26,13 +26,13 @@ Entity::Entity(SpriteSheet* sprite_sheet) {
 }
 
 
-void Entity::render() {
+void Entity::render(Camera& camera) {
     if (m_sprite_sheet == NULL) {
         printf("Entity has no sprites loaded. Skipping...\n");
         return;
     }
 
-    m_sprite_sheet->render_sprite(0, 0, x, y); 
+    m_sprite_sheet->render_sprite(0, 0, x - camera.get_x(), y - camera.get_y()); 
 }
 
 void Entity::set_sprite_sheet(SpriteSheet* sprite_sheet) {

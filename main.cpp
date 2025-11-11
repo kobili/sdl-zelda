@@ -41,7 +41,17 @@ int main(int argc, char* args[]) {
 
     Texture* full_overworld = manager.get_texture("resources/overworld__full.png");
     
-    Camera camera(7 * 256, 7 * 176);
+    Camera camera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT);
+    Player player = Player(manager.get_sprite("resources/sprites/link.png"));
+    player.set_x(7 * NES_SCREEN_WIDTH);
+    player.set_y(7 * NES_SCREEN_HEIGHT);
+
+    Enemy enemy = Enemy(manager.get_sprite("resources/sprites/oktorok__red.png"));
+    enemy.set_x(7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2);
+    enemy.set_y(7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2);
+
+    std::vector<SDL_Rect*> colliders;
+    colliders.push_back(&enemy.get_collider());
 
     SDL_Event e;
     int running = 1;
@@ -54,14 +64,18 @@ int main(int argc, char* args[]) {
 
             window.handle_event(e);
             camera.handle_event(e);
+            player.handle_event(e);
         }
 
         camera.move();
+        player.move(colliders);
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
         full_overworld->render(0 - camera.get_x(), 0 - camera.get_y(), NULL);
+        player.render(camera);
+        enemy.render(camera);
 
         SDL_RenderPresent(renderer);
     }

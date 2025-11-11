@@ -5,13 +5,14 @@
 #include <vector>
 
 #include "sprite_sheet.h"
+#include "camera.h"
 
 class Entity {
 public:
     Entity();
     Entity(SpriteSheet* sprite_sheet);
 
-    void render();
+    void render(Camera& camera);
 
     void set_sprite_sheet(SpriteSheet* sprite_sheet);
 

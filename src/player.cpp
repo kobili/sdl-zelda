@@ -51,14 +51,14 @@ void Player::move(std::vector<SDL_Rect*> colliders) {
     x += vel_x;
     update_collider();
 
-    if (x < 0 || x > NES_SCREEN_WIDTH - m_sprite_sheet->get_sprite_width() || check_collisions(m_collider, colliders)) {
+    if (x < 0 || x > OVERWORLD_WIDTH - m_sprite_sheet->get_sprite_width() || check_collisions(m_collider, colliders)) {
         x -= vel_x;
     }
 
     y += vel_y;
     update_collider();
 
-    if (y < 0 || y > NES_SCREEN_HEIGHT - m_sprite_sheet->get_sprite_height() || check_collisions(m_collider, colliders)) {
+    if (y < 0 || y > OVERWORLD_HEIGHT - m_sprite_sheet->get_sprite_height() || check_collisions(m_collider, colliders)) {
         y -= vel_y;
     }
 }
