@@ -10,4 +10,5 @@ build:
 		src/player.cpp \
 		src/entity.cpp \
 		src/utils.cpp \
+		src/observer.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

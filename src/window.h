@@ -2,9 +2,11 @@
 #define WINDOW_H
 
 #include "SDL.h"
+#include <vector>
 
+#include "observer.h"
 
-class Window {
+class Window : public Observable {
 public:
     Window();
     ~Window();
@@ -18,6 +20,9 @@ public:
     int get_height();
 
     void handle_event(SDL_Event& e);
+
+    void add_observer(Observer* observer) override; 
+    void notify_observers() override;
 
 private:
     SDL_Window* m_window;

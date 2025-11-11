@@ -3,6 +3,8 @@
 #include "SDL_image.h"
 #include <cmath>
 
+#include "constants.h"
+
 Texture::Texture() {
     m_texture = NULL;
     m_renderer = NULL;
@@ -10,6 +12,9 @@ Texture::Texture() {
     h = 0;
 
     file_path = "";
+
+    scaling_factor_x = 0;
+    scaling_factor_y = 0;
 }
 
 
@@ -62,7 +67,7 @@ bool Texture::load_texture(SDL_Renderer* renderer, const char* path) {
 }
 
 
-void Texture::render(int x, int y, SDL_Rect* clip, double scale_x, double scale_y) {
+void Texture::render(int x, int y, SDL_Rect* clip) {
     if (m_renderer == NULL) {
         printf("Texture has no renderer attached. Skipping render operation\n");
         return;
@@ -79,12 +84,12 @@ void Texture::render(int x, int y, SDL_Rect* clip, double scale_x, double scale_
         dst.h = clip->h;
     }
 
-    if (scale_x) {
-        dst.w = std::round(dst.w * scale_x);
+    if (scaling_factor_x) {
+        dst.w = std::round(dst.w * scaling_factor_x);
     }
 
-    if (scale_y) {
-        dst.h = std::round(dst.h * scale_y);
+    if (scaling_factor_x) {
+        dst.h = std::round(dst.h * scaling_factor_x);
     }
 
     SDL_RenderCopy(
@@ -103,4 +108,10 @@ int Texture::get_width() {
 
 int Texture::get_height() {
     return h;
+}
+
+
+void Texture::observe(int w, int h) {
+    scaling_factor_x =  (double) w / (double) NES_SCREEN_WIDTH;
+    scaling_factor_y = (double) h / (double) NES_SCREEN_HEIGHT;
 }

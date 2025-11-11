@@ -81,7 +81,22 @@ void Window::handle_event(SDL_Event& e) {
             case SDL_WINDOWEVENT_SIZE_CHANGED:
             m_w = e.window.data1;
             m_h = e.window.data2;
+            notify_observers();
             break;
         }
+    }
+}
+
+
+void Window::add_observer(Observer* observer) {
+    Observable::add_observer(observer);
+
+    observer->observe(m_w, m_h);
+}
+
+
+void Window::notify_observers() {
+    for (int i = 0; i < observers.size(); i++) {
+        observers[i]->observe(m_w, m_h);
     }
 }

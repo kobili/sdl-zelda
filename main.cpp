@@ -19,7 +19,6 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    // TODO: Make window resizable
     Window window;
     if (!window.init()) {
         printf("Failed to create window. Exiting...\n");
@@ -32,6 +31,7 @@ int main(int argc, char* args[]) {
         printf("failed to load background. Exiting...\n");
         return -1;
     }
+    background.start_observing(&window);
 
     Player player;
     SpriteSheet* sprite_sheet = new SpriteSheet();
@@ -39,6 +39,7 @@ int main(int argc, char* args[]) {
         printf("failed to create sprite sheet. Exiting...\n");
         return -1;
     }
+    sprite_sheet->get_texture()->start_observing(&window);
     player.set_sprite_sheet(sprite_sheet);
 
     Enemy oktorok;
@@ -47,6 +48,7 @@ int main(int argc, char* args[]) {
         printf("failed to load oktorok sprites. Exiting...\n");
         return -1;
     }
+    oktorok_sprite_sheet->get_texture()->start_observing(&window);
     oktorok.set_sprite_sheet(oktorok_sprite_sheet);
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
@@ -78,11 +80,11 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
 
-        background.render(0, 0, NULL, scaling_factor_x, scaling_factor_y);
+        background.render(0, 0, NULL);
 
-        player.render(scaling_factor_x, scaling_factor_y);
+        player.render();
 
-        oktorok.render(scaling_factor_x, scaling_factor_y);
+        oktorok.render();
 
         SDL_RenderPresent(renderer);
     }

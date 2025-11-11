@@ -12,12 +12,7 @@ public:
     ~Entity();
     void free();
 
-    /**
-     * Render the Player to the screen.
-     * \param scale_x The horizontal scaling factor from level to screen space
-     * \param scale_y The vertical scaling factor from level to screen space
-     */
-    void render(double scale_x, double scale_y);
+    void render();
 
     void set_sprite_sheet(SpriteSheet* sprite_sheet);
 

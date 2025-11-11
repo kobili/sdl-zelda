@@ -20,10 +20,11 @@ public:
     SDL_Rect get_sprite(int x, int y);
     int get_sprite_width();
     int get_sprite_height();
+    Texture* get_texture();
 
     void free();
 
-    void render_sprite(int i, int j, int x, int y, double scale_x = 0, double scale_y = 0);
+    void render_sprite(int i, int j, int x, int y);
 
 private:
     Texture* m_texture;
