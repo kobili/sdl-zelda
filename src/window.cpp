@@ -88,15 +88,15 @@ void Window::handle_event(SDL_Event& e) {
 }
 
 
-void Window::add_observer(Observer* observer) {
-    Observable::add_observer(observer);
+void Window::add_observer(WindowObserver* observer) {
+    ObservableWindow::add_observer(observer);
 
-    observer->observe(m_w, m_h);
+    observer->on_window_resize(m_w, m_h);
 }
 
 
 void Window::notify_observers() {
     for (int i = 0; i < observers.size(); i++) {
-        observers[i]->observe(m_w, m_h);
+        observers[i]->on_window_resize(m_w, m_h);
     }
 }

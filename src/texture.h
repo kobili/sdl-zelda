@@ -3,10 +3,10 @@
 
 #include "SDL.h"
 #include <string>
-#include "observer.h"
+#include "window_observer.h"
 
 
-class Texture : public Observer {
+class Texture : public WindowObserver {
 public:
     Texture();
     ~Texture();
@@ -26,7 +26,7 @@ public:
     int get_height();
     std::string get_file_path();
 
-    void observe(int w, int h) override;
+    void on_window_resize(int w, int h) override;
 
 private:
     SDL_Texture* m_texture;

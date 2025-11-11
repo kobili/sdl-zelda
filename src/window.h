@@ -4,9 +4,9 @@
 #include "SDL.h"
 #include <vector>
 
-#include "observer.h"
+#include "window_observer.h"
 
-class Window : public Observable {
+class Window : public ObservableWindow {
 public:
     Window();
     ~Window();
@@ -21,7 +21,7 @@ public:
 
     void handle_event(SDL_Event& e);
 
-    void add_observer(Observer* observer) override; 
+    void add_observer(WindowObserver* observer) override; 
     void notify_observers() override;
 
 private:
