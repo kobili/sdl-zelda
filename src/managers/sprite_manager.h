@@ -5,8 +5,8 @@
 #include <memory>
 #include <string>
 
-#include "sprite_sheet.h"
-#include "texture.h"
+#include "../sprite_sheet.h"
+#include "../texture.h"
 
 
 class SpriteManager {

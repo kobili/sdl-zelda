@@ -5,8 +5,8 @@
 #include <string>
 #include <memory>
 
-#include "texture.h"
-#include "window.h"
+#include "../texture.h"
+#include "../window.h"
 
 /**
  * The source of truth for all loaded textures.
