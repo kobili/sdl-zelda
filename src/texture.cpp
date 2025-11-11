@@ -73,11 +73,7 @@ void Texture::render(int x, int y, SDL_Rect* clip) {
         return;
     }
 
-    SDL_Rect dst;
-    dst.x = x;
-    dst.y = y;
-    dst.w = w;
-    dst.h = h;
+    SDL_Rect dst = {x, y, w, h};
 
     if (clip != nullptr) {
         dst.w = clip->w;

@@ -74,7 +74,7 @@ int main(int argc, char* args[]) {
         for (int i = 0; i < tiles.size(); i++) {
             tiles[i].render();
         }
-        
+
         player.render();
         oktorok.render();
 

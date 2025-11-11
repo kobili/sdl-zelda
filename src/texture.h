@@ -14,7 +14,7 @@ public:
     void free();
     bool load_texture(SDL_Renderer* renderer, const char* path);
 
-    /*
+    /**
     * Render the texture at x, y in the world. The position will be scaled based on the
     * current scaling factors.
     * \param x The x position in level space
