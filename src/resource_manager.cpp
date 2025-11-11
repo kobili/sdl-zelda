@@ -50,6 +50,34 @@ SpriteSheet* ResourceManager::get_sprite(std::string texture_name) {
 }
 
 
+bool ResourceManager::load_tileset(std::string texture_name, int tile_width_px, int tile_height_px) {
+    Texture* texture = get_texture(texture_name);
+    if (texture == NULL) {
+        printf("failed to load tileset %s: Texture not loaded\n", texture_name.c_str());
+        return false;
+    }
+
+    std::unique_ptr<Tileset> tileset (new Tileset(texture, tile_width_px, tile_height_px));
+    m_tileset_map.insert(
+        std::make_pair(
+            texture_name,
+            std::move(tileset)
+        )
+    );
+
+    printf("loaded tileset %s\n", texture_name.c_str());
+    return true;
+}
+
+
+Tileset* ResourceManager::get_tileset(std::string texture_name) {
+    if (m_tileset_map.find(texture_name) == m_tileset_map.end()) {
+        return NULL;
+    }
+    return m_tileset_map[texture_name].get();
+}
+
+
 
 bool load_textures(ResourceManager* manager) {
     std::vector<std::string> texture_files = {
@@ -92,12 +120,34 @@ bool load_sprites(ResourceManager* manager) {
 }
 
 
+bool load_tilesets(ResourceManager* manager) {
+    std::vector<std::string> texture_files = {
+        "resources/tilesets/overworld__forest.png",
+        "resources/tilesets/overworld__death_mountain.png"
+    };
+
+    for (int i = 0; i < texture_files.size(); i++) {
+        auto texture_file = texture_files[i];
+        if (!manager->load_tileset(texture_file, 16, 16)) {
+            printf("failed to load tileset %s\n", texture_file.c_str());
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 bool load_resources(ResourceManager* manager) {
     if (!load_textures(manager)) {
         return false;
     }
 
     if (!load_sprites(manager)) {
+        return false;
+    }
+
+    if (!load_tilesets(manager)) {
         return false;
     }
 

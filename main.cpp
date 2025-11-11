@@ -48,9 +48,7 @@ int main(int argc, char* args[]) {
     std::vector<SDL_Rect*> colliders;
     colliders.push_back(&oktorok.get_collider());
 
-    Tileset tileset = Tileset(manager.get_texture("resources/tilesets/overworld__forest.png"), 16, 16);
-
-    std::vector<Tile> tiles = get_screen_1_tiles(&tileset);
+    std::vector<Tile> tiles = get_screen_1_tiles(manager.get_tileset("resources/tilesets/overworld__forest.png"));
 
     SDL_Event e;
     int running = 1;
@@ -76,8 +74,8 @@ int main(int argc, char* args[]) {
             tiles[i].render();
         }
         
-        // player.render();
-        // oktorok.render();
+        player.render();
+        oktorok.render();
 
         SDL_RenderPresent(renderer);
     }
