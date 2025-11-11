@@ -11,9 +11,7 @@ build:
 		src/entity.cpp \
 		src/utils.cpp \
 		src/window_observer.cpp \
-		src/managers/texture_manager.cpp \
-		src/managers/sprite_manager.cpp \
-		src/managers/managers.cpp \
+		src/resource_manager.cpp \
 		src/tiles/tileset.cpp \
 		src/tiles/tile.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

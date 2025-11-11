@@ -14,9 +14,7 @@
 #include "src/sdl_utils.h"
 #include "src/player.h"
 #include "src/enemy.h"
-#include "src/managers/texture_manager.h"
-#include "src/managers/sprite_manager.h"
-#include "src/managers/managers.h"
+#include "src/resource_manager.h"
 #include "src/tiles/tileset.h"
 #include "src/tiles/tile.h"
 
@@ -33,21 +31,24 @@ int main(int argc, char* args[]) {
     }
     SDL_Renderer* renderer = window.get_renderer();
 
-    auto texture_manager = load_textures(&window);
-    auto sprite_manager = load_sprites(texture_manager.get());
+    ResourceManager manager(&window);
 
-    Texture* background = texture_manager->get_texture("resources/screen_01.png");
+    if (!load_resources(&manager)) {
+        return -1;
+    }
 
-    Player player = Player(sprite_manager->get_sprite("resources/sprites/link.png"));
+    Texture* background = manager.get_texture("resources/screen_01.png");
 
-    Enemy oktorok = Enemy(sprite_manager->get_sprite("resources/sprites/oktorok__red.png"));
+    Player player = Player(manager.get_sprite("resources/sprites/link.png"));
+
+    Enemy oktorok = Enemy(manager.get_sprite("resources/sprites/oktorok__red.png"));
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 
     std::vector<SDL_Rect*> colliders;
     colliders.push_back(&oktorok.get_collider());
 
-    Tileset tileset = Tileset(texture_manager->get_texture("resources/tilesets/overworld__forest.png"), 16, 16);
+    Tileset tileset = Tileset(manager.get_texture("resources/tilesets/overworld__forest.png"), 16, 16);
 
     std::vector<Tile> tiles = get_screen_1_tiles(&tileset);
 
