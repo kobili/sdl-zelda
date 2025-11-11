@@ -19,12 +19,7 @@ void Entity::render() {
         return;
     }
 
-    m_sprite_sheet->render_sprite(
-        0,
-        0,
-        x,
-        y
-    );
+    m_sprite_sheet->render_sprite(0, 0, x, y); 
 }
 
 void Entity::set_sprite_sheet(SpriteSheet* sprite_sheet) {
