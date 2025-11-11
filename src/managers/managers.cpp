@@ -4,10 +4,10 @@
 std::unique_ptr<TextureManager> load_textures(Window* window) {
     std::vector<std::string> texture_files = {
         "resources/screen_01.png",
-        "resources/link_walk_sprite.png",
-        "resources/oktorok_sprites.png",
-        "resources/tileset_overworld_forest.png",
-        "resources/tileset_overworld_death_mountain.png"
+        "resources/sprites/link.png",
+        "resources/sprites/oktorok__red.png",
+        "resources/tilesets/overworld__forest.png",
+        "resources/tilesets/overworld__death_mountain.png"
     };
 
     std::unique_ptr<TextureManager> texture_manager (new TextureManager(window));
@@ -25,8 +25,8 @@ std::unique_ptr<TextureManager> load_textures(Window* window) {
 
 std::unique_ptr<SpriteManager> load_sprites(TextureManager* textures) {
     std::vector<std::string> texture_files = {
-        "resources/link_walk_sprite.png",
-        "resources/oktorok_sprites.png",
+        "resources/sprites/link.png",
+        "resources/sprites/oktorok__red.png",
     };
 
     std::unique_ptr<SpriteManager> sprite_manager (new SpriteManager());

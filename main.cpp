@@ -38,16 +38,16 @@ int main(int argc, char* args[]) {
 
     Texture* background = texture_manager->get_texture("resources/screen_01.png");
 
-    Player player = Player(sprite_manager->get_sprite("resources/link_walk_sprite.png"));
+    Player player = Player(sprite_manager->get_sprite("resources/sprites/link.png"));
 
-    Enemy oktorok = Enemy(sprite_manager->get_sprite("resources/oktorok_sprites.png"));
+    Enemy oktorok = Enemy(sprite_manager->get_sprite("resources/sprites/oktorok__red.png"));
     oktorok.set_x(NES_SCREEN_WIDTH / 2 - 8);
     oktorok.set_y(NES_SCREEN_HEIGHT / 2 - 8);
 
     std::vector<SDL_Rect*> colliders;
     colliders.push_back(&oktorok.get_collider());
 
-    Tileset tileset = Tileset(texture_manager->get_texture("resources/tileset_overworld_forest.png"), 16, 16);
+    Tileset tileset = Tileset(texture_manager->get_texture("resources/tilesets/overworld__forest.png"), 16, 16);
 
     std::vector<Tile> tiles = get_screen_1_tiles(&tileset);
 
