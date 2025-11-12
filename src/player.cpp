@@ -62,3 +62,11 @@ void Player::move(std::vector<SDL_Rect*> colliders) {
         y -= vel_y;
     }
 }
+
+
+Zone Player::get_current_zone() {
+    return {
+        x / NES_SCREEN_WIDTH,
+        y / NES_SCREEN_HEIGHT
+    };
+}
