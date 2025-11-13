@@ -4,7 +4,23 @@
 #include "../utils.h"
 
 
+Player::Player(SpriteSheet* sprite, ObservableWindow* window, Camera* camera) : Entity(sprite) {
+    std::unique_ptr<ClickHitbox> _click_hitbox (
+        new ClickHitbox(
+            m_collider,
+            window,
+            camera,
+            player_on_click
+        )
+    );
+
+    click_hitbox = std::move(_click_hitbox);
+}
+
+
 void Player::handle_event(SDL_Event& e) {
+    click_hitbox->handle_event(e);
+
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         switch (e.key.keysym.sym) {
             case SDLK_UP:
@@ -61,6 +77,8 @@ void Player::move(std::vector<SDL_Rect*> colliders) {
     if (y < 0 || y > OVERWORLD_HEIGHT - m_sprite_sheet->get_sprite_height() || check_collisions(m_collider, colliders)) {
         y -= vel_y;
     }
+
+    click_hitbox->update_position(x, y);
 }
 
 
@@ -69,4 +87,19 @@ Zone Player::get_current_zone() {
         x / NES_SCREEN_WIDTH,
         y / NES_SCREEN_HEIGHT
     };
+}
+
+void player_on_click(int x, int y) {
+    printf("Player (%d, %d)\n", x, y);
+}
+
+
+void Player::set_x(int x) {
+    this->x = x;
+    click_hitbox->update_position(this->x, this->y);
+}
+
+void Player::set_y(int y) {
+    this->y = y;
+    click_hitbox->update_position(this->x, this->y);
 }

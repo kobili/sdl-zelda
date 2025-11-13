@@ -18,4 +18,5 @@ build:
 		src/cameras/camera.cpp \
 		src/cameras/zone_camera.cpp \
 		src/cameras/panning_camera.cpp \
+		src/clickable.cpp \
 		${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
