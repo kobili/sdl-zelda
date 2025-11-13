@@ -45,6 +45,28 @@ private:
     int vel_x, vel_y;
 
     double scale_x, scale_y;
+
+    Zone next_zone;
+
+    /**
+     * Set the camera's velocity based on user input
+     */
+    void set_velocity(SDL_Event& e);
+
+    /**
+     * Set the next zone based on user input
+     */
+    void set_next_zone(SDL_Event& e);
+
+    /**
+     * Move the camera based on current velocities
+     */
+    void pan_camera();
+
+    /**
+     * Move the camera to the designated next_zone
+     */
+    void move_to_next_zone();
 };
 
 #endif

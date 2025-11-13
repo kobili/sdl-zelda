@@ -9,6 +9,8 @@ Camera::Camera(int x, int y, ObservableWindow* window) {
     m_w = NES_SCREEN_WIDTH;
     m_h = NES_SCREEN_HEIGHT;
 
+    next_zone = get_current_zone();
+
     vel_x = 0;
     vel_y = 0;
 
@@ -19,7 +21,7 @@ Camera::Camera(int x, int y, ObservableWindow* window) {
 }
 
 
-void Camera::handle_event(SDL_Event& e) {
+void Camera::set_velocity(SDL_Event& e) {
     // TODO: make this snap to different zones instead of panning
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         switch (e.key.keysym.sym) {
@@ -63,7 +65,49 @@ void Camera::handle_event(SDL_Event& e) {
 }
 
 
-void Camera::move() {
+void Camera::set_next_zone(SDL_Event& e) {
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+        Zone current_zone = get_current_zone();
+
+        switch (e.key.keysym.sym) {
+            case SDLK_w:
+            next_zone.row = current_zone.row - 1;
+            if (next_zone.row < 0) {
+                next_zone.row = current_zone.row;
+            }
+            break;
+
+            case SDLK_s:
+            next_zone.row = current_zone.row + 1;
+            if (next_zone.row >= 8) {
+                next_zone.row = current_zone.row;
+            }
+            break;
+
+            case SDLK_a:
+            next_zone.col = current_zone.col - 1;
+            if (next_zone.col < 0) {
+                next_zone.col = current_zone.col;
+            }
+            break;
+
+            case SDLK_d:
+            next_zone.col = current_zone.col + 1;
+            if (next_zone.col >= 16) {
+                next_zone.col = current_zone.col;
+            }
+            break;
+        }
+    }
+}
+
+
+void Camera::handle_event(SDL_Event& e) {
+    set_next_zone(e);
+}
+
+
+void Camera::pan_camera() {
     m_x += vel_x;
     if (m_x < 0) {
         m_x = 0;
@@ -81,6 +125,19 @@ void Camera::move() {
     if (m_y > OVERWORLD_HEIGHT - NES_SCREEN_HEIGHT) {
         m_y = OVERWORLD_HEIGHT - NES_SCREEN_HEIGHT;
     }
+}
+
+
+void Camera::move_to_next_zone() {
+    m_x = next_zone.col * NES_SCREEN_WIDTH;
+    m_y = next_zone.row * NES_SCREEN_HEIGHT;
+
+    next_zone = get_current_zone();
+}
+
+
+void Camera::move() {
+    move_to_next_zone();
 }
 
 
