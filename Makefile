@@ -10,7 +10,7 @@ build:
 		src/entities/player.cpp \
 		src/entities/entity.cpp \
 		src/utils.cpp \
-		src/window_observer.cpp \
+		src/observers/window_observer.cpp \
 		src/resource_manager.cpp \
 		src/tiles/tileset.cpp \
 		src/tiles/tile.cpp \

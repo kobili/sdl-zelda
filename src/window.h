@@ -4,7 +4,7 @@
 #include "SDL.h"
 #include <vector>
 
-#include "window_observer.h"
+#include "observers/window_observer.h"
 
 class Window : public ObservableWindow {
 public:

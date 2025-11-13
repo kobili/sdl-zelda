@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 #include "SDL.h"
-#include "../window_observer.h"
+#include "../observers/window_observer.h"
 #include "../window.h"
 #include "../utils.h"
 

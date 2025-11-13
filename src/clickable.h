@@ -2,7 +2,7 @@
 #define CLICKABLE_H
 
 #include "SDL.h"
-#include "window_observer.h"
+#include "observers/window_observer.h"
 
 
 class Clickable : public WindowObserver {
