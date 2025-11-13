@@ -2,7 +2,7 @@
 #include "../constants.h"
 
 
-Camera::Camera(int x, int y, ObservableWindow* window) {
+Camera::Camera(int x, int y) {
     m_x = x;
     m_y = y;
 
@@ -11,8 +11,6 @@ Camera::Camera(int x, int y, ObservableWindow* window) {
 
     scale_x = 1;
     scale_y = 1;
-
-    start_observing(window);
 }
 
 
@@ -38,10 +36,4 @@ double Camera::get_scale_y() {
 
 SDL_Rect Camera::get_collider() {
     return {m_x, m_y, m_w, m_h};
-}
-
-
-void Camera::on_window_resize(int w, int h) {
-    scale_x =  (double) w / (double) NES_SCREEN_WIDTH;
-    scale_y = (double) h / (double) NES_SCREEN_HEIGHT;
 }

@@ -8,6 +8,9 @@ Window::Window() {
 
     m_w = 0;
     m_h = 0;
+
+    scale_x = 1.0;
+    scale_y = 1.0;
 }
 
 
@@ -43,6 +46,9 @@ bool Window::init() {
         m_window = NULL;
         return false;
     }
+
+    scale_x = (double) m_w / NES_SCREEN_WIDTH;
+    scale_y = (double) m_h / NES_SCREEN_HEIGHT;
 
     return true;
 }
@@ -87,4 +93,13 @@ void Window::handle_event(SDL_Event& e) {
             break;
         }
     }
+}
+
+
+double Window::get_scale_x() {
+    return scale_x;
+}
+
+double Window::get_scale_y() {
+    return scale_y;
 }

@@ -2,7 +2,7 @@
 #include "../constants.h"
 
 
-ZoneCamera::ZoneCamera(int x, int y, ObservableWindow* window) : Camera(x, y, window) {
+ZoneCamera::ZoneCamera(int x, int y) : Camera(x, y) {
     next_zone = get_current_zone();
 }
 

@@ -8,4 +8,9 @@ build:
 	src/startup_funcs.cpp \
 	src/texture_manager.cpp \
 	src/texture.cpp \
+	src/cameras/camera.cpp \
+	src/cameras/zone_camera.cpp \
+	src/ecs/entity.cpp \
+	src/ecs/components/sprite.cpp \
+	src/ecs/components/position.cpp \
 	${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

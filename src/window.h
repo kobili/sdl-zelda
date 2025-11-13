@@ -17,6 +17,9 @@ public:
     int get_width();
     int get_height();
 
+    double get_scale_x();
+    double get_scale_y();
+
     void handle_event(SDL_Event& e);
 
 private:

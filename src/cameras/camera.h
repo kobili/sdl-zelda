@@ -2,13 +2,12 @@
 #define CAMERA_H
 
 #include "SDL.h"
-#include "../observers/window_observer.h"
 #include "../utils.h"
 
 
-class Camera : WindowObserver {
+class Camera {
 public:
-    Camera(int x, int y, ObservableWindow* window);
+    Camera(int x, int y);
     virtual ~Camera() = default;
 
     void virtual handle_event(SDL_Event& e) = 0;
@@ -20,8 +19,6 @@ public:
     double get_scale_y();
 
     SDL_Rect get_collider();
-
-    void on_window_resize(int w, int h) override;
 
     /**
      * Retrieve the zone that the camera is currently showing.

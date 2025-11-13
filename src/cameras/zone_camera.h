@@ -6,7 +6,7 @@
 
 class ZoneCamera : public Camera {
 public:
-    ZoneCamera(int x, int y, ObservableWindow* window);
+    ZoneCamera(int x, int y);
     void handle_event(SDL_Event& e) override;
     void move() override;
 
