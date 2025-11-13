@@ -20,6 +20,7 @@ Camera::Camera(int x, int y, ObservableWindow* window) {
 
 
 void Camera::handle_event(SDL_Event& e) {
+    // TODO: make this snap to different zones instead of panning
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         switch (e.key.keysym.sym) {
             case SDLK_w:
@@ -111,4 +112,15 @@ SDL_Rect Camera::get_collider() {
 void Camera::on_window_resize(int w, int h) {
     scale_x =  (double) w / (double) NES_SCREEN_WIDTH;
     scale_y = (double) h / (double) NES_SCREEN_HEIGHT;
+}
+
+
+Zone Camera::get_current_zone() {
+    int camera_center_x = m_x + (NES_SCREEN_WIDTH / 2);
+    int camera_center_y = m_y + (NES_SCREEN_HEIGHT / 2);
+
+    return {
+        camera_center_x / NES_SCREEN_WIDTH,
+        camera_center_y / NES_SCREEN_HEIGHT
+    };
 }

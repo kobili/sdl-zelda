@@ -4,6 +4,8 @@
 #include "SDL.h"
 #include "window_observer.h"
 #include "window.h"
+#include "utils.h"
+
 
 const int DEFAULT_CAMERA_SPEED = 5;
 
@@ -22,6 +24,19 @@ public:
     SDL_Rect get_collider();
 
     void on_window_resize(int w, int h) override;
+
+    /**
+     * Shfit the camera to center on the given zone.
+     * The top left corner of the camera will be placed on that zone's top left corner
+     */
+    void shift_to_zone(Zone zone);
+
+    /**
+     * Retrieve the zone that the camera is currently showing.
+     * 
+     * Uses the position of the center of the camera to determine the zone.
+     */
+    Zone get_current_zone();
 
 private:
     // location of the upper left corner of the camera in world space

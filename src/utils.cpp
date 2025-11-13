@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "constants.h"
 
 
 bool check_collision(SDL_Rect& a, SDL_Rect& b) {

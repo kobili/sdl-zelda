@@ -70,9 +70,9 @@ int main(int argc, char* args[]) {
         camera.move();
         player.move(colliders);
 
-        // Zone current_zone = player.get_current_zone();
+        Zone current_zone = camera.get_current_zone();
 
-        // printf("currently in zone %d-%d\n", current_zone.col, current_zone.row);
+        printf("currently in zone %d-%d\n", current_zone.col, current_zone.row);
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(renderer);
