@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "sprite_sheet.h"
-#include "camera.h"
+#include "cameras/camera.h"
 
 class Entity {
 public:

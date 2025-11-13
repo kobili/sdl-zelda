@@ -18,7 +18,8 @@
 #include "src/tiles/tileset.h"
 #include "src/tiles/tile.h"
 #include "src/startup_funcs.h"
-#include "src/camera.h"
+#include "src/cameras/panning_camera.h"
+#include "src/cameras/zone_camera.h"
 
 
 int main(int argc, char* args[]) {

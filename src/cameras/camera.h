@@ -2,12 +2,10 @@
 #define CAMERA_H
 
 #include "SDL.h"
-#include "window_observer.h"
-#include "window.h"
-#include "utils.h"
+#include "../window_observer.h"
+#include "../window.h"
+#include "../utils.h"
 
-
-const int DEFAULT_CAMERA_SPEED = 5;
 
 class Camera : WindowObserver {
 public:
@@ -40,28 +38,5 @@ protected:
 
     double scale_x, scale_y;
 };
-
-
-class PanningCamera : public Camera {
-public:
-    PanningCamera(int x, int y, ObservableWindow* window);
-    void handle_event(SDL_Event& e) override;
-    void move() override;
-
-private:
-    int vel_x, vel_y;
-};
-
-
-class ZoneCamera : public Camera {
-public:
-    ZoneCamera(int x, int y, ObservableWindow* window);
-    void handle_event(SDL_Event& e) override;
-    void move() override;
-
-private:
-    Zone next_zone;
-};
-
 
 #endif
