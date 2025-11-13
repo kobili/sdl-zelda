@@ -3,7 +3,6 @@
 
 #include "SDL.h"
 #include "../observers/window_observer.h"
-#include "../window.h"
 #include "../utils.h"
 
 

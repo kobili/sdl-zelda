@@ -3,7 +3,6 @@
 
 #include "SDL.h"
 #include <string>
-#include "observers/window_observer.h"
 
 
 class Texture {

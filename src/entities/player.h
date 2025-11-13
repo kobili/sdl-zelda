@@ -5,10 +5,6 @@
 #include <memory>
 
 #include "clickable_entity.h"
-#include "../utils.h"
-
-#include "../observers/window_observer.h"
-#include "../cameras/camera.h"
 
 
 const int DEFAULT_VELOCITY = 1;

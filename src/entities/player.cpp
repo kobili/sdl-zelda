@@ -1,7 +1,6 @@
 #include "player.h"
 
 #include "../constants.h"
-#include "../utils.h"
 
 
 void Player::on_click() {
