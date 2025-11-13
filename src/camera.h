@@ -12,9 +12,10 @@ const int DEFAULT_CAMERA_SPEED = 5;
 class Camera : WindowObserver {
 public:
     Camera(int x, int y, ObservableWindow* window);
-    void handle_event(SDL_Event& e);
+    virtual ~Camera() = default;
 
-    void move();
+    void virtual handle_event(SDL_Event& e) = 0;
+    void virtual move() = 0;
 
     int get_x();
     int get_y();
@@ -26,47 +27,41 @@ public:
     void on_window_resize(int w, int h) override;
 
     /**
-     * Shfit the camera to center on the given zone.
-     * The top left corner of the camera will be placed on that zone's top left corner
-     */
-    void shift_to_zone(Zone zone);
-
-    /**
      * Retrieve the zone that the camera is currently showing.
      * 
      * Uses the position of the center of the camera to determine the zone.
      */
     Zone get_current_zone();
 
-private:
+protected:
     // location of the upper left corner of the camera in world space
     int m_x, m_y;
     int m_w, m_h;
-    int vel_x, vel_y;
 
     double scale_x, scale_y;
-
-    Zone next_zone;
-
-    /**
-     * Set the camera's velocity based on user input
-     */
-    void set_velocity(SDL_Event& e);
-
-    /**
-     * Set the next zone based on user input
-     */
-    void set_next_zone(SDL_Event& e);
-
-    /**
-     * Move the camera based on current velocities
-     */
-    void pan_camera();
-
-    /**
-     * Move the camera to the designated next_zone
-     */
-    void move_to_next_zone();
 };
+
+
+class PanningCamera : public Camera {
+public:
+    PanningCamera(int x, int y, ObservableWindow* window);
+    void handle_event(SDL_Event& e) override;
+    void move() override;
+
+private:
+    int vel_x, vel_y;
+};
+
+
+class ZoneCamera : public Camera {
+public:
+    ZoneCamera(int x, int y, ObservableWindow* window);
+    void handle_event(SDL_Event& e) override;
+    void move() override;
+
+private:
+    Zone next_zone;
+};
+
 
 #endif

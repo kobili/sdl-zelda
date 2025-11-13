@@ -41,7 +41,9 @@ int main(int argc, char* args[]) {
 
     Texture* full_overworld = manager.get_texture("resources/overworld__full.png");
     
-    Camera camera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT, &window);
+    std::unique_ptr<Camera> _camera(new ZoneCamera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT, &window));
+    Camera& camera = *_camera;
+
     Player player = Player(manager.get_sprite("resources/sprites/link.png"));
     player.set_x(7 * NES_SCREEN_WIDTH);
     player.set_y(7 * NES_SCREEN_HEIGHT);
