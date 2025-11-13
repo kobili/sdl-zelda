@@ -10,6 +10,8 @@
 #include "src/constants.h"
 #include "src/sdl_utils.h"
 #include "src/window.h"
+#include "src/startup_funcs.h"
+#include "src/texture_manager.h"
 
 
 int main(int argc, char* args[]) {
@@ -23,6 +25,11 @@ int main(int argc, char* args[]) {
         return -1;
     }
     SDL_Renderer* renderer = window.get_renderer();
+
+    std::unique_ptr<TextureManager> manager(new TextureManager(&window));
+    if (!load_textures(manager.get())) {
+        return -1;
+    }
 
     SDL_Event e;
     int running = 1;

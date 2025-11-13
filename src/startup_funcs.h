@@ -3,11 +3,8 @@
 
 #include <vector>
 
-#include "resource_manager.h"
-#include "tiles/tile.h"
-#include "tiles/tileset.h"
+#include "texture_manager.h"
 
-bool load_resources(ResourceManager* manager);
-std::vector<Tile> get_screen_1_tiles(Tileset* tileset);
+bool load_textures(TextureManager* manager);
 
 #endif

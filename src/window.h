@@ -4,9 +4,7 @@
 #include "SDL.h"
 #include <vector>
 
-#include "observers/window_observer.h"
-
-class Window : public ObservableWindow {
+class Window {
 public:
     Window();
     ~Window();
@@ -21,14 +19,12 @@ public:
 
     void handle_event(SDL_Event& e);
 
-    void add_observer(WindowObserver* observer) override; 
-    void notify_observers() override;
-
 private:
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
 
     int m_w, m_h;
+    double scale_x, scale_y;
 };
 
 #endif

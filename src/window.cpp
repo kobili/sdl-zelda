@@ -81,22 +81,10 @@ void Window::handle_event(SDL_Event& e) {
             case SDL_WINDOWEVENT_SIZE_CHANGED:
             m_w = e.window.data1;
             m_h = e.window.data2;
-            notify_observers();
+
+            scale_x =  (double) m_w / (double) NES_SCREEN_WIDTH;
+            scale_y = (double) m_h / (double) NES_SCREEN_HEIGHT;
             break;
         }
-    }
-}
-
-
-void Window::add_observer(WindowObserver* observer) {
-    ObservableWindow::add_observer(observer);
-
-    observer->on_window_resize(m_w, m_h);
-}
-
-
-void Window::notify_observers() {
-    for (int i = 0; i < observers.size(); i++) {
-        observers[i]->on_window_resize(m_w, m_h);
     }
 }
