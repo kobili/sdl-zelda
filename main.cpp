@@ -14,9 +14,24 @@
 #include "src/texture_manager.h"
 #include "src/cameras/zone_camera.h"
 
-#include "src/ecs/entity.h"
-#include "src/ecs/components/sprite.h"
-#include "src/ecs/components/position.h"
+#include "src/ecs/ecs_manager.h"
+
+
+void render_sprite(ECSManager& ecs, TextureManager* texture_manager, Entity& entity, Camera& camera, Window& window) {
+    Sprite* sprite = ecs.get_sprite(entity);
+    Texture* texture = texture_manager->get_texture(sprite->get_texture_name());
+    SDL_Rect clip = sprite->get_sprite(0, 0);
+
+    Position* position = ecs.get_position(entity);
+
+    texture->render(
+        position->get_x() - camera.get_x(),
+        position->get_y() - camera.get_y(),
+        &clip,
+        window.get_scale_x(),
+        window.get_scale_y()
+    );
+}
 
 
 int main(int argc, char* args[]) {
@@ -39,9 +54,14 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
+    ECSManager ecs;
+
     Entity player = Entity(1);
-    Sprite player_sprite = Sprite("resources/sprites/link.png", 16, 16);
-    Position player_position = Position(0, 0);
+    std::unique_ptr<Sprite> player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
+    ecs.add_sprite(player, std::move(player_sprite));
+
+    std::unique_ptr<Position> player_position (new Position(0, 0));
+    ecs.add_position(player, std::move(player_position));
 
     SDL_Event e;
     int running = 1;
@@ -64,15 +84,7 @@ int main(int argc, char* args[]) {
             0, 0, NULL, window.get_scale_x(), window.get_scale_y()
         );
 
-        Texture* texture = manager->get_texture(player_sprite.get_texture_name());
-        SDL_Rect clip = player_sprite.get_sprite(0, 0); // this should come from an animator or something
-        texture->render(
-            player_position.get_x() - camera.get_x(),
-            player_position.get_y() - camera.get_y(),
-            &clip,
-            window.get_scale_x(),
-            window.get_scale_y()
-        );
+        render_sprite(ecs, manager.get(), player, camera, window);
 
         SDL_RenderPresent(renderer);
     }
