@@ -4,28 +4,13 @@
 #include "../utils.h"
 
 
-Player::Player(SpriteSheet* sprite, ObservableWindow* window, Camera* camera) : Entity(sprite) {
-    std::unique_ptr<ClickHitbox> _click_hitbox (
-        new ClickHitbox(
-            m_collider,
-            window,
-            camera
-        )
-    );
-
-    click_hitbox = std::move(_click_hitbox);
-}
-
-
 void Player::on_click() {
     printf("Player at (%d, %d)\n", x, y);
 }
 
 
 void Player::handle_event(SDL_Event& e) {
-    if (click_hitbox->detect_click(e)) {
-        on_click();
-    }
+    ClickableEntity::handle_event(e);
 
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         switch (e.key.keysym.sym) {
@@ -93,15 +78,4 @@ Zone Player::get_current_zone() {
         x / NES_SCREEN_WIDTH,
         y / NES_SCREEN_HEIGHT
     };
-}
-
-
-void Player::set_x(int x) {
-    Entity::set_x(x);
-    click_hitbox->update_position(this->x, this->y);
-}
-
-void Player::set_y(int y) {
-    Entity::set_y(y);
-    click_hitbox->update_position(this->x, this->y);
 }

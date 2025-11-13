@@ -9,6 +9,7 @@ build:
 		src/sdl_utils.cpp \
 		src/entities/player.cpp \
 		src/entities/entity.cpp \
+		src/entities/clickable_entity.cpp \
 		src/utils.cpp \
 		src/observers/window_observer.cpp \
 		src/resource_manager.cpp \
