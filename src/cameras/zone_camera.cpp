@@ -32,7 +32,7 @@ void ZoneCamera::handle_event(SDL_Event& e) {
 
             case SDLK_s:
             next_zone.row = current_zone.row + 1;
-            if (next_zone.row >= 8) {
+            if (next_zone.row >= OVERWORLD_SCREEN_ROWS) {
                 next_zone.row = current_zone.row;
             }
             break;
@@ -46,7 +46,7 @@ void ZoneCamera::handle_event(SDL_Event& e) {
 
             case SDLK_d:
             next_zone.col = current_zone.col + 1;
-            if (next_zone.col >= 16) {
+            if (next_zone.col >= OVERWORLD_SCREEN_COLUMNS) {
                 next_zone.col = current_zone.col;
             }
             break;
