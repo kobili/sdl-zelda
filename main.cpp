@@ -42,12 +42,14 @@ int main(int argc, char* args[]) {
 
     Texture* full_overworld = manager.get_texture("resources/overworld__full.png");
     
-    std::unique_ptr<Camera> _camera(new ZoneCamera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT, &window));
-    Camera& camera = *_camera;
-
     Player player = Player(manager.get_sprite("resources/sprites/link.png"));
     player.set_x(7 * NES_SCREEN_WIDTH);
     player.set_y(7 * NES_SCREEN_HEIGHT);
+    Zone player_zone = player.get_current_zone();
+
+    std::unique_ptr<Camera> _camera(new ZoneCamera(player_zone.row * NES_SCREEN_WIDTH, player_zone.col * NES_SCREEN_HEIGHT, &window));
+    Camera& camera = *_camera;
+
 
     Enemy enemy = Enemy(manager.get_sprite("resources/sprites/oktorok__red.png"));
     enemy.set_x(7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2);
