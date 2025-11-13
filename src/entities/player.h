@@ -16,7 +16,6 @@ const int DEFAULT_VELOCITY = 1;
 
 class Player : public Entity {
 public:
-    Player() {};
     Player(SpriteSheet* sprite, ObservableWindow* window, Camera* camera);
 
     void handle_event(SDL_Event& e);
@@ -25,8 +24,8 @@ public:
 
     Zone get_current_zone();
 
-    void set_x(int x);
-    void set_y(int y);
+    void set_x(int x) override;
+    void set_y(int y) override;
 
 private:
     std::unique_ptr<ClickHitbox> click_hitbox;

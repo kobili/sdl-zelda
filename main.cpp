@@ -52,10 +52,6 @@ int main(int argc, char* args[]) {
     );
     player.set_x(7 * NES_SCREEN_WIDTH);
     player.set_y(7 * NES_SCREEN_HEIGHT);
-    Zone player_zone = player.get_current_zone();
-
-
-
 
     Enemy enemy = Enemy(manager.get_sprite("resources/sprites/oktorok__red.png"));
     enemy.set_x(7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2);

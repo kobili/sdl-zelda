@@ -95,11 +95,11 @@ void player_on_click(int x, int y) {
 
 
 void Player::set_x(int x) {
-    this->x = x;
+    Entity::set_x(x);
     click_hitbox->update_position(this->x, this->y);
 }
 
 void Player::set_y(int y) {
-    this->y = y;
+    Entity::set_y(y);
     click_hitbox->update_position(this->x, this->y);
 }

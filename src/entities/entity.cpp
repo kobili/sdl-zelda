@@ -1,19 +1,6 @@
 #include "entity.h"
 
 
-Entity::Entity() {
-    x = 0;
-    y = 0;
-    vel_x = 0;
-    vel_y = 0;
-
-    m_sprite_sheet = NULL;
-
-    m_collider.x = 0;
-    m_collider.y = 0;
-}
-
-
 Entity::Entity(SpriteSheet* sprite_sheet) {
     x = 0;
     y = 0;

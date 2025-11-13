@@ -9,7 +9,6 @@
 
 class Entity {
 public:
-    Entity();
     Entity(SpriteSheet* sprite_sheet);
 
     void render(Camera& camera);
@@ -19,8 +18,8 @@ public:
     int get_x();
     int get_y();
 
-    void set_x(int x);
-    void set_y(int y);
+    void virtual set_x(int x);
+    void virtual set_y(int y);
 
     void virtual move(std::vector<SDL_Rect*> colliders);
 
