@@ -29,8 +29,8 @@ public:
 
 private:
     std::unique_ptr<ClickHitbox> click_hitbox;
-};
 
-void player_on_click(int x, int y);
+    void on_click();
+};
 
 #endif

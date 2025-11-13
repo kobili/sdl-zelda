@@ -6,25 +6,20 @@
 #include "cameras/camera.h"
 
 
-typedef void (*ClickCallback) (int, int);
-
-
 class ClickHitbox : public WindowObserver {
 public:
-    ClickHitbox(SDL_Rect collider, ObservableWindow* window, Camera* camera, ClickCallback on_click);
+    ClickHitbox(SDL_Rect collider, ObservableWindow* window, Camera* camera);
     void on_window_resize(int w, int h) override;
 
     void update_position(int x, int y);
 
-    void handle_event(SDL_Event& e);
+    bool detect_click(SDL_Event& e);
 
 private:
     SDL_Rect hitbox;
     Camera* camera;  // non-owning
 
     double screen_scale_x, screen_scale_y;
-
-    ClickCallback on_click;
 };
 
 #endif

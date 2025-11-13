@@ -3,13 +3,11 @@
 #include <cmath>
 
 
-ClickHitbox::ClickHitbox(SDL_Rect collider, ObservableWindow* window, Camera* camera, ClickCallback on_click) {
+ClickHitbox::ClickHitbox(SDL_Rect collider, ObservableWindow* window, Camera* camera) {
     hitbox.x = collider.x;
     hitbox.y = collider.y;
     hitbox.w = collider.w;
     hitbox.h = collider.h;
-
-    this->on_click = on_click;
 
     start_observing(window);
     this->camera = camera;
@@ -28,9 +26,9 @@ void ClickHitbox::update_position(int x, int y) {
 }
 
 
-void ClickHitbox::handle_event(SDL_Event& e) {
+bool ClickHitbox::detect_click(SDL_Event& e) {
     if (e.type != SDL_MOUSEBUTTONDOWN) {
-        return;
+        return false;
     }
 
     int screen_space_x = hitbox.x - camera->get_x();
@@ -42,8 +40,6 @@ void ClickHitbox::handle_event(SDL_Event& e) {
     screen_hitbox.w = std::round(hitbox.w * screen_scale_x);
     screen_hitbox.h = std::round(hitbox.h * screen_scale_y);
 
-    bool inside = true;
-
     int mouse_x, mouse_y;
     SDL_GetMouseState(&mouse_x, &mouse_y);
 
@@ -53,11 +49,7 @@ void ClickHitbox::handle_event(SDL_Event& e) {
         || mouse_y < screen_hitbox.y
         || mouse_y > screen_hitbox.y + screen_hitbox.h
     ) {
-        inside = false;
-    }
-
-    if (!inside) {
-        return;
+        return false;
     }
 
     // printf(
@@ -73,5 +65,5 @@ void ClickHitbox::handle_event(SDL_Event& e) {
     //     screen_hitbox.h
     // );
 
-    on_click(mouse_x, mouse_y);
+    return true;
 }

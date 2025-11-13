@@ -9,8 +9,7 @@ Player::Player(SpriteSheet* sprite, ObservableWindow* window, Camera* camera) : 
         new ClickHitbox(
             m_collider,
             window,
-            camera,
-            player_on_click
+            camera
         )
     );
 
@@ -18,8 +17,15 @@ Player::Player(SpriteSheet* sprite, ObservableWindow* window, Camera* camera) : 
 }
 
 
+void Player::on_click() {
+    printf("Player at (%d, %d)\n", x, y);
+}
+
+
 void Player::handle_event(SDL_Event& e) {
-    click_hitbox->handle_event(e);
+    if (click_hitbox->detect_click(e)) {
+        on_click();
+    }
 
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         switch (e.key.keysym.sym) {
@@ -87,10 +93,6 @@ Zone Player::get_current_zone() {
         x / NES_SCREEN_WIDTH,
         y / NES_SCREEN_HEIGHT
     };
-}
-
-void player_on_click(int x, int y) {
-    printf("Player (%d, %d)\n", x, y);
 }
 
 
