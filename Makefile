@@ -7,8 +7,8 @@ build:
 		src/texture.cpp \
 		src/sprite_sheet.cpp \
 		src/sdl_utils.cpp \
-		src/player.cpp \
-		src/entity.cpp \
+		src/entities/player.cpp \
+		src/entities/entity.cpp \
 		src/utils.cpp \
 		src/window_observer.cpp \
 		src/resource_manager.cpp \

@@ -4,8 +4,8 @@
 #include "SDL.h"
 #include <vector>
 
-#include "sprite_sheet.h"
-#include "cameras/camera.h"
+#include "../sprite_sheet.h"
+#include "../cameras/camera.h"
 
 class Entity {
 public:

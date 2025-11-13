@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "entity.h"
-#include "utils.h"
+#include "../utils.h"
 
 const int DEFAULT_VELOCITY = 1;
 

@@ -1,7 +1,7 @@
 #include "player.h"
 
-#include "constants.h"
-#include "utils.h"
+#include "../constants.h"
+#include "../utils.h"
 
 
 void Player::handle_event(SDL_Event& e) {
