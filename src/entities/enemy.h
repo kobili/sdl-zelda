@@ -1,10 +1,14 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "entity.h"
+#include "clickable_entity.h"
 
-class Enemy : public Entity {
-    using Entity::Entity;
+class Enemy : public ClickableEntity {
+public:
+    using ClickableEntity::ClickableEntity;
+
+private:
+    void on_click() override;
 };
 
 #endif

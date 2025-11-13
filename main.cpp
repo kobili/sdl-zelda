@@ -53,7 +53,11 @@ int main(int argc, char* args[]) {
     player.set_x(7 * NES_SCREEN_WIDTH);
     player.set_y(7 * NES_SCREEN_HEIGHT);
 
-    Enemy enemy = Enemy(manager.get_sprite("resources/sprites/oktorok__red.png"));
+    Enemy enemy = Enemy(
+        manager.get_sprite("resources/sprites/oktorok__red.png"),
+        &window,
+        _camera.get()
+    );
     enemy.set_x(7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2);
     enemy.set_y(7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2);
 
@@ -72,6 +76,7 @@ int main(int argc, char* args[]) {
             window.handle_event(e);
             camera.handle_event(e);
             player.handle_event(e);
+            enemy.handle_event(e);
         }
 
         camera.move();

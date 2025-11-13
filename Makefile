@@ -8,6 +8,7 @@ build:
 		src/sprite_sheet.cpp \
 		src/sdl_utils.cpp \
 		src/entities/player.cpp \
+		src/entities/enemy.cpp \
 		src/entities/entity.cpp \
 		src/entities/clickable_entity.cpp \
 		src/utils.cpp \
