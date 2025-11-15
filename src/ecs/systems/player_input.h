@@ -4,7 +4,7 @@
 #include "base_system.h"
 
 
-class PlayerInputSystem : IInputSystem {
+class PlayerInputSystem : public IInputSystem {
 public:
     using IInputSystem::IInputSystem;
 

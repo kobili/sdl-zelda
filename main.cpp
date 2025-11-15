@@ -18,35 +18,13 @@
 
 #include "src/ecs/systems/sprite_renderer.h"
 #include "src/ecs/systems/player_input.h"
+#include "src/ecs/systems/movement_system.h"
 
 #include "src/ecs/components/position.h"
 #include "src/ecs/components/sprite.h"
 #include "src/ecs/components/movement.h"
 #include "src/ecs/components/velocity.h"
 #include "src/ecs/components/player.h"
-
-
-void move_entity(ECSManager& ecs, Entity* entity) {
-    Movement* movement = ecs.get_component<Movement>(*entity);
-    if (movement == NULL) {
-        return;
-    }
-
-    Velocity* _velocity = ecs.get_component<Velocity>(*entity);
-    if (_velocity == NULL) {
-        return;
-    }
-    Velocity& velocity = *_velocity;
-
-    Position* _position = ecs.get_component<Position>(*entity);
-    if (_position == NULL) {
-        return;
-    }
-    Position& position = *_position;
-
-    position.set_x(position.get_x() + velocity.get_x());
-    position.set_y(position.get_y() + velocity.get_y());
-}
 
 
 int main(int argc, char* args[]) {
@@ -73,6 +51,7 @@ int main(int argc, char* args[]) {
 
     SpriteRenderSystem sprite_render_system = SpriteRenderSystem(&ecs, manager.get(), _camera.get(), &window);
     PlayerInputSystem player_input_system = PlayerInputSystem(&ecs);
+    MovementSystem movement_system = MovementSystem(&ecs);
 
     Entity* _player = load_player(ecs);
     if (_player == NULL) {
@@ -103,7 +82,7 @@ int main(int argc, char* args[]) {
             0, 0, NULL, window.get_scale_x(), window.get_scale_y()
         );
         
-        move_entity(ecs, &player);
+        movement_system.update();
         sprite_render_system.update();
 
         SDL_RenderPresent(renderer);
