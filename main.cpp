@@ -16,6 +16,8 @@
 
 #include "src/ecs/ecs_manager.h"
 
+#include "src/ecs/systems/sprite_renderer.h"
+
 #include "src/ecs/components/position.h"
 #include "src/ecs/components/sprite.h"
 
@@ -59,6 +61,8 @@ int main(int argc, char* args[]) {
 
     ECSManager ecs;
 
+    SpriteRenderSystem sprite_render_system = SpriteRenderSystem(&ecs, manager.get(), _camera.get(), &window);
+
     Entity* _player = load_player(ecs);
     if (_player == NULL) {
         printf("failed to load player. Exiting...\n");
@@ -87,7 +91,7 @@ int main(int argc, char* args[]) {
             0, 0, NULL, window.get_scale_x(), window.get_scale_y()
         );
 
-        render_sprite(ecs, manager.get(), player, camera, window);
+        sprite_render_system.update();
 
         SDL_RenderPresent(renderer);
     }

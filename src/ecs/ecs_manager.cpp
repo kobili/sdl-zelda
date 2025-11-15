@@ -15,3 +15,7 @@ Entity* ECSManager::add_entity(std::unique_ptr<Entity> entity) {
 
     return retval;
 }
+
+const std::vector<std::unique_ptr<Entity>>& ECSManager::get_entities() const {
+    return m_entities;
+}

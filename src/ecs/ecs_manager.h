@@ -16,6 +16,8 @@ class ECSManager {
 public:
     Entity* add_entity(std::unique_ptr<Entity> entity);
 
+    const std::vector<std::unique_ptr<Entity>>& get_entities() const;
+
     template <typename T>
     T* add_component(Entity entity, std::unique_ptr<T> component) {
         if (m_entity_set.find(entity) == m_entity_set.end()) {
