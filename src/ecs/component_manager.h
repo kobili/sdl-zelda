@@ -38,7 +38,7 @@ public:
 
 private:
     /**
-     * Type erased
+     * Type erased mapping of `Type -> Map<Entity, Component>`
     ```
     std::unordered_map< std::type_index, std::shared_ptr<std::map<int, std::unique_ptr<T>>>
     ```

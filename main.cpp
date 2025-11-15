@@ -37,6 +37,24 @@ void render_sprite(ECSManager& ecs, TextureManager* texture_manager, Entity& ent
 }
 
 
+Entity* load_player(ECSManager& ecs) {
+    std::unique_ptr<Entity> _player (new Entity(1));
+    Entity* player = ecs.add_entity(std::move(_player));
+
+    if (player == NULL) {
+        return NULL;
+    }
+
+    std::unique_ptr<Sprite> player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
+    ecs.add_component<Sprite>(*player, std::move(player_sprite));
+
+    std::unique_ptr<Position> player_position (new Position(0, 0));
+    ecs.add_component<Position>(*player, std::move(player_position));
+
+    return player;
+}
+
+
 int main(int argc, char* args[]) {
     if (init_sdl() < 0) {
         return -1;
@@ -59,12 +77,12 @@ int main(int argc, char* args[]) {
 
     ECSManager ecs;
 
-    Entity player = Entity(1);
-    std::unique_ptr<Sprite> player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
-    ecs.add_component<Sprite>(player, std::move(player_sprite));
-
-    std::unique_ptr<Position> player_position (new Position(0, 0));
-    ecs.add_component<Position>(player, std::move(player_position));
+    Entity* _player = load_player(ecs);
+    if (_player == NULL) {
+        printf("failed to load player. Exiting...\n");
+        return -1;
+    }
+    Entity& player = *_player;
 
     SDL_Event e;
     int running = 1;

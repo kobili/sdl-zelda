@@ -6,6 +6,6 @@ Entity::Entity(int id) {
 }
 
 
-int Entity::get_id() {
+int Entity::get_id() const {
     return m_id;
 }
