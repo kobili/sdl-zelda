@@ -60,6 +60,13 @@ int main(int argc, char* args[]) {
     }
     Entity& player = *_player;
 
+    Entity* _enemy = load_enemy(ecs);
+    if (_enemy == NULL) {
+        printf("failed to load enemy. Exiting...\n");
+        return -1;
+    }
+    Entity& enemy = *_enemy;
+
     SDL_Event e;
     int running = 1;
 

@@ -8,5 +8,6 @@
 
 bool load_textures(TextureManager* manager);
 Entity* load_player(ECSManager& ecs);
+Entity* load_enemy(ECSManager& ecs);
 
 #endif

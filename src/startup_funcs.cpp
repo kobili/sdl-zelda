@@ -1,4 +1,5 @@
 #include "startup_funcs.h"
+#include "constants.h"
 #include "ecs/components/sprite.h"
 #include "ecs/components/position.h"
 #include "ecs/components/velocity.h"
@@ -36,40 +37,68 @@ Entity* load_player(ECSManager& ecs) {
         return NULL;
     }
 
-    std::unique_ptr<Sprite> _player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
-    Sprite* player_sprite = ecs.add_component<Sprite>(*player, std::move(_player_sprite));
-    if (player_sprite == NULL) {
+    std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/link.png", 16, 16));
+    if (ecs.add_component<Sprite>(*player, std::move(sprite)) == NULL) {
         printf("failed to add Sprite component for Player\n");
         return NULL;
     }
 
-    std::unique_ptr<Position> _player_position (new Position(0, 0));
-    Position* position = ecs.add_component<Position>(*player, std::move(_player_position));
-    if (position == NULL) {
+    std::unique_ptr<Position> position (new Position(0, 0));
+    if (ecs.add_component<Position>(*player, std::move(position)) == NULL) {
         printf("failed to add Position for player\n");
         return NULL;
     }
 
-    std::unique_ptr<Velocity> _player_velocity (new Velocity());
-    Velocity* velocity = ecs.add_component<Velocity>(*player, std::move(_player_velocity));
-    if (velocity == NULL) {
+    std::unique_ptr<Velocity> velocity (new Velocity());
+    if (ecs.add_component<Velocity>(*player, std::move(velocity)) == NULL) {
         printf("failed to add Velocity for player\n");
         return NULL;
     }
 
-    std::unique_ptr<Movement> _movement (new Movement());
-    Movement* movement = ecs.add_component<Movement>(*player, std::move(_movement));
-    if (movement == NULL) {
+    std::unique_ptr<Movement> movement (new Movement());
+    if (ecs.add_component<Movement>(*player, std::move(movement)) == NULL) {
         printf("failed to add Movement for player\n");
         return NULL;
     }
 
-    std::unique_ptr<Player> _player_comp (new Player());
-    Player* player_comp = ecs.add_component<Player>(*player, std::move(_player_comp));
-    if (player_comp == NULL) {
+    std::unique_ptr<Player> player_comp (new Player());
+    if (ecs.add_component<Player>(*player, std::move(player_comp)) == NULL) {
         printf("failed to load player component for player\n");
         return NULL;
     }
 
     return player;
+}
+
+
+Entity* load_enemy(ECSManager& ecs) {
+    std::unique_ptr<Entity> _enemy (new Entity(2));
+    Entity* enemy = ecs.add_entity(std::move(_enemy));
+
+    if (enemy == NULL) {
+        return NULL;
+    }
+
+    std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/oktorok__red.png", 16, 16));
+    if (ecs.add_component<Sprite>(*enemy, std::move(sprite)) == NULL) {
+        printf("failed to add Sprite component for Player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Position> position (new Position(
+        NES_SCREEN_WIDTH / 2,
+        NES_SCREEN_HEIGHT / 2
+    ));
+    if (ecs.add_component<Position>(*enemy, std::move(position)) == NULL) {
+        printf("failed to add Position for player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Velocity> velocity (new Velocity());
+    if (ecs.add_component<Velocity>(*enemy, std::move(velocity)) == NULL) {
+        printf("failed to add Velocity for player\n");
+        return NULL;
+    }
+
+    return enemy;
 }

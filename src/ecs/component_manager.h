@@ -29,7 +29,6 @@ public:
         std::map<int, std::unique_ptr<T> >& component_map = get_map<T>();
 
         if (component_map.find(entity.get_id()) == component_map.end()) {
-            printf("Entity with id %d has no component of type %s\n", entity.get_id(), typeid(T).name());
             return NULL;
         }
 
