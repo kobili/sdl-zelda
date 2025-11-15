@@ -6,23 +6,23 @@
 #include <memory>
 
 #include "entity.h"
-#include "components/position.h"
-#include "components/sprite.h"
+#include "component_manager.h"
 
 
 class ECSManager {
 public:
-    ECSManager();
+    template <typename T>
+    bool add_component(Entity e, std::unique_ptr<T> component) {
+        return m_component_manager.add_component(e, std::move(component));
+    }
 
-    void add_position(Entity entity, std::unique_ptr<Position>);
-    Position* get_position(Entity entity);
-
-    void add_sprite(Entity entity, std::unique_ptr<Sprite>);
-    Sprite* get_sprite(Entity entity);
+    template <typename T>
+    T* get_component(Entity e) {
+        return m_component_manager.get_component<T>(e);
+    }
 
 private:
-    std::map<int, std::unique_ptr<Position>> m_positions;
-    std::map<int, std::unique_ptr<Sprite>> m_sprites;
+    ComponentManager m_component_manager;
 };
 
 #endif

@@ -16,13 +16,16 @@
 
 #include "src/ecs/ecs_manager.h"
 
+#include "src/ecs/components/position.h"
+#include "src/ecs/components/sprite.h"
+
 
 void render_sprite(ECSManager& ecs, TextureManager* texture_manager, Entity& entity, Camera& camera, Window& window) {
-    Sprite* sprite = ecs.get_sprite(entity);
+    Sprite* sprite = ecs.get_component<Sprite>(entity);
     Texture* texture = texture_manager->get_texture(sprite->get_texture_name());
     SDL_Rect clip = sprite->get_sprite(0, 0);
 
-    Position* position = ecs.get_position(entity);
+    Position* position = ecs.get_component<Position>(entity);
 
     texture->render(
         position->get_x() - camera.get_x(),
@@ -58,10 +61,10 @@ int main(int argc, char* args[]) {
 
     Entity player = Entity(1);
     std::unique_ptr<Sprite> player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
-    ecs.add_sprite(player, std::move(player_sprite));
+    ecs.add_component<Sprite>(player, std::move(player_sprite));
 
     std::unique_ptr<Position> player_position (new Position(0, 0));
-    ecs.add_position(player, std::move(player_position));
+    ecs.add_component<Position>(player, std::move(player_position));
 
     SDL_Event e;
     int running = 1;
