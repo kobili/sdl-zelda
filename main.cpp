@@ -37,24 +37,6 @@ void render_sprite(ECSManager& ecs, TextureManager* texture_manager, Entity& ent
 }
 
 
-Entity* load_player(ECSManager& ecs) {
-    std::unique_ptr<Entity> _player (new Entity(1));
-    Entity* player = ecs.add_entity(std::move(_player));
-
-    if (player == NULL) {
-        return NULL;
-    }
-
-    std::unique_ptr<Sprite> player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
-    ecs.add_component<Sprite>(*player, std::move(player_sprite));
-
-    std::unique_ptr<Position> player_position (new Position(0, 0));
-    ecs.add_component<Position>(*player, std::move(player_position));
-
-    return player;
-}
-
-
 int main(int argc, char* args[]) {
     if (init_sdl() < 0) {
         return -1;

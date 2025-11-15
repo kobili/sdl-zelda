@@ -1,4 +1,6 @@
 #include "startup_funcs.h"
+#include "ecs/components/sprite.h"
+#include "ecs/components/position.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -20,4 +22,30 @@ bool load_textures(TextureManager* manager) {
     }
 
     return true;
+}
+
+
+Entity* load_player(ECSManager& ecs) {
+    std::unique_ptr<Entity> _player (new Entity(1));
+    Entity* player = ecs.add_entity(std::move(_player));
+
+    if (player == NULL) {
+        return NULL;
+    }
+
+    std::unique_ptr<Sprite> _player_sprite (new Sprite("resources/sprites/link.png", 16, 16));
+    Sprite* player_sprite = ecs.add_component<Sprite>(*player, std::move(_player_sprite));
+    if (player_sprite == NULL) {
+        printf("failed to add Sprite component for Player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Position> _player_position (new Position(0, 0));
+    Position* position = ecs.add_component<Position>(*player, std::move(_player_position));
+    if (position == NULL) {
+        printf("failed to add Position for player\n");
+        return NULL;
+    }
+
+    return player;
 }

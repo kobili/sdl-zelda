@@ -11,17 +11,17 @@
 class ComponentManager {
 public:
     template <typename T>
-    bool add_component(Entity entity, std::unique_ptr<T> component) {
+    T* add_component(Entity entity, std::unique_ptr<T> component) {
         std::map<int, std::unique_ptr<T> >& component_map = get_map<T>();
     
         if (component_map.find(entity.get_id()) != component_map.end()) {
             printf("Entity with id %d already has component of type %s\n", entity.get_id(), typeid(T).name());
-            return false;
+            return NULL;
         }
 
         component_map[entity.get_id()] = std::move(component);
 
-        return true;
+        return component_map[entity.get_id()].get();
     }
 
     template <typename T>

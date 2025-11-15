@@ -4,7 +4,9 @@
 #include <vector>
 
 #include "texture_manager.h"
+#include "ecs/ecs_manager.h"
 
 bool load_textures(TextureManager* manager);
+Entity* load_player(ECSManager& ecs);
 
 #endif

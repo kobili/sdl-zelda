@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_set>
+#include <typeindex>
 
 #include "entity.h"
 #include "component_manager.h"
@@ -16,7 +17,12 @@ public:
     Entity* add_entity(std::unique_ptr<Entity> entity);
 
     template <typename T>
-    bool add_component(Entity entity, std::unique_ptr<T> component) {
+    T* add_component(Entity entity, std::unique_ptr<T> component) {
+        if (m_entity_set.find(entity) == m_entity_set.end()) {
+            printf("can't add %s for unregistered Entity with id %d\n", typeid(T).name(), entity.get_id());
+            return NULL;
+        }
+
         return m_component_manager.add_component(entity, std::move(component));
     }
 
