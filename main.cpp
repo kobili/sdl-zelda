@@ -39,7 +39,7 @@ int main(int argc, char* args[]) {
     }
     SDL_Renderer* renderer = window.get_renderer();
 
-    std::unique_ptr<Camera> _camera (new ZoneCamera(0, 0));
+    std::unique_ptr<Camera> _camera (new ZoneCamera(7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT));
     Camera& camera = *_camera;
 
     std::unique_ptr<TextureManager> manager(new TextureManager(&window));
@@ -77,6 +77,7 @@ int main(int argc, char* args[]) {
             }
 
             window.handle_event(e);
+            camera.handle_event(e);
             player_input_system.handle_input(e);
         }
 
@@ -84,11 +85,17 @@ int main(int argc, char* args[]) {
         SDL_RenderClear(renderer);
 
         // not indicative of how we'll be rendering stuff
-        Texture* background = manager->get_texture("resources/screen_01.png");
+        Texture* background = manager->get_texture("resources/overworld__full.png");
         background->render(
-            0, 0, NULL, window.get_scale_x(), window.get_scale_y()
+            0 - camera.get_x(),
+            0 - camera.get_y(),
+            NULL,
+            window.get_scale_x(),
+            window.get_scale_y()
         );
-        
+
+        camera.move();
+
         movement_system.update();
         sprite_render_system.update();
 

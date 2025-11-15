@@ -43,7 +43,9 @@ Entity* load_player(ECSManager& ecs) {
         return NULL;
     }
 
-    std::unique_ptr<Position> position (new Position(0, 0));
+    std::unique_ptr<Position> position (new Position(
+        7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT
+    ));
     if (ecs.add_component<Position>(*player, std::move(position)) == NULL) {
         printf("failed to add Position for player\n");
         return NULL;
@@ -86,8 +88,8 @@ Entity* load_enemy(ECSManager& ecs) {
     }
 
     std::unique_ptr<Position> position (new Position(
-        NES_SCREEN_WIDTH / 2,
-        NES_SCREEN_HEIGHT / 2
+        7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
+        7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
     ));
     if (ecs.add_component<Position>(*enemy, std::move(position)) == NULL) {
         printf("failed to add Position for player\n");
