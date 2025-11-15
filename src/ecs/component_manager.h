@@ -37,6 +37,12 @@ public:
     }
 
 private:
+    /**
+     * Type erased
+    ```
+    std::unordered_map< std::type_index, std::shared_ptr<std::map<int, std::unique_ptr<T>>>
+    ```
+     */
     std::unordered_map<std::type_index, std::shared_ptr<void> > m_component_maps;
 
     template <typename T>
