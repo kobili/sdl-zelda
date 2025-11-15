@@ -12,30 +12,26 @@ SpriteRenderSystem::SpriteRenderSystem(
     m_window = window;
 }
 
-void SpriteRenderSystem::update() {
-    for (const std::unique_ptr<Entity>& _entity : m_ecs->get_entities()) {
-        Entity& entity = *_entity;
-
-        Sprite* sprite = m_ecs->get_component<Sprite>(entity);
-        if (sprite == NULL) {
-            continue;
-        }
-        Position* position = m_ecs->get_component<Position>(entity);
-        if (position == NULL) {
-            continue;
-        }
-        Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
-        if (texture == NULL) {
-            continue;
-        }
-
-        SDL_Rect clip = sprite->get_sprite(0, 0);
-        texture->render(
-            position->get_x() - m_camera->get_x(),
-            position->get_y() - m_camera->get_y(),
-            &clip,
-            m_window->get_scale_x(),
-            m_window->get_scale_y()
-        );
+void SpriteRenderSystem::update_entity(Entity& entity) {
+    Sprite* sprite = m_ecs->get_component<Sprite>(entity);
+    if (sprite == NULL) {
+        return;
     }
+    Position* position = m_ecs->get_component<Position>(entity);
+    if (position == NULL) {
+        return;
+    }
+    Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
+    if (texture == NULL) {
+        return;
+    }
+
+    SDL_Rect clip = sprite->get_sprite(0, 0);
+    texture->render(
+        position->get_x() - m_camera->get_x(),
+        position->get_y() - m_camera->get_y(),
+        &clip,
+        m_window->get_scale_x(),
+        m_window->get_scale_y()
+    );
 }

@@ -7,7 +7,7 @@ class MovementSystem : public ISystem {
 public:
     using ISystem::ISystem;
 
-    void virtual update() override;
+    void virtual update_entity(Entity& entity) override;
 };
 
 #endif

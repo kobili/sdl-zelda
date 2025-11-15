@@ -12,7 +12,9 @@ public:
         m_ecs = manager;
     };
 
-    void virtual update() = 0;
+    void update();
+
+    void virtual update_entity(Entity& entity) = 0;
 
 protected:
     ECSManager* m_ecs;  // non-owning

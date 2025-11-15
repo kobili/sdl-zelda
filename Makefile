@@ -16,6 +16,7 @@ build:
 	src/ecs/components/velocity.cpp \
 	src/ecs/ecs_manager.cpp \
 	src/ecs/systems/sprite_renderer.cpp \
+	src/ecs/systems/base_system.cpp \
 	src/ecs/systems/player_input.cpp \
 	src/ecs/systems/movement_system.cpp \
 	${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
