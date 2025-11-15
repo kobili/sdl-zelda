@@ -17,65 +17,13 @@
 #include "src/ecs/ecs_manager.h"
 
 #include "src/ecs/systems/sprite_renderer.h"
+#include "src/ecs/systems/player_input.h"
 
 #include "src/ecs/components/position.h"
 #include "src/ecs/components/sprite.h"
 #include "src/ecs/components/movement.h"
 #include "src/ecs/components/velocity.h"
-
-
-void handle_input(ECSManager& ecs, SDL_Event& e, Entity* entity) {
-    Movement* movement = ecs.get_component<Movement>(*entity);
-    if (movement == NULL) {
-        return;
-    }
-
-    Velocity* _velocity = ecs.get_component<Velocity>(*entity);
-    if (_velocity == NULL) {
-        return;
-    }
-    Velocity& velocity = *_velocity;
-
-    if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-        switch (e.key.keysym.sym) {
-            case SDLK_UP:
-            velocity.add_y(-1);
-            break;
-
-            case SDLK_DOWN:
-            velocity.add_y(1);
-            break;
-
-            case SDLK_LEFT:
-            velocity.add_x(-1);
-            break;
-
-            case SDLK_RIGHT:
-            velocity.add_x(1);
-            break;
-        }
-    }
-
-    if (e.type == SDL_KEYUP && e.key.repeat == 0) {
-        switch (e.key.keysym.sym) {
-            case SDLK_UP:
-            velocity.add_y(1);
-            break;
-
-            case SDLK_DOWN:
-            velocity.add_y(-1);;
-            break;
-
-            case SDLK_LEFT:
-            velocity.add_x(1);
-            break;
-
-            case SDLK_RIGHT:
-            velocity.add_x(-1);
-            break;
-        }
-    }
-}
+#include "src/ecs/components/player.h"
 
 
 void move_entity(ECSManager& ecs, Entity* entity) {
@@ -124,6 +72,7 @@ int main(int argc, char* args[]) {
     ECSManager ecs;
 
     SpriteRenderSystem sprite_render_system = SpriteRenderSystem(&ecs, manager.get(), _camera.get(), &window);
+    PlayerInputSystem player_input_system = PlayerInputSystem(&ecs);
 
     Entity* _player = load_player(ecs);
     if (_player == NULL) {
@@ -142,7 +91,7 @@ int main(int argc, char* args[]) {
             }
 
             window.handle_event(e);
-            handle_input(ecs, e, &player);
+            player_input_system.handle_input(e);
         }
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);

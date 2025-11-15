@@ -3,6 +3,7 @@
 #include "ecs/components/position.h"
 #include "ecs/components/velocity.h"
 #include "ecs/components/movement.h"
+#include "ecs/components/player.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -60,6 +61,13 @@ Entity* load_player(ECSManager& ecs) {
     Movement* movement = ecs.add_component<Movement>(*player, std::move(_movement));
     if (movement == NULL) {
         printf("failed to add Movement for player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Player> _player_comp (new Player());
+    Player* player_comp = ecs.add_component<Player>(*player, std::move(_player_comp));
+    if (player_comp == NULL) {
+        printf("failed to load player component for player\n");
         return NULL;
     }
 
