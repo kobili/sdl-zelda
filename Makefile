@@ -14,6 +14,7 @@ build:
 	src/ecs/components/sprite.cpp \
 	src/ecs/components/position.cpp \
 	src/ecs/components/velocity.cpp \
+	src/ecs/components/collider.cpp \
 	src/ecs/ecs_manager.cpp \
 	src/ecs/systems/sprite_renderer.cpp \
 	src/ecs/systems/base_system.cpp \

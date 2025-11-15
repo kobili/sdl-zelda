@@ -5,6 +5,7 @@
 #include "ecs/components/velocity.h"
 #include "ecs/components/movement.h"
 #include "ecs/components/player.h"
+#include "ecs/components/collider.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -69,6 +70,14 @@ Entity* load_player(ECSManager& ecs) {
         return NULL;
     }
 
+    std::unique_ptr<Collider> collider (new Collider(
+        7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT, 16, 16
+    ));
+    if (ecs.add_component<Collider>(*player, std::move(collider)) == NULL) {
+        printf("failed to load collider for player\n");
+        return NULL;
+    }
+
     return player;
 }
 
@@ -99,6 +108,17 @@ Entity* load_enemy(ECSManager& ecs) {
     std::unique_ptr<Velocity> velocity (new Velocity());
     if (ecs.add_component<Velocity>(*enemy, std::move(velocity)) == NULL) {
         printf("failed to add Velocity for player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Collider> collider (new Collider(
+        7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
+        7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2,
+        16,
+        16
+    ));
+    if (ecs.add_component<Collider>(*enemy, std::move(collider)) == NULL) {
+        printf("failed to load collider for player\n");
         return NULL;
     }
 

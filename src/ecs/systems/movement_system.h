@@ -8,6 +8,9 @@ public:
     using ISystem::ISystem;
 
     void virtual update_entity(Entity& entity) override;
+
+private:
+    
 };
 
 #endif
