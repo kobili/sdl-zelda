@@ -13,6 +13,7 @@ build:
 	src/ecs/entity.cpp \
 	src/ecs/components/sprite.cpp \
 	src/ecs/components/position.cpp \
+	src/ecs/components/velocity.cpp \
 	src/ecs/ecs_manager.cpp \
 	src/ecs/systems/sprite_renderer.cpp \
 	${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

@@ -20,22 +20,84 @@
 
 #include "src/ecs/components/position.h"
 #include "src/ecs/components/sprite.h"
+#include "src/ecs/components/movement.h"
+#include "src/ecs/components/velocity.h"
 
 
-void render_sprite(ECSManager& ecs, TextureManager* texture_manager, Entity& entity, Camera& camera, Window& window) {
-    Sprite* sprite = ecs.get_component<Sprite>(entity);
-    Texture* texture = texture_manager->get_texture(sprite->get_texture_name());
-    SDL_Rect clip = sprite->get_sprite(0, 0);
+void handle_input(ECSManager& ecs, SDL_Event& e, Entity* entity) {
+    Movement* movement = ecs.get_component<Movement>(*entity);
+    if (movement == NULL) {
+        return;
+    }
 
-    Position* position = ecs.get_component<Position>(entity);
+    Velocity* _velocity = ecs.get_component<Velocity>(*entity);
+    if (_velocity == NULL) {
+        return;
+    }
+    Velocity& velocity = *_velocity;
 
-    texture->render(
-        position->get_x() - camera.get_x(),
-        position->get_y() - camera.get_y(),
-        &clip,
-        window.get_scale_x(),
-        window.get_scale_y()
-    );
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+        switch (e.key.keysym.sym) {
+            case SDLK_UP:
+            velocity.add_y(-1);
+            break;
+
+            case SDLK_DOWN:
+            velocity.add_y(1);
+            break;
+
+            case SDLK_LEFT:
+            velocity.add_x(-1);
+            break;
+
+            case SDLK_RIGHT:
+            velocity.add_x(1);
+            break;
+        }
+    }
+
+    if (e.type == SDL_KEYUP && e.key.repeat == 0) {
+        switch (e.key.keysym.sym) {
+            case SDLK_UP:
+            velocity.add_y(1);
+            break;
+
+            case SDLK_DOWN:
+            velocity.add_y(-1);;
+            break;
+
+            case SDLK_LEFT:
+            velocity.add_x(1);
+            break;
+
+            case SDLK_RIGHT:
+            velocity.add_x(-1);
+            break;
+        }
+    }
+}
+
+
+void move_entity(ECSManager& ecs, Entity* entity) {
+    Movement* movement = ecs.get_component<Movement>(*entity);
+    if (movement == NULL) {
+        return;
+    }
+
+    Velocity* _velocity = ecs.get_component<Velocity>(*entity);
+    if (_velocity == NULL) {
+        return;
+    }
+    Velocity& velocity = *_velocity;
+
+    Position* _position = ecs.get_component<Position>(*entity);
+    if (_position == NULL) {
+        return;
+    }
+    Position& position = *_position;
+
+    position.set_x(position.get_x() + velocity.get_x());
+    position.set_y(position.get_y() + velocity.get_y());
 }
 
 
@@ -80,6 +142,7 @@ int main(int argc, char* args[]) {
             }
 
             window.handle_event(e);
+            handle_input(ecs, e, &player);
         }
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
@@ -90,7 +153,8 @@ int main(int argc, char* args[]) {
         background->render(
             0, 0, NULL, window.get_scale_x(), window.get_scale_y()
         );
-
+        
+        move_entity(ecs, &player);
         sprite_render_system.update();
 
         SDL_RenderPresent(renderer);

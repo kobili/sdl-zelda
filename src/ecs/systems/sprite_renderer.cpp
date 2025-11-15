@@ -20,23 +20,15 @@ void SpriteRenderSystem::update() {
         if (sprite == NULL) {
             continue;
         }
-
-        Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
-        if (texture == NULL) {
-            printf(
-                "The sprite for Entity %d tried to access texture %s which hasn't been loaded\n",
-                entity.get_id(),
-                sprite->get_texture_name().c_str()
-            );
-            continue;
-        }
-
         Position* position = m_ecs->get_component<Position>(entity);
         if (position == NULL) {
-            printf("Failed to render Entity %d for which no position was established\n", entity.get_id());
             continue;
         }
-        
+        Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
+        if (texture == NULL) {
+            continue;
+        }
+
         SDL_Rect clip = sprite->get_sprite(0, 0);
         texture->render(
             position->get_x() - m_camera->get_x(),

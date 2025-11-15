@@ -1,6 +1,8 @@
 #include "startup_funcs.h"
 #include "ecs/components/sprite.h"
 #include "ecs/components/position.h"
+#include "ecs/components/velocity.h"
+#include "ecs/components/movement.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -44,6 +46,20 @@ Entity* load_player(ECSManager& ecs) {
     Position* position = ecs.add_component<Position>(*player, std::move(_player_position));
     if (position == NULL) {
         printf("failed to add Position for player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Velocity> _player_velocity (new Velocity());
+    Velocity* velocity = ecs.add_component<Velocity>(*player, std::move(_player_velocity));
+    if (velocity == NULL) {
+        printf("failed to add Velocity for player\n");
+        return NULL;
+    }
+
+    std::unique_ptr<Movement> _movement (new Movement());
+    Movement* movement = ecs.add_component<Movement>(*player, std::move(_movement));
+    if (movement == NULL) {
+        printf("failed to add Movement for player\n");
         return NULL;
     }
 
