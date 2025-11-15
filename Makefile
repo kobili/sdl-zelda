@@ -5,6 +5,7 @@ build:
 	main.cpp \
 	src/window.cpp \
 	src/sdl_utils.cpp \
+	src/utils.cpp \
 	src/startup_funcs.cpp \
 	src/texture_manager.cpp \
 	src/texture.cpp \
