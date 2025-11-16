@@ -2,7 +2,7 @@ SDL_FLAGS := $(shell sdl2-config --cflags --libs)
 
 build:
 	g++ -std=c++11 -o app \
-	main.cpp \
+	src/main.cpp \
 	src/window.cpp \
 	src/sdl_utils.cpp \
 	src/utils.cpp \

@@ -5,17 +5,17 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include "src/constants.h"
-#include "src/sdl_utils.h"
-#include "src/window.h"
-#include "src/startup_funcs.h"
-#include "src/texture_manager.h"
-#include "src/cameras/zone_camera.h"
-#include "src/cameras/panning_camera.h"
+#include "constants.h"
+#include "sdl_utils.h"
+#include "window.h"
+#include "startup_funcs.h"
+#include "texture_manager.h"
+#include "cameras/zone_camera.h"
+#include "cameras/panning_camera.h"
 
-#include "src/ecs/entity.h"
+#include "ecs/entity.h"
 
-#include "src/ecs/managers/ecs_manager.h"
+#include "ecs/managers/ecs_manager.h"
 
 
 int main(int argc, char* args[]) {
