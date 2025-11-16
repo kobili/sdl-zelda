@@ -8,7 +8,7 @@ class PlayerInputSystem : public IInputSystem {
 public:
     using IInputSystem::IInputSystem;
 
-    void handle_input(SDL_Event& e) override;
+    void handle_input_for_entity(SDL_Event& e, Entity& entity) override;
 };
 
 #endif

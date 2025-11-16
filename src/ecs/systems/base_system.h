@@ -27,7 +27,8 @@ public:
         m_ecs = manager;
     }
 
-    void virtual handle_input(SDL_Event& e) = 0;
+    void handle_input(SDL_Event& e);
+    void virtual handle_input_for_entity(SDL_Event& e, Entity& entity) = 0;
 
 protected:
     ECSManager* m_ecs;  // non-owning

@@ -6,6 +6,7 @@
 #include "ecs/components/movement.h"
 #include "ecs/components/player.h"
 #include "ecs/components/collider.h"
+#include "ecs/components/clickable.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -78,6 +79,16 @@ Entity* load_player(ECSManager& ecs) {
         return NULL;
     }
 
+    ClickHandler on_click = [&ecs](Entity& entity) {
+        Position& player_position = *ecs.get_component<Position>(entity);
+        printf("Player at (%d, %d)\n", player_position.get_x(), player_position.get_y());
+    };
+
+    std::unique_ptr<Clickable> clickable (new Clickable(on_click));
+    if (ecs.add_component<Clickable>(*player, std::move(clickable)) == NULL) {
+        printf("failed to load clickable for player\n");
+    }
+
     return player;
 }
 
@@ -92,7 +103,7 @@ Entity* load_enemy(ECSManager& ecs) {
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/oktorok__red.png", 16, 16));
     if (ecs.add_component<Sprite>(*enemy, std::move(sprite)) == NULL) {
-        printf("failed to add Sprite component for Player\n");
+        printf("failed to add Sprite component for enemy\n");
         return NULL;
     }
 
@@ -101,13 +112,13 @@ Entity* load_enemy(ECSManager& ecs) {
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
     ));
     if (ecs.add_component<Position>(*enemy, std::move(position)) == NULL) {
-        printf("failed to add Position for player\n");
+        printf("failed to add Position for enemy\n");
         return NULL;
     }
 
     std::unique_ptr<Velocity> velocity (new Velocity());
     if (ecs.add_component<Velocity>(*enemy, std::move(velocity)) == NULL) {
-        printf("failed to add Velocity for player\n");
+        printf("failed to add Velocity for enemy\n");
         return NULL;
     }
 
@@ -118,7 +129,16 @@ Entity* load_enemy(ECSManager& ecs) {
         16
     ));
     if (ecs.add_component<Collider>(*enemy, std::move(collider)) == NULL) {
-        printf("failed to load collider for player\n");
+        printf("failed to load collider for enemy\n");
+        return NULL;
+    }
+
+    ClickHandler on_click = [&ecs](Entity& entity) {
+        printf("I'm so hungry, I could eat an oktorok!\n");
+    };
+    std::unique_ptr<Clickable> clickable (new Clickable(on_click));
+    if (ecs.add_component<Clickable>(*enemy, std::move(clickable)) == NULL) {
+        printf("failed to load clickable for enemy\n");
         return NULL;
     }
 

@@ -16,9 +16,11 @@ build:
 	src/ecs/components/position.cpp \
 	src/ecs/components/velocity.cpp \
 	src/ecs/components/collider.cpp \
+	src/ecs/components/clickable.cpp \
 	src/ecs/ecs_manager.cpp \
 	src/ecs/systems/sprite_renderer.cpp \
 	src/ecs/systems/base_system.cpp \
 	src/ecs/systems/player_input.cpp \
 	src/ecs/systems/movement_system.cpp \
+	src/ecs/systems/click_system.cpp \
 	${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer

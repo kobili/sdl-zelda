@@ -19,6 +19,7 @@
 #include "src/ecs/systems/sprite_renderer.h"
 #include "src/ecs/systems/player_input.h"
 #include "src/ecs/systems/movement_system.h"
+#include "src/ecs/systems/click_system.h"
 
 #include "src/ecs/components/position.h"
 #include "src/ecs/components/sprite.h"
@@ -51,6 +52,7 @@ int main(int argc, char* args[]) {
 
     SpriteRenderSystem sprite_render_system = SpriteRenderSystem(&ecs, manager.get(), _camera.get(), &window);
     PlayerInputSystem player_input_system = PlayerInputSystem(&ecs);
+    ClickSystem click_system = ClickSystem(&ecs, &window, _camera.get());
     MovementSystem movement_system = MovementSystem(&ecs);
 
     Entity* _player = load_player(ecs);
@@ -78,6 +80,7 @@ int main(int argc, char* args[]) {
 
             window.handle_event(e);
             camera.handle_event(e);
+            click_system.handle_input(e);
             player_input_system.handle_input(e);
         }
 
