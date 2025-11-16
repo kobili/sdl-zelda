@@ -1,28 +1,22 @@
-SDL_FLAGS := $(shell sdl2-config --cflags --libs)
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall
 
-build:
-	g++ -std=c++11 -o app \
-	src/main.cpp \
-	src/window.cpp \
-	src/sdl_utils.cpp \
-	src/utils.cpp \
-	src/startup_funcs.cpp \
-	src/texture_manager.cpp \
-	src/texture.cpp \
-	src/cameras/camera.cpp \
-	src/cameras/zone_camera.cpp \
-	src/cameras/panning_camera.cpp \
-	src/ecs/entity.cpp \
-	src/ecs/components/sprite.cpp \
-	src/ecs/components/position.cpp \
-	src/ecs/components/velocity.cpp \
-	src/ecs/components/collider.cpp \
-	src/ecs/components/clickable.cpp \
-	src/ecs/managers/ecs_manager.cpp \
-	src/ecs/managers/system_manager.cpp \
-	src/ecs/systems/sprite_renderer.cpp \
-	src/ecs/systems/base_system.cpp \
-	src/ecs/systems/player_input.cpp \
-	src/ecs/systems/movement_system.cpp \
-	src/ecs/systems/click_system.cpp \
-	${SDL_FLAGS} -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+SRC_DIR = src
+BUILD_DIR = build
+TARGET = app
+
+SDL_FLAGS := $(shell sdl2-config --cflags)
+SDL_LIBS = $(shell sdl2-config --libs ) -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+
+SRC = $(shell find ${SRC_DIR} -name '*.cpp')
+OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+
+
+all: app
+
+app: $(OBJ)
+	$(CXX) $(OBJ) -o $@ $(SDL_FLAGS) $(SDL_LIBS)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(SDL_FLAGS) -c $< -o $@

@@ -153,6 +153,13 @@ Entity* load_enemy(ECSManager& ecs) {
     }
 
     ClickHandler on_click = [&ecs](Entity& entity) {
+        Sprite* _sprite_value = ecs.get_component<Sprite>(entity);
+        if (_sprite_value == NULL) {
+            return;
+        }
+        if (_sprite_value->get_texture_name() != "resources/sprites/oktorok__red.png") {
+            return;
+        }
         printf("I'm so hungry, I could eat an oktorok!\n");
     };
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
