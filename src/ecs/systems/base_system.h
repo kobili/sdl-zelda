@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 
-#include "../ecs_manager.h"
+#include "../managers/ecs_manager.h"
 
 
 class ISystem {

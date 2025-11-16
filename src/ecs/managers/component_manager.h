@@ -5,7 +5,7 @@
 #include <typeindex>
 #include <memory>
 
-#include "entity.h"
+#include "../entity.h"
 
 
 class ComponentManager {

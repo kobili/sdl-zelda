@@ -8,7 +8,7 @@
 #include <unordered_set>
 #include <typeindex>
 
-#include "entity.h"
+#include "../entity.h"
 #include "component_manager.h"
 
 

@@ -15,7 +15,7 @@
 #include "src/cameras/zone_camera.h"
 #include "src/cameras/panning_camera.h"
 
-#include "src/ecs/ecs_manager.h"
+#include "src/ecs/managers/ecs_manager.h"
 #include "src/ecs/managers/system_manager.h"
 
 #include "src/ecs/systems/sprite_renderer.h"
