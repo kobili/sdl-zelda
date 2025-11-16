@@ -3,7 +3,10 @@
 
 #include "SDL.h"
 
-#include "../managers/ecs_manager.h"
+#include "../entity.h"
+// #include "../managers/ecs_manager.h"
+
+class ECSManager; // forward declaration
 
 
 class ISystem {

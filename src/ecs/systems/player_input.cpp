@@ -4,6 +4,7 @@
 #include "../components/player.h"
 #include "../components/movement.h"
 #include "../components/velocity.h"
+#include "../managers/ecs_manager.h"
 
 
 void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {

@@ -2,6 +2,7 @@
 
 #include "../components/position.h"
 #include "../components/sprite.h"
+#include "../managers/ecs_manager.h"
 
 
 SpriteRenderSystem::SpriteRenderSystem(

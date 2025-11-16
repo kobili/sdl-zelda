@@ -1,5 +1,7 @@
 #include "base_system.h"
 
+#include "../managers/ecs_manager.h"
+
 void ISystem::update() {
     for (auto& _entity : m_ecs->get_entities()) {
         Entity& entity = *_entity;

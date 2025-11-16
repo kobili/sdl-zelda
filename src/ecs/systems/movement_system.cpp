@@ -6,6 +6,7 @@
 #include "../components/velocity.h"
 #include "../components/position.h"
 #include "../components/collider.h"
+#include "../managers/ecs_manager.h"
 
 #include "../../constants.h"
 #include "../../utils.h"

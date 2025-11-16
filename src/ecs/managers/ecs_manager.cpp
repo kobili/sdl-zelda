@@ -19,3 +19,23 @@ Entity* ECSManager::add_entity(std::unique_ptr<Entity> entity) {
 const std::vector<std::unique_ptr<Entity>>& ECSManager::get_entities() const {
     return m_entities;
 }
+
+
+ISystem* ECSManager::register_system(std::unique_ptr<ISystem> system, int priority) {
+    return m_system_manager.register_system(std::move(system), priority);
+}
+
+
+IInputSystem* ECSManager::register_system(std::unique_ptr<IInputSystem> system, int priority) {
+    return m_system_manager.register_system(std::move(system), priority);
+}
+
+
+void ECSManager::handle_input(SDL_Event& e) {
+    m_system_manager.handle_input(e);
+}
+
+
+void ECSManager::update() {
+    m_system_manager.update();
+}

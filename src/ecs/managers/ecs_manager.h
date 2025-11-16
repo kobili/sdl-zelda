@@ -10,6 +10,7 @@
 
 #include "../entity.h"
 #include "component_manager.h"
+#include "system_manager.h" // might cause a circular dependency
 
 
 class ECSManager {
@@ -33,8 +34,17 @@ public:
         return m_component_manager.get_component<T>(entity);
     }
 
+    ISystem* register_system(std::unique_ptr<ISystem> system, int priority);
+    IInputSystem* register_system(std::unique_ptr<IInputSystem> system, int priority);
+
+    void handle_input(SDL_Event& e);
+    void update();
+
 private:
     ComponentManager m_component_manager;
+
+    SystemManager m_system_manager;
+
     std::vector<std::unique_ptr<Entity>> m_entities;
 
     // for deduplication

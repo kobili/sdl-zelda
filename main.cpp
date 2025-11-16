@@ -52,19 +52,17 @@ int main(int argc, char* args[]) {
 
     ECSManager ecs;
 
-    SystemManager system_manager;
-
     std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
-    system_manager.register_system(std::move(movement_system), 1);
+    ecs.register_system(std::move(movement_system), 1);
 
     std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, manager.get(), _camera.get(), &window));
-    system_manager.register_system(std::move(sprite_render_system), 2);
+    ecs.register_system(std::move(sprite_render_system), 2);
 
     std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, &window, _camera.get()));
-    system_manager.register_system(std::move(click_system), 1);
+    ecs.register_system(std::move(click_system), 1);
 
     std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs));
-    system_manager.register_system(std::move(player_input_system), 2);
+    ecs.register_system(std::move(player_input_system), 2);
 
     Entity* _player = load_player(ecs);
     if (_player == NULL) {
@@ -92,7 +90,7 @@ int main(int argc, char* args[]) {
             window.handle_event(e);
             camera.handle_event(e);
 
-            system_manager.handle_input(e);
+            ecs.handle_input(e);
         }
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
@@ -110,7 +108,7 @@ int main(int argc, char* args[]) {
 
         camera.move();
 
-        system_manager.update();
+        ecs.update();
 
         SDL_RenderPresent(renderer);
     }

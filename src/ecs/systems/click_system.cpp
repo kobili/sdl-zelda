@@ -5,6 +5,7 @@
 
 #include "../components/collider.h"
 #include "../components/clickable.h"
+#include "../managers/ecs_manager.h"
 
 
 ClickSystem::ClickSystem(ECSManager* manager, Window* window, Camera* camera) : IInputSystem(manager) {
