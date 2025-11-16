@@ -12,6 +12,8 @@ public:
         m_ecs = manager;
     };
 
+    virtual ~ISystem() = default;
+
     void update();
 
     void virtual update_entity(Entity& entity) = 0;
@@ -26,6 +28,8 @@ public:
     IInputSystem(ECSManager* manager) {
         m_ecs = manager;
     }
+
+    virtual ~IInputSystem() = default;
 
     void handle_input(SDL_Event& e);
     void virtual handle_input_for_entity(SDL_Event& e, Entity& entity) = 0;

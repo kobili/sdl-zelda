@@ -19,6 +19,7 @@ build:
 	src/ecs/components/collider.cpp \
 	src/ecs/components/clickable.cpp \
 	src/ecs/ecs_manager.cpp \
+	src/ecs/managers/system_manager.cpp \
 	src/ecs/systems/sprite_renderer.cpp \
 	src/ecs/systems/base_system.cpp \
 	src/ecs/systems/player_input.cpp \
