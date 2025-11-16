@@ -18,7 +18,7 @@ public:
     TextureManager(const TextureManager&) = delete;
     TextureManager& operator=(const TextureManager&) = delete;
 
-    bool load_texture(std::string file_path);
+    bool load_texture(std::string file_path, RGB* colour_key = nullptr);
     Texture* get_texture(std::string file_path);
     bool has_texture(std::string file_path);
 

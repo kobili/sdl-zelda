@@ -5,13 +5,20 @@
 #include <string>
 
 
+struct RGB {
+    Uint8 r;
+    Uint8 g;
+    Uint8 b;
+};
+
+
 class Texture {
 public:
     Texture();
     ~Texture();
 
     void free();
-    bool load_texture(SDL_Renderer* renderer, const char* path);
+    bool load_texture(SDL_Renderer* renderer, const char* path, RGB* colour_key = nullptr);
 
     /**
     * Render the texture at x, y in the world. The position will be scaled based on the

@@ -7,9 +7,9 @@ TextureManager::TextureManager(Window* window) {
 }
 
 
-bool TextureManager::load_texture(std::string file_path) {
+bool TextureManager::load_texture(std::string file_path, RGB* colour_key) {
     std::unique_ptr<Texture> texture (new Texture());
-    if (!texture->load_texture(m_renderer, file_path.c_str())) {
+    if (!texture->load_texture(m_renderer, file_path.c_str(), colour_key)) {
         return false;
     }
 

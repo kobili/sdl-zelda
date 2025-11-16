@@ -36,7 +36,7 @@ void Texture::free() {
 }
 
 
-bool Texture::load_texture(SDL_Renderer* renderer, const char* path) {
+bool Texture::load_texture(SDL_Renderer* renderer, const char* path, RGB* colour_key) {
     free();
 
     m_renderer = renderer;
@@ -49,6 +49,14 @@ bool Texture::load_texture(SDL_Renderer* renderer, const char* path) {
 
     w = surface->w;
     h = surface->h;
+
+    if (colour_key != nullptr) {
+        SDL_SetColorKey(
+            surface,
+            SDL_TRUE,
+            SDL_MapRGB(surface->format, colour_key->r, colour_key->g, colour_key->b)
+        );
+    }
 
     m_texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
