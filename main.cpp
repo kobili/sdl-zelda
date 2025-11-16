@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
-#include <string>
 #include <memory>
 
 #include "SDL.h"
@@ -15,19 +13,9 @@
 #include "src/cameras/zone_camera.h"
 #include "src/cameras/panning_camera.h"
 
+#include "src/ecs/entity.h"
+
 #include "src/ecs/managers/ecs_manager.h"
-#include "src/ecs/managers/system_manager.h"
-
-#include "src/ecs/systems/sprite_renderer.h"
-#include "src/ecs/systems/player_input.h"
-#include "src/ecs/systems/movement_system.h"
-#include "src/ecs/systems/click_system.h"
-
-#include "src/ecs/components/position.h"
-#include "src/ecs/components/sprite.h"
-#include "src/ecs/components/movement.h"
-#include "src/ecs/components/velocity.h"
-#include "src/ecs/components/player.h"
 
 
 int main(int argc, char* args[]) {
@@ -52,17 +40,7 @@ int main(int argc, char* args[]) {
 
     ECSManager ecs;
 
-    std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
-    ecs.register_system(std::move(movement_system), 1);
-
-    std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, manager.get(), _camera.get(), &window));
-    ecs.register_system(std::move(sprite_render_system), 2);
-
-    std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, &window, _camera.get()));
-    ecs.register_system(std::move(click_system), 1);
-
-    std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs));
-    ecs.register_system(std::move(player_input_system), 2);
+    load_systems(ecs, manager.get(), _camera.get(), &window);
 
     Entity* _player = load_player(ecs);
     if (_player == NULL) {

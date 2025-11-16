@@ -1,5 +1,7 @@
 #include "startup_funcs.h"
+
 #include "constants.h"
+
 #include "ecs/components/sprite.h"
 #include "ecs/components/position.h"
 #include "ecs/components/velocity.h"
@@ -7,6 +9,11 @@
 #include "ecs/components/player.h"
 #include "ecs/components/collider.h"
 #include "ecs/components/clickable.h"
+
+#include "ecs/systems/click_system.h"
+#include "ecs/systems/movement_system.h"
+#include "ecs/systems/player_input.h"
+#include "ecs/systems/sprite_renderer.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -143,4 +150,18 @@ Entity* load_enemy(ECSManager& ecs) {
     }
 
     return enemy;
+}
+
+void load_systems(ECSManager& ecs, TextureManager* texture_manager, Camera* camera, Window* window) {
+    std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
+    ecs.register_system(std::move(movement_system), 1);
+
+    std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
+    ecs.register_system(std::move(sprite_render_system), 2);
+
+    std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, window, camera));
+    ecs.register_system(std::move(click_system), 1);
+
+    std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs));
+    ecs.register_system(std::move(player_input_system), 2);
 }
