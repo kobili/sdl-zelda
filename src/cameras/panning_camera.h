@@ -9,7 +9,7 @@ const int DEFAULT_CAMERA_SPEED = 5;
 
 class PanningCamera : public Camera {
 public:
-    PanningCamera(int x, int y, ObservableWindow* window);
+    PanningCamera(int x, int y);
     void handle_event(SDL_Event& e) override;
     void move() override;
 

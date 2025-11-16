@@ -2,7 +2,7 @@
 #include "../constants.h"
 
 
-PanningCamera::PanningCamera(int x, int y, ObservableWindow* window) : Camera(x, y, window) {
+PanningCamera::PanningCamera(int x, int y) : Camera(x, y) {
     vel_x = 0;
     vel_y = 0;
 }

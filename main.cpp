@@ -13,6 +13,7 @@
 #include "src/startup_funcs.h"
 #include "src/texture_manager.h"
 #include "src/cameras/zone_camera.h"
+#include "src/cameras/panning_camera.h"
 
 #include "src/ecs/ecs_manager.h"
 

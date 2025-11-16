@@ -11,6 +11,7 @@ build:
 	src/texture.cpp \
 	src/cameras/camera.cpp \
 	src/cameras/zone_camera.cpp \
+	src/cameras/panning_camera.cpp \
 	src/ecs/entity.cpp \
 	src/ecs/components/sprite.cpp \
 	src/ecs/components/position.cpp \
