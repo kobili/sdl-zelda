@@ -13,8 +13,6 @@
 #include "src/cameras/zone_camera.h"
 #include "src/cameras/panning_camera.h"
 
-#include "src/ecs/entity.h"
-
 #include "src/ecs/managers/ecs_manager.h"
 
 
@@ -39,22 +37,7 @@ int main(int argc, char* args[]) {
     }
 
     ECSManager ecs;
-
     load_systems(ecs, manager.get(), _camera.get(), &window);
-
-    Entity* _player = load_player(ecs);
-    if (_player == NULL) {
-        printf("failed to load player. Exiting...\n");
-        return -1;
-    }
-    Entity& player = *_player;
-
-    Entity* _enemy = load_enemy(ecs);
-    if (_enemy == NULL) {
-        printf("failed to load enemy. Exiting...\n");
-        return -1;
-    }
-    Entity& enemy = *_enemy;
 
     SDL_Event e;
     int running = 1;
