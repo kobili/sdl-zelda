@@ -15,8 +15,6 @@ public:
 
     int get_x();
     int get_y();
-    double get_scale_x();
-    double get_scale_y();
 
     SDL_Rect get_collider();
 
@@ -31,8 +29,6 @@ protected:
     // location of the upper left corner of the camera in world space
     int m_x, m_y;
     int m_w, m_h;
-
-    double scale_x, scale_y;
 };
 
 #endif

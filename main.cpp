@@ -40,19 +40,14 @@ int main(int argc, char* args[]) {
 
     ECSManager ecs;
     load_systems(ecs, manager.get(), _camera.get(), &window);
-    Entity* _player = load_player(ecs);
-    if (_player == NULL) {
+    if (load_player(ecs) == NULL) {
         printf("failed to load player. Exiting...\n");
         return -1;
     }
-    Entity& player = *_player;
-
-    Entity* _enemy = load_enemy(ecs);
-    if (_enemy == NULL) {
+    if (load_enemy(ecs) == NULL) {
         printf("failed to load enemy. Exiting...\n");
         return -1;
     }
-    Entity& enemy = *_enemy;
 
     SDL_Event e;
     int running = 1;
