@@ -1,4 +1,4 @@
-CXX = g++
+CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -MMD -MP
 
 SRC_DIR = src
@@ -12,6 +12,11 @@ SRC = $(shell find ${SRC_DIR} -name '*.cpp')
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEPS = $(OBJ:.o=.d)
 
+
+PCH_EXT = pch
+PCH = $(BUILD_DIR)/pch.h.pch
+PCH_SRC = $(SRC_DIR)/pch.h
+
 TARGET = app
 
 
@@ -24,7 +29,12 @@ $(TARGET): $(OBJ)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $(SDL_FLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(SDL_FLAGS) -include $(SRC_DIR)/pch.h -c $< -o $@
+
+
+$(PCH) : $(PCH_SRC)
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(SDL_FLAGS) -x c++-header $< -o $@
 
 
 -include $(DEPS)
