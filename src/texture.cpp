@@ -78,7 +78,8 @@ void Texture::render(
     SDL_Rect* clip,
     double scale_x,
     double scale_y,
-    bool flip_horizontal
+    bool flip_horizontal,
+    bool flip_vertical
 ) {
     if (m_renderer == NULL) {
         printf("Texture has no renderer attached. Skipping render operation\n");
@@ -105,6 +106,9 @@ void Texture::render(
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     if (flip_horizontal) {
         flip = SDL_FLIP_HORIZONTAL;
+    }
+    if (flip_vertical) {
+        flip = SDL_FLIP_VERTICAL;
     }
 
     SDL_RenderCopyEx(
