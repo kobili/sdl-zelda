@@ -23,16 +23,6 @@ int Velocity::get_y() const {
 }
 
 
-void Velocity::add_x(int x) {
-    m_vel_x += x;
-}
-
-
-void Velocity::add_y(int y) {
-    m_vel_y += y;
-}
-
-
 void Velocity::set_x(int x) {
     m_vel_x = x;
 }

@@ -10,9 +10,6 @@ public:
     int get_x() const;
     int get_y() const;
 
-    void add_x(int x);
-    void add_y(int y);
-
     void set_x(int x);
     void set_y(int y);
 
