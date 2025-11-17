@@ -51,6 +51,8 @@ int main(int argc, char* args[]) {
     SDL_Event e;
     int running = 1;
 
+    Uint32 start_time = SDL_GetTicks64();
+
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) {
@@ -76,8 +78,11 @@ int main(int argc, char* args[]) {
             window.get_scale_y()
         );
 
-        camera.move();
+        Uint32 current_time = SDL_GetTicks64();
+        Uint32 dt = current_time - start_time;
+        start_time = current_time;
 
+        camera.move();
         ecs.update();
 
         SDL_RenderPresent(renderer);
