@@ -28,7 +28,7 @@ class SpriteAnimation {
 public:
     SpriteAnimation(
         Direction direction,
-        int rate_of_change,
+        int frame_duration_ms,
         std::vector<SpriteAnimationFrame> up_frames,
         std::vector<SpriteAnimationFrame> down_frames,
         std::vector<SpriteAnimationFrame> left_frames,
@@ -60,8 +60,8 @@ private:
 
     bool m_is_animating;
 
-    // control how often the sprite changes
-    int m_rate_of_change;  // not really a rate; i just dont know what to call it
+    // how long to stay on a single frame
+    int m_frame_duration_ms;
 
     std::vector<SpriteAnimationFrame> m_up_frames;
     std::vector<SpriteAnimationFrame> m_down_frames;
