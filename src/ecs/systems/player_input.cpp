@@ -42,9 +42,9 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
 
     SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
 
-    Direction new_direction = animation != NULL ? animation->get_direction() : Direction::UP;
-
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+        Direction new_direction = animation != NULL ? animation->get_direction() : Direction::UP;
+
         switch (e.key.keysym.sym) {
             case SDLK_UP:
             velocity.add_y(-1);
@@ -87,6 +87,19 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
             case SDLK_RIGHT:
             velocity.add_x(-1);
             break;
+        }
+
+        // check if there's still motion in one direction
+        if (velocity.get_x() < 0) {
+            update_animation_direction(animation, Direction::LEFT);
+        } else if (velocity.get_x() > 0) {
+            update_animation_direction(animation, Direction::RIGHT);
+        }
+
+        if (velocity.get_y() < 0) {
+            update_animation_direction(animation, Direction::UP);
+        } else if (velocity.get_y() > 0) {
+            update_animation_direction(animation, Direction::DOWN);
         }
     }
 }

@@ -11,6 +11,8 @@ SpriteAnimation::SpriteAnimation(
     m_down_frames = down_frames;
     m_left_frames = left_frames;
     m_right_frames = right_frames;
+
+    m_direction = Direction::DOWN;
 }
 
 
