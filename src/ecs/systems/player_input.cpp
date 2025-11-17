@@ -29,25 +29,7 @@ void reset_velocity(Velocity& velocity) {
 }
 
 
-void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
-    Player* player = m_ecs->get_component<Player>(entity);
-    if (player == NULL) {
-        return;
-    }
-
-    Movement* movement = m_ecs->get_component<Movement>(entity);
-    if (movement == NULL) {
-        return;
-    }
-
-    Velocity* _velocity = m_ecs->get_component<Velocity>(entity);
-    if (_velocity == NULL) {
-        return;
-    }
-    Velocity& velocity = *_velocity;
-
-    SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
-
+void handle_movement_inputs(SDL_Event& e, Velocity& velocity, SpriteAnimation* animation) {
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         Direction new_direction = animation != NULL ? animation->get_direction() : Direction::UP;
 
@@ -118,6 +100,38 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
 
         if (set_direction) {
             update_animation_direction(animation, new_direction);
+        }
+    }
+}
+
+
+void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
+    Player* player = m_ecs->get_component<Player>(entity);
+    if (player == NULL) {
+        return;
+    }
+
+    Movement* movement = m_ecs->get_component<Movement>(entity);
+    if (movement == NULL) {
+        return;
+    }
+
+    Velocity* _velocity = m_ecs->get_component<Velocity>(entity);
+    if (_velocity == NULL) {
+        return;
+    }
+    Velocity& velocity = *_velocity;
+
+    SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
+
+    handle_movement_inputs(e, velocity, animation);
+
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+        switch (e.key.keysym.sym) {
+            case SDLK_f:
+            reset_velocity(velocity);
+            printf("Attacked\n");
+            break;
         }
     }
 
