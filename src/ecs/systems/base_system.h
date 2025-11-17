@@ -17,9 +17,9 @@ public:
 
     virtual ~ISystem() = default;
 
-    void update();
+    void update(Uint32 dt);
 
-    void virtual update_entity(Entity& entity) = 0;
+    void virtual update_entity(Entity& entity, Uint32 dt) = 0;
 
 protected:
     ECSManager* m_ecs;  // non-owning

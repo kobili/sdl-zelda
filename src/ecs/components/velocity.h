@@ -13,6 +13,8 @@ public:
     void add_x(int x);
     void add_y(int y);
 
+    bool in_motion();
+
 private:
     int m_vel_x, m_vel_y;
 };

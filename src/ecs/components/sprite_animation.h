@@ -38,11 +38,18 @@ public:
     SpriteAnimationFrame get_current_frame();
 
     void update_timer(Uint32 dt);
-    void reset_timer();
+
+    void start_animation();
+    void stop_animation();
+
+    bool is_animating();
+
 private:
     Direction m_direction;
 
     Uint32 timer;
+
+    bool m_is_animating;
 
     std::vector<SpriteAnimationFrame> m_up_frames;
     std::vector<SpriteAnimationFrame> m_down_frames;

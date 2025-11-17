@@ -32,9 +32,9 @@ void SystemManager::handle_input(SDL_Event& e) {
 }
 
 
-void SystemManager::update() {
+void SystemManager::update(Uint32 dt) {
     for (const auto& iter : m_systems) {
         ISystem& system = *iter.second;
-        system.update();
+        system.update(dt);
     }
 }

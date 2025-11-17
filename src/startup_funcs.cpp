@@ -15,6 +15,7 @@
 #include "ecs/systems/movement_system.h"
 #include "ecs/systems/player_input.h"
 #include "ecs/systems/sprite_renderer.h"
+#include "ecs/systems/animation_system.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -208,8 +209,11 @@ void load_systems(ECSManager& ecs, TextureManager* texture_manager, Camera* came
     std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
     ecs.register_system(std::move(movement_system), 1);
 
+    std::unique_ptr<AnimationSystem> sprite_animation_system (new AnimationSystem(&ecs));
+    ecs.register_system(std::move(sprite_animation_system), 2);
+
     std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(sprite_render_system), 2);
+    ecs.register_system(std::move(sprite_render_system), 3);
 
     std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, window, camera));
     ecs.register_system(std::move(click_system), 1);

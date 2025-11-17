@@ -36,6 +36,6 @@ void ECSManager::handle_input(SDL_Event& e) {
 }
 
 
-void ECSManager::update() {
-    m_system_manager.update();
+void ECSManager::update(Uint32 dt) {
+    m_system_manager.update(dt);
 }

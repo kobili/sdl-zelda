@@ -12,7 +12,7 @@ class SpriteRenderSystem : public ISystem  {
 public:
     SpriteRenderSystem(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
 
-    void update_entity(Entity& entity) override;
+    void update_entity(Entity& entity, Uint32 dt) override;
 
 private:
     TextureManager* m_texture_manager;

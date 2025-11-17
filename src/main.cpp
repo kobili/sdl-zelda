@@ -83,7 +83,7 @@ int main(int argc, char* args[]) {
         start_time = current_time;
 
         camera.move();
-        ecs.update();
+        ecs.update(dt);
 
         SDL_RenderPresent(renderer);
     }

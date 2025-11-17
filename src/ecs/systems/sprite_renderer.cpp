@@ -14,7 +14,7 @@ SpriteRenderSystem::SpriteRenderSystem(
     m_window = window;
 }
 
-void SpriteRenderSystem::update_entity(Entity& entity) {
+void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
     Sprite* sprite = m_ecs->get_component<Sprite>(entity);
     if (sprite == NULL) {
         return;

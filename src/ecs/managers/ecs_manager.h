@@ -38,7 +38,7 @@ public:
     IInputSystem* register_system(std::unique_ptr<IInputSystem> system, int priority);
 
     void handle_input(SDL_Event& e);
-    void update();
+    void update(Uint32 dt);
 
 private:
     ComponentManager m_component_manager;

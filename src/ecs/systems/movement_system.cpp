@@ -12,7 +12,7 @@
 #include "../../utils.h"
 
 
-void MovementSystem::update_entity(Entity& entity) {
+void MovementSystem::update_entity(Entity& entity, Uint32 dt) {
     Movement* movement = m_ecs->get_component<Movement>(entity);
     if (movement == NULL) {
         return;

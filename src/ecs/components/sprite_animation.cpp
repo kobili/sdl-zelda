@@ -13,6 +13,10 @@ SpriteAnimation::SpriteAnimation(
     m_right_frames = right_frames;
 
     m_direction = Direction::DOWN;
+
+    m_is_animating = false;
+
+    timer = 0;
 }
 
 
@@ -30,19 +34,20 @@ void SpriteAnimation::set_direction(Direction dir) {
 
 
 SpriteAnimationFrame SpriteAnimation::get_current_frame() {
-    // TODO: make this select specific frames based on the timer
+    int selected_frame = timer / 100;
+
     switch (m_direction) {
         case Direction::UP:
-        return m_up_frames[0];
+        return m_up_frames[selected_frame % m_up_frames.size()];
 
         case Direction::DOWN:
-        return m_down_frames[0];
+        return m_down_frames[selected_frame % m_up_frames.size()];
         
         case Direction::RIGHT:
-        return m_right_frames[0];
+        return m_right_frames[selected_frame % m_up_frames.size()];
 
         case Direction::LEFT:
-        return m_left_frames[0];
+        return m_left_frames[selected_frame % m_up_frames.size()];
     }
 }
 
@@ -52,6 +57,17 @@ void SpriteAnimation::update_timer(Uint32 dt) {
 }
 
 
-void SpriteAnimation::reset_timer() {
+void SpriteAnimation::start_animation() {
+    m_is_animating = true;
+}
+
+
+void SpriteAnimation::stop_animation() {
+    m_is_animating = false;
     timer = 0;
+}
+
+
+bool SpriteAnimation::is_animating() {
+    return m_is_animating;
 }

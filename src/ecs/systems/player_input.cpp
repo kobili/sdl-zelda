@@ -68,6 +68,9 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
         }
 
         update_animation_direction(animation, new_direction);
+        if (animation != NULL) {
+            animation->start_animation();
+        }
     }
 
     if (e.type == SDL_KEYUP && e.key.repeat == 0) {
@@ -90,16 +93,22 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
         }
 
         // check if there's still motion in one direction
-        if (velocity.get_x() < 0) {
-            update_animation_direction(animation, Direction::LEFT);
-        } else if (velocity.get_x() > 0) {
-            update_animation_direction(animation, Direction::RIGHT);
-        }
-
-        if (velocity.get_y() < 0) {
-            update_animation_direction(animation, Direction::UP);
-        } else if (velocity.get_y() > 0) {
-            update_animation_direction(animation, Direction::DOWN);
+        if (animation != NULL) {
+            if (velocity.in_motion()) {
+                if (velocity.get_x() < 0) {
+                    update_animation_direction(animation, Direction::LEFT);
+                } else if (velocity.get_x() > 0) {
+                    update_animation_direction(animation, Direction::RIGHT);
+                }
+        
+                if (velocity.get_y() < 0) {
+                    update_animation_direction(animation, Direction::UP);
+                } else if (velocity.get_y() > 0) {
+                    update_animation_direction(animation, Direction::DOWN);
+                }
+            } else {
+                animation->stop_animation();
+            }
         }
     }
 }
