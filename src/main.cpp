@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "SDL.h"
-#include "SDL_image.h"
 
 #include "constants.h"
 #include "sdl_utils.h"

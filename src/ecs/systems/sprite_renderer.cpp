@@ -2,6 +2,7 @@
 
 #include "../components/position.h"
 #include "../components/sprite.h"
+#include "../components/sprite_animation.h"
 #include "../managers/ecs_manager.h"
 
 
@@ -27,7 +28,15 @@ void SpriteRenderSystem::update_entity(Entity& entity) {
         return;
     }
 
-    SDL_Rect clip = sprite->get_sprite(0, 0);
+    SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
+    SDL_Rect clip;
+    if (animation != NULL) {
+        SpriteAnimationFrame frame = animation->get_current_frame();
+        clip = sprite->get_sprite(frame.col, frame.row);
+    } else {
+        clip = sprite->get_sprite(0, 0);
+    }
+
     texture->render(
         position->get_x() - m_camera->get_x(),
         position->get_y() - m_camera->get_y(),

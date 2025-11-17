@@ -9,6 +9,7 @@
 #include "ecs/components/player.h"
 #include "ecs/components/collider.h"
 #include "ecs/components/clickable.h"
+#include "ecs/components/sprite_animation.h"
 
 #include "ecs/systems/click_system.h"
 #include "ecs/systems/movement_system.h"
@@ -47,6 +48,33 @@ bool load_textures(TextureManager* manager) {
     }
 
     return true;
+}
+
+
+std::unique_ptr<SpriteAnimation> load_player_animations() {
+    std::vector<SpriteAnimationFrame> up_frames = {
+        {4, 0, false},
+        {5, 0, false}
+    };
+
+    std::vector<SpriteAnimationFrame> down_frames = {
+        {0, 0, false},
+        {1, 0, false}
+    };
+
+    std::vector<SpriteAnimationFrame> right_frames = {
+        {2, 0, false},
+        {3, 0, false}
+    };
+
+    std::vector<SpriteAnimationFrame> left_frames = {
+        {2, 0, true},
+        {3, 0, true}
+    };
+
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(up_frames, down_frames, left_frames, right_frames));
+
+    return animation;
 }
 
 
@@ -106,6 +134,11 @@ Entity* load_player(ECSManager& ecs) {
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
     if (ecs.add_component<Clickable>(*player, std::move(clickable)) == NULL) {
         printf("failed to load clickable for player\n");
+    }
+
+    auto animation = load_player_animations();
+    if (ecs.add_component<SpriteAnimation>(*player, std::move(animation)) == NULL) {
+        printf("failed to load player animations");
     }
 
     return player;
