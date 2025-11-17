@@ -146,6 +146,33 @@ Entity* load_player(ECSManager& ecs) {
 }
 
 
+std::unique_ptr<SpriteAnimation> load_enemy_animation() {
+    std::vector<SpriteAnimationFrame> up_frames = {
+        {0, 0, false, true},
+        {1, 0, false, true}
+    };
+
+    std::vector<SpriteAnimationFrame> down_frames = {
+        {0, 0, false, false},
+        {1, 0, false, false}
+    };
+
+    std::vector<SpriteAnimationFrame> right_frames = {
+        {2, 0, true, false},
+        {3, 0, true, false}
+    };
+
+    std::vector<SpriteAnimationFrame> left_frames = {
+        {2, 0, false, false},
+        {3, 0, false, false}
+    };
+
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(up_frames, down_frames, left_frames, right_frames));
+
+    return animation;
+}
+
+
 Entity* load_enemy(ECSManager& ecs) {
     std::unique_ptr<Entity> _enemy (new Entity(2));
     Entity* enemy = ecs.add_entity(std::move(_enemy));
@@ -199,6 +226,14 @@ Entity* load_enemy(ECSManager& ecs) {
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
     if (ecs.add_component<Clickable>(*enemy, std::move(clickable)) == NULL) {
         printf("failed to load clickable for enemy\n");
+        return NULL;
+    }
+    
+    std::unique_ptr<SpriteAnimation> animation = load_enemy_animation();
+    animation->start_animation();
+    animation->set_direction(Direction::UP);
+    if (ecs.add_component<SpriteAnimation>(*enemy, std::move(animation)) == NULL) {
+        printf("failed to load animation for enemy.\n");
         return NULL;
     }
 
