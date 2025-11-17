@@ -3,7 +3,7 @@
 
 #include "base_system.h"
 
-class AnimationSystem : public ISystem {
+class SpriteAnimationSystem : public ISystem {
 public:
     using ISystem::ISystem;
 

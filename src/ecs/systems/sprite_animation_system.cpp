@@ -1,11 +1,11 @@
-#include "animation_system.h"
+#include "sprite_animation_system.h"
 
 #include "../components/sprite_animation.h"
 
 #include "../managers/ecs_manager.h"
 
 
-void AnimationSystem::update_entity(Entity& entity, Uint32 dt) {
+void SpriteAnimationSystem::update_entity(Entity& entity, Uint32 dt) {
     SpriteAnimation* _animation = m_ecs->get_component<SpriteAnimation>(entity);
     if (_animation == NULL) {
         return;
