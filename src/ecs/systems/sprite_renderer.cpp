@@ -33,7 +33,7 @@ void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
     bool flip_horizontal = false;
     if (animation != NULL) {
         SpriteAnimationFrame frame = animation->get_current_frame();
-        flip_horizontal = frame.flipped;
+        flip_horizontal = frame.flip_horizontal;
         clip = sprite->get_sprite(frame.col, frame.row);
     } else {
         clip = sprite->get_sprite(0, 0);

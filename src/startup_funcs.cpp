@@ -54,23 +54,23 @@ bool load_textures(TextureManager* manager) {
 
 std::unique_ptr<SpriteAnimation> load_player_animations() {
     std::vector<SpriteAnimationFrame> up_frames = {
-        {4, 0, false},
-        {5, 0, false}
+        {4, 0, false, false},
+        {5, 0, false, false}
     };
 
     std::vector<SpriteAnimationFrame> down_frames = {
-        {0, 0, false},
-        {1, 0, false}
+        {0, 0, false, false},
+        {1, 0, false, false}
     };
 
     std::vector<SpriteAnimationFrame> right_frames = {
-        {2, 0, false},
-        {3, 0, false}
+        {2, 0, false, false},
+        {3, 0, false, false}
     };
 
     std::vector<SpriteAnimationFrame> left_frames = {
-        {2, 0, true},
-        {3, 0, true}
+        {2, 0, true, false},
+        {3, 0, true, false}
     };
 
     std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(up_frames, down_frames, left_frames, right_frames));

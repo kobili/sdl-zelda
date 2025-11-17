@@ -11,7 +11,8 @@ struct SpriteAnimationFrame {
     int row;
 
     // if the sprite should be flipped
-    bool flipped;
+    bool flip_horizontal;
+    bool flip_vertical;
 };
 
 
