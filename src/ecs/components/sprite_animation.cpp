@@ -2,6 +2,19 @@
 
 
 SpriteAnimation::SpriteAnimation(
+    Direction direction,
+    int rate_of_change,
+    std::vector<SpriteAnimationFrame> up_frames,
+    std::vector<SpriteAnimationFrame> down_frames,
+    std::vector<SpriteAnimationFrame> left_frames,
+    std::vector<SpriteAnimationFrame> right_frames
+) : SpriteAnimation(up_frames, down_frames, left_frames, right_frames) {
+    m_direction = direction;
+    m_rate_of_change = rate_of_change;
+}
+
+
+SpriteAnimation::SpriteAnimation(
     std::vector<SpriteAnimationFrame> up_frames,
     std::vector<SpriteAnimationFrame> down_frames,
     std::vector<SpriteAnimationFrame> left_frames,
@@ -17,6 +30,8 @@ SpriteAnimation::SpriteAnimation(
     m_is_animating = false;
 
     timer = 0;
+
+    m_rate_of_change = 100;
 }
 
 
@@ -34,7 +49,7 @@ void SpriteAnimation::set_direction(Direction dir) {
 
 
 SpriteAnimationFrame SpriteAnimation::get_current_frame() {
-    int selected_frame = timer / 100;
+    int selected_frame = timer / m_rate_of_change;
 
     switch (m_direction) {
         case Direction::UP:

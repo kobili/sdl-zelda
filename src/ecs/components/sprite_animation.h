@@ -27,6 +27,14 @@ enum Direction {
 class SpriteAnimation {
 public:
     SpriteAnimation(
+        Direction direction,
+        int rate_of_change,
+        std::vector<SpriteAnimationFrame> up_frames,
+        std::vector<SpriteAnimationFrame> down_frames,
+        std::vector<SpriteAnimationFrame> left_frames,
+        std::vector<SpriteAnimationFrame> right_frames
+    );
+    SpriteAnimation(
         std::vector<SpriteAnimationFrame> up_frames,
         std::vector<SpriteAnimationFrame> down_frames,
         std::vector<SpriteAnimationFrame> left_frames,
@@ -51,6 +59,9 @@ private:
     Uint32 timer;
 
     bool m_is_animating;
+
+    // control how often the sprite changes
+    int m_rate_of_change;  // not really a rate; i just dont know what to call it
 
     std::vector<SpriteAnimationFrame> m_up_frames;
     std::vector<SpriteAnimationFrame> m_down_frames;

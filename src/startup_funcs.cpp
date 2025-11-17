@@ -167,7 +167,9 @@ std::unique_ptr<SpriteAnimation> load_enemy_animation() {
         {3, 0, false, false}
     };
 
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(up_frames, down_frames, left_frames, right_frames));
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(
+        Direction::UP, 200, up_frames, down_frames, left_frames, right_frames
+    ));
 
     return animation;
 }
