@@ -30,8 +30,10 @@ void SpriteRenderSystem::update_entity(Entity& entity) {
 
     SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
     SDL_Rect clip;
+    bool flip_horizontal = false;
     if (animation != NULL) {
         SpriteAnimationFrame frame = animation->get_current_frame();
+        flip_horizontal = frame.flipped;
         clip = sprite->get_sprite(frame.col, frame.row);
     } else {
         clip = sprite->get_sprite(0, 0);
@@ -42,6 +44,7 @@ void SpriteRenderSystem::update_entity(Entity& entity) {
         position->get_y() - m_camera->get_y(),
         &clip,
         m_window->get_scale_x(),
-        m_window->get_scale_y()
+        m_window->get_scale_y(),
+        flip_horizontal
     );
 }

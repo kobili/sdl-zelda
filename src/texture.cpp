@@ -72,7 +72,14 @@ bool Texture::load_texture(SDL_Renderer* renderer, const char* path, RGB* colour
 }
 
 
-void Texture::render(int x, int y, SDL_Rect* clip, double scale_x, double scale_y) {
+void Texture::render(
+    int x,
+    int y,
+    SDL_Rect* clip,
+    double scale_x,
+    double scale_y,
+    bool flip_horizontal
+) {
     if (m_renderer == NULL) {
         printf("Texture has no renderer attached. Skipping render operation\n");
         return;
@@ -95,11 +102,19 @@ void Texture::render(int x, int y, SDL_Rect* clip, double scale_x, double scale_
         dst.h = std::round(dst.h * scale_y);
     }
 
-    SDL_RenderCopy(
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    if (flip_horizontal) {
+        flip = SDL_FLIP_HORIZONTAL;
+    }
+
+    SDL_RenderCopyEx(
         m_renderer,
         m_texture,
-        clip != nullptr ? clip : NULL,
-        &dst
+        clip,
+        &dst,
+        0.0,
+        NULL,
+        flip
     );
 }
 
