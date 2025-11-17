@@ -23,6 +23,12 @@ void update_animation_direction(SpriteAnimation* _animation, Direction new_direc
 }
 
 
+void reset_velocity(Velocity& velocity) {
+    velocity.set_x(0);
+    velocity.set_y(0);
+}
+
+
 void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
     Player* player = m_ecs->get_component<Player>(entity);
     if (player == NULL) {
@@ -47,68 +53,79 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
 
         switch (e.key.keysym.sym) {
             case SDLK_UP:
-            velocity.add_y(-1);
+            reset_velocity(velocity);
+            velocity.set_y(-1);
             new_direction = Direction::UP;
             break;
 
             case SDLK_DOWN:
-            velocity.add_y(1);
+            reset_velocity(velocity);
+            velocity.set_y(1);
             new_direction = Direction::DOWN;
             break;
 
             case SDLK_LEFT:
-            velocity.add_x(-1);
+            reset_velocity(velocity);
+            velocity.set_x(-1);
             new_direction = Direction::LEFT;
             break;
 
             case SDLK_RIGHT:
-            velocity.add_x(1);
+            reset_velocity(velocity);
+            velocity.set_x(1);
             new_direction = Direction::RIGHT;
             break;
         }
 
         update_animation_direction(animation, new_direction);
-        if (animation != NULL) {
-            animation->start_animation();
-        }
     }
 
     if (e.type == SDL_KEYUP && e.key.repeat == 0) {
         switch (e.key.keysym.sym) {
             case SDLK_UP:
-            velocity.add_y(1);
-            break;
-
             case SDLK_DOWN:
-            velocity.add_y(-1);;
+            velocity.set_y(0);
             break;
 
             case SDLK_LEFT:
-            velocity.add_x(1);
-            break;
-
             case SDLK_RIGHT:
-            velocity.add_x(-1);
+            velocity.set_x(0);
             break;
         }
 
-        // check if there's still motion in one direction
-        if (animation != NULL) {
-            if (velocity.in_motion()) {
-                if (velocity.get_x() < 0) {
-                    update_animation_direction(animation, Direction::LEFT);
-                } else if (velocity.get_x() > 0) {
-                    update_animation_direction(animation, Direction::RIGHT);
-                }
+        // read key states and transition motion to whatever key is still being pressed
+        Direction new_direction = Direction::DOWN;
+        bool set_direction = false;
         
-                if (velocity.get_y() < 0) {
-                    update_animation_direction(animation, Direction::UP);
-                } else if (velocity.get_y() > 0) {
-                    update_animation_direction(animation, Direction::DOWN);
-                }
-            } else {
-                animation->stop_animation();
-            }
+        const Uint8* key_states = SDL_GetKeyboardState(NULL);
+        if (key_states[SDL_SCANCODE_UP]) {
+            velocity.set_y(-1);
+            new_direction = Direction::UP;
+            set_direction = true;
+        } else if (key_states[SDL_SCANCODE_DOWN]) {
+            velocity.set_y(1);
+            new_direction = Direction::DOWN;
+            set_direction = true;
+        } else if (key_states[SDL_SCANCODE_LEFT]) {
+            velocity.set_x(-1);
+            new_direction = Direction::LEFT;
+            set_direction = true;
+        } else if (key_states[SDL_SCANCODE_RIGHT]) {
+            velocity.set_x(1);
+            new_direction = Direction::RIGHT;
+            set_direction = true;
+        }
+
+        if (set_direction) {
+            update_animation_direction(animation, new_direction);
+        }
+    }
+
+    if (animation != NULL) {
+        if (velocity.in_motion()) {
+            animation->start_animation();
+        } else {
+            animation->stop_animation();
         }
     }
 }

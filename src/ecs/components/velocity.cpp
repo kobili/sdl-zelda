@@ -33,6 +33,16 @@ void Velocity::add_y(int y) {
 }
 
 
+void Velocity::set_x(int x) {
+    m_vel_x = x;
+}
+
+
+void Velocity::set_y(int y) {
+    m_vel_y = y;
+}
+
+
 bool Velocity::in_motion() {
     return m_vel_x || m_vel_y;
 }
