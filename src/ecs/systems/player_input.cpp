@@ -8,130 +8,98 @@
 #include "../managers/ecs_manager.h"
 
 
-void PlayerInputSystem::update_entity(Entity& entity, Uint32 dt) {
-    
+
+
+
+void update_animation_direction(SpriteAnimation* _animation, Direction new_direction) {
+    if (_animation == NULL) {
+        return;
+    }
+    SpriteAnimation& animation = *_animation;
+
+    if (new_direction == animation.get_direction()) {
+        return;
+    }
+
+    animation.set_direction(new_direction);
 }
 
 
-// void update_animation_direction(SpriteAnimation* _animation, Direction new_direction) {
-//     if (_animation == NULL) {
-//         return;
-//     }
-//     SpriteAnimation& animation = *_animation;
+void reset_velocity(Velocity& velocity) {
+    velocity.set_x(0);
+    velocity.set_y(0);
+}
 
-//     if (new_direction == animation.get_direction()) {
-//         return;
-//     }
+void PlayerInputSystem::update_entity(Entity& entity, Uint32 dt) {
+    printf("Hello %llu\n", (void*) m_ecs);
+    Player* player = m_ecs->get_component<Player>(entity);
+    if (player == NULL) {
+        return;
+    }
 
-//     animation.set_direction(new_direction);
-// }
+    Velocity* _velocity = m_ecs->get_component<Velocity>(entity);
+    if (_velocity == NULL) {
+        return;
+    }
+    Velocity& velocity = *_velocity;
+
+    SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
 
 
-// void reset_velocity(Velocity& velocity) {
-//     velocity.set_x(0);
-//     velocity.set_y(0);
-// }
+    auto pressed_keys = m_input_manager->get_pressed_keys();
+    auto key_binds = m_input_manager->get_keybinds();
 
+    for (SDL_Keycode key : pressed_keys) {
+        if (
+            key != key_binds[Action::WALK_UP]
+            && key != key_binds[Action::WALK_DOWN]
+            && key != key_binds[Action::WALK_LEFT]
+            && key != key_binds[Action::WALK_RIGHT]
+        ) {
+            continue;
+        }
 
-// void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
-//     Player* player = m_ecs->get_component<Player>(entity);
-//     if (player == NULL) {
-//         return;
-//     }
+        Direction new_direction = animation != NULL ? animation->get_direction() : Direction::UP;
 
-//     Velocity* _velocity = m_ecs->get_component<Velocity>(entity);
-//     if (_velocity == NULL) {
-//         return;
-//     }
-//     Velocity& velocity = *_velocity;
+        switch (key) {
+            case SDLK_UP:
+            reset_velocity(velocity);
+            velocity.set_y(-1);
+            new_direction = Direction::UP;
+            break;
 
-//     SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
+            case SDLK_DOWN:
+            reset_velocity(velocity);
+            velocity.set_y(1);
+            new_direction = Direction::DOWN;
+            break;
 
-//     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-//         Direction new_direction = animation != NULL ? animation->get_direction() : Direction::UP;
+            case SDLK_LEFT:
+            reset_velocity(velocity);
+            velocity.set_x(-1);
+            new_direction = Direction::LEFT;
+            break;
 
-//         switch (e.key.keysym.sym) {
-//             case SDLK_UP:
-//             reset_velocity(velocity);
-//             velocity.set_y(-1);
-//             new_direction = Direction::UP;
-//             break;
+            case SDLK_RIGHT:
+            reset_velocity(velocity);
+            velocity.set_x(1);
+            new_direction = Direction::RIGHT;
+            break;
+        }
 
-//             case SDLK_DOWN:
-//             reset_velocity(velocity);
-//             velocity.set_y(1);
-//             new_direction = Direction::DOWN;
-//             break;
+        update_animation_direction(animation, new_direction);
+        if (animation != NULL) {
+            animation->start_animation();
+        }
 
-//             case SDLK_LEFT:
-//             reset_velocity(velocity);
-//             velocity.set_x(-1);
-//             new_direction = Direction::LEFT;
-//             break;
+        // return early once a direction has been set
+        return;
+    }
 
-//             case SDLK_RIGHT:
-//             reset_velocity(velocity);
-//             velocity.set_x(1);
-//             new_direction = Direction::RIGHT;
-//             break;
-//         }
-
-//         update_animation_direction(animation, new_direction);
-//     }
-
-//     if (e.type == SDL_KEYUP && e.key.repeat == 0) {
-//         switch (e.key.keysym.sym) {
-//             case SDLK_UP:
-//             case SDLK_DOWN:
-//             velocity.set_y(0);
-//             break;
-
-//             case SDLK_LEFT:
-//             case SDLK_RIGHT:
-//             velocity.set_x(0);
-//             break;
-//         }
-
-//         if (
-//             e.key.keysym.sym == SDLK_UP
-//             || e.key.keysym.sym == SDLK_DOWN
-//             || e.key.keysym.sym == SDLK_LEFT
-//             || e.key.keysym.sym == SDLK_RIGHT
-//         ) {
-//             // read key states and transition motion to whatever key is still being pressed
-//             Direction new_direction = Direction::DOWN;
-//             bool set_direction = false;
-            
-//             const Uint8* key_states = SDL_GetKeyboardState(NULL);
-//             if (key_states[SDL_SCANCODE_UP]) {
-//                 velocity.set_y(-1);
-//                 new_direction = Direction::UP;
-//                 set_direction = true;
-//             } else if (key_states[SDL_SCANCODE_DOWN]) {
-//                 velocity.set_y(1);
-//                 new_direction = Direction::DOWN;
-//                 set_direction = true;
-//             } else if (key_states[SDL_SCANCODE_LEFT]) {
-//                 velocity.set_x(-1);
-//                 new_direction = Direction::LEFT;
-//                 set_direction = true;
-//             } else if (key_states[SDL_SCANCODE_RIGHT]) {
-//                 velocity.set_x(1);
-//                 new_direction = Direction::RIGHT;
-//                 set_direction = true;
-//             }
-    
-//             if (set_direction) {
-//                 update_animation_direction(animation, new_direction);
-//             }
-//         }
-//     }
-
-//     if (animation != NULL) {
-//         if (velocity.in_motion()) {
-//             animation->start_animation();
-//         } else {
-//             animation->stop_animation();
-//         }
-//     }
-// }
+    // at this point, we've iterated through all the pressed keys and none of them were movement keys
+    // ie. there should be no motion
+    reset_velocity(velocity);
+    if (animation != NULL) {
+        animation->stop_animation();
+    }
+}

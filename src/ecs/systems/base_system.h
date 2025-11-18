@@ -34,7 +34,6 @@ public:
     }
 
 protected:
-    ECSManager* m_ecs;  // non-owning
     InputManager* m_input_manager; // non-owning
 };
 

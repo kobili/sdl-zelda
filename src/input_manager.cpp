@@ -29,3 +29,13 @@ void InputManager::handle_input(SDL_Event& e) {
         );
     }
 }
+
+
+const std::vector<SDL_Keycode>& InputManager::get_pressed_keys() const {
+    return m_pressed_keys;
+}
+
+
+const std::map<Action, SDL_Keycode>& InputManager::get_keybinds() const {
+    return m_keybinds;
+}
