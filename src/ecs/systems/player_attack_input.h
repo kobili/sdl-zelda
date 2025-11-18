@@ -8,7 +8,7 @@ class PlayerAttackInputSystem : public IInputSystem {
 public:
     using IInputSystem::IInputSystem;
 
-    void virtual handle_input_for_entity(SDL_Event& e, Entity& entity);
+    void virtual update_entity(Entity& entity, Uint32 dt) override;
 };
 
 #endif

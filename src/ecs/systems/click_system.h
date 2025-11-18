@@ -8,8 +8,8 @@
 
 class ClickSystem : public IInputSystem {
 public:
-    ClickSystem(ECSManager* manager, Window* window, Camera* camera);
-    void handle_input_for_entity(SDL_Event& e, Entity& entity) override;
+    ClickSystem(ECSManager* manager, InputManager* input_manager, Window* window, Camera* camera);
+    void virtual update_entity(Entity& entity, Uint32 dt) override;
 
 private:
     Window* m_window;   // non-owning

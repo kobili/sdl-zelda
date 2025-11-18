@@ -42,7 +42,7 @@ int main(int argc, char* args[]) {
 
     InputManager input_manager;
 
-    load_systems(ecs, manager.get(), _camera.get(), &window);
+    load_systems(ecs, input_manager, manager.get(), _camera.get(), &window);
     if (load_player(ecs) == NULL) {
         printf("failed to load player. Exiting...\n");
         return -1;
@@ -67,8 +67,6 @@ int main(int argc, char* args[]) {
             camera.handle_event(e);
 
             input_manager.handle_input(e);
-
-            ecs.handle_input(e);
         }
 
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);

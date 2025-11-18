@@ -24,13 +24,6 @@ IInputSystem* SystemManager::register_system(std::unique_ptr<IInputSystem> syste
 }
 
 
-void SystemManager::handle_input(SDL_Event& e) {
-    for (const auto& iter : m_input_systems) {
-        IInputSystem& system = *iter.second;
-        system.handle_input(e);
-    }
-}
-
 
 void SystemManager::update(Uint32 dt) {
     for (const auto& iter : m_systems) {

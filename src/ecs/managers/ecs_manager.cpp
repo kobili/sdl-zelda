@@ -26,16 +26,6 @@ ISystem* ECSManager::register_system(std::unique_ptr<ISystem> system, int priori
 }
 
 
-IInputSystem* ECSManager::register_system(std::unique_ptr<IInputSystem> system, int priority) {
-    return m_system_manager.register_system(std::move(system), priority);
-}
-
-
-void ECSManager::handle_input(SDL_Event& e) {
-    m_system_manager.handle_input(e);
-}
-
-
 void ECSManager::update(Uint32 dt) {
     m_system_manager.update(dt);
 }

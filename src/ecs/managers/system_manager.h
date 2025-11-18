@@ -14,7 +14,6 @@ public:
     ISystem* register_system(std::unique_ptr<ISystem> system, int priority);
     IInputSystem* register_system(std::unique_ptr<IInputSystem> system, int priority);
 
-    void handle_input(SDL_Event& e);
     void update(Uint32 dt);
 
 private:

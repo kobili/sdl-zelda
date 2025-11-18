@@ -8,11 +8,3 @@ void ISystem::update(Uint32 dt) {
         update_entity(entity, dt);
     }
 }
-
-
-void IInputSystem::handle_input(SDL_Event& e) {
-    for (auto& _entity : m_ecs->get_entities()) {
-        Entity& entity = *_entity;
-        handle_input_for_entity(e, entity);
-    }
-}

@@ -243,22 +243,22 @@ Entity* load_enemy(ECSManager& ecs) {
     return enemy;
 }
 
-void load_systems(ECSManager& ecs, TextureManager* texture_manager, Camera* camera, Window* window) {
-    std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
-    ecs.register_system(std::move(movement_system), 1);
-
-    std::unique_ptr<SpriteAnimationSystem> sprite_animation_system (new SpriteAnimationSystem(&ecs));
-    ecs.register_system(std::move(sprite_animation_system), 2);
-
-    std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(sprite_render_system), 3);
-
-    std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, window, camera));
+void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* texture_manager, Camera* camera, Window* window) {
+    std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, &input_manager, window, camera));
     ecs.register_system(std::move(click_system), 1);
 
-    std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs));
+    std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs, &input_manager));
     ecs.register_system(std::move(player_input_system), 2);
 
-    std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs));
+    std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs, &input_manager));
     ecs.register_system(std::move(player_attack_input_system), 3);
+
+    std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
+    ecs.register_system(std::move(movement_system), 4);
+
+    std::unique_ptr<SpriteAnimationSystem> sprite_animation_system (new SpriteAnimationSystem(&ecs));
+    ecs.register_system(std::move(sprite_animation_system), 5);
+
+    std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
+    ecs.register_system(std::move(sprite_render_system), 6);
 }

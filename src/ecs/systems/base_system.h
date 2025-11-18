@@ -4,6 +4,7 @@
 #include "SDL.h"
 
 #include "../entity.h"
+#include "../../input_manager.h"
 
 
 class ECSManager; // forward declaration
@@ -26,19 +27,15 @@ protected:
 };
 
 
-class IInputSystem {
+class IInputSystem : public ISystem {
 public:
-    IInputSystem(ECSManager* manager) {
-        m_ecs = manager;
+    IInputSystem(ECSManager* manager, InputManager* input_manager) : ISystem(manager) {
+        m_input_manager = input_manager;
     }
-
-    virtual ~IInputSystem() = default;
-
-    void handle_input(SDL_Event& e);
-    void virtual handle_input_for_entity(SDL_Event& e, Entity& entity) = 0;
 
 protected:
     ECSManager* m_ecs;  // non-owning
+    InputManager* m_input_manager; // non-owning
 };
 
 #endif
