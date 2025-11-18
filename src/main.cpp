@@ -90,6 +90,8 @@ int main(int argc, char* args[]) {
         ecs.update(dt);
 
         SDL_RenderPresent(renderer);
+
+        input_manager.flush_mouse_events();
     }
 
     teardown_sdl();

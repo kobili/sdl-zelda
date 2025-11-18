@@ -16,7 +16,7 @@ struct SpriteAnimationFrame {
 };
 
 
-enum Direction {
+enum class Direction {
     UP,
     DOWN,
     LEFT,

@@ -8,9 +8,6 @@
 #include "../managers/ecs_manager.h"
 
 
-
-
-
 void update_animation_direction(SpriteAnimation* _animation, Direction new_direction) {
     if (_animation == NULL) {
         return;
@@ -31,7 +28,6 @@ void reset_velocity(Velocity& velocity) {
 }
 
 void PlayerInputSystem::update_entity(Entity& entity, Uint32 dt) {
-    printf("Hello %llu\n", (void*) m_ecs);
     Player* player = m_ecs->get_component<Player>(entity);
     if (player == NULL) {
         return;
