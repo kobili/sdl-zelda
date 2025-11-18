@@ -7,6 +7,7 @@
 #include "constants.h"
 #include "sdl_utils.h"
 #include "window.h"
+#include "input_manager.h"
 #include "startup_funcs.h"
 #include "texture_manager.h"
 #include "cameras/zone_camera.h"
@@ -38,6 +39,9 @@ int main(int argc, char* args[]) {
     }
 
     ECSManager ecs;
+
+    InputManager input_manager;
+
     load_systems(ecs, manager.get(), _camera.get(), &window);
     if (load_player(ecs) == NULL) {
         printf("failed to load player. Exiting...\n");
@@ -61,6 +65,8 @@ int main(int argc, char* args[]) {
 
             window.handle_event(e);
             camera.handle_event(e);
+
+            input_manager.handle_input(e);
 
             ecs.handle_input(e);
         }
