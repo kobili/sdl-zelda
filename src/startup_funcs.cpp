@@ -16,6 +16,7 @@
 #include "ecs/systems/player_input.h"
 #include "ecs/systems/sprite_renderer.h"
 #include "ecs/systems/sprite_animation_system.h"
+#include "ecs/systems/player_attack_input.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -257,4 +258,7 @@ void load_systems(ECSManager& ecs, TextureManager* texture_manager, Camera* came
 
     std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs));
     ecs.register_system(std::move(player_input_system), 2);
+
+    std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs));
+    ecs.register_system(std::move(player_attack_input_system), 3);
 }
