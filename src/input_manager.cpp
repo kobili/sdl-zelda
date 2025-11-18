@@ -66,6 +66,12 @@ const std::vector<MouseEvent>& InputManager::get_mouse_events() const {
 }
 
 
+void InputManager::flush_events() {
+    flush_keyboard_events();
+    flush_mouse_events();
+}
+
+
 void InputManager::flush_mouse_events() {
     m_mouse_events.clear();
 }

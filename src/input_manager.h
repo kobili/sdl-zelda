@@ -59,8 +59,7 @@ public:
     const std::map<Action, SDL_Keycode>& get_keybinds() const;
     const std::vector<MouseEvent>& get_mouse_events() const;
 
-    void flush_mouse_events();
-    void flush_keyboard_events();
+    void flush_events();
 
     const std::vector<SDL_Keycode>& get_pressed_direction_keys() const;
 
@@ -68,6 +67,9 @@ private:
     std::vector<KeyboardEvent> m_keyboard_events;
     std::map<Action, SDL_Keycode> m_keybinds;
     std::vector<MouseEvent> m_mouse_events;
+
+    void flush_mouse_events();
+    void flush_keyboard_events();
     
     std::vector<SDL_Keycode> m_pressed_direction_keys;
     bool is_direction_key(SDL_Keycode code);
