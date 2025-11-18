@@ -13,7 +13,7 @@
 
 #include "ecs/systems/click_system.h"
 #include "ecs/systems/movement_system.h"
-#include "ecs/systems/player_input.h"
+#include "ecs/systems/player_movement_input.h"
 #include "ecs/systems/sprite_renderer.h"
 #include "ecs/systems/sprite_animation_system.h"
 #include "ecs/systems/player_attack_input.h"
@@ -247,7 +247,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, &input_manager, window, camera));
     ecs.register_system(std::move(click_system), 1);
 
-    std::unique_ptr<PlayerInputSystem> player_input_system (new PlayerInputSystem(&ecs, &input_manager));
+    std::unique_ptr<PlayerMovementInputSystem> player_input_system (new PlayerMovementInputSystem(&ecs, &input_manager));
     ecs.register_system(std::move(player_input_system), 2);
 
     std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs, &input_manager));

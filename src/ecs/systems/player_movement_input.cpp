@@ -1,4 +1,4 @@
-#include "player_input.h"
+#include "player_movement_input.h"
 
 #include "../entity.h"
 #include "../components/player.h"
@@ -27,7 +27,7 @@ void reset_velocity(Velocity& velocity) {
     velocity.set_y(0);
 }
 
-void PlayerInputSystem::update_entity(Entity& entity, Uint32 dt) {
+void PlayerMovementInputSystem::update_entity(Entity& entity, Uint32 dt) {
     Player* player = m_ecs->get_component<Player>(entity);
     if (player == NULL) {
         return;

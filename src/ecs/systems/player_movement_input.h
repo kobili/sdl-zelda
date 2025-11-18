@@ -1,10 +1,10 @@
-#ifndef PLAYER_INPUT_SYSTEM_H
-#define PLAYER_INPUT_SYSTEM_H
+#ifndef PLAYER_MOVEMENT_INPUT_SYSTEM_H
+#define PLAYER_MOVEMENT_INPUT_SYSTEM_H
 
 #include "base_system.h"
 
 
-class PlayerInputSystem : public IInputSystem {
+class PlayerMovementInputSystem : public IInputSystem {
 public:
     using IInputSystem::IInputSystem;
 
