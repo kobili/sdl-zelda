@@ -28,6 +28,12 @@ enum class MouseEventType {
 };
 
 
+enum class KeyboardEventType {
+    BUTTONDOWN = SDL_KEYDOWN,
+    BUTTONUP = SDL_KEYUP
+};
+
+
 struct MouseEvent {
     // coordinates on the screen
     int x;
@@ -37,23 +43,34 @@ struct MouseEvent {
 };
 
 
+struct KeyboardEvent {
+    SDL_Keycode key_code;
+    KeyboardEventType type;
+};
+
+
 class InputManager {
 public:
     InputManager();
 
     void handle_input(SDL_Event& e);
 
-    const std::vector<SDL_Keycode>& get_pressed_keys() const;
+    const std::vector<KeyboardEvent>& get_keyboard_events() const;
     const std::map<Action, SDL_Keycode>& get_keybinds() const;
     const std::vector<MouseEvent>& get_mouse_events() const;
 
     void flush_mouse_events();
+    void flush_keyboard_events();
+
+    const std::vector<SDL_Keycode>& get_pressed_direction_keys() const;
 
 private:
+    std::vector<KeyboardEvent> m_keyboard_events;
     std::map<Action, SDL_Keycode> m_keybinds;
-    std::vector<SDL_Keycode> m_pressed_keys;
-
     std::vector<MouseEvent> m_mouse_events;
+    
+    std::vector<SDL_Keycode> m_pressed_direction_keys;
+    bool is_direction_key(SDL_Keycode code);
 };
 
 #endif

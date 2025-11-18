@@ -15,18 +15,26 @@ void InputManager::handle_input(SDL_Event& e) {
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         SDL_Keycode key_code = e.key.keysym.sym;
 
-        m_pressed_keys.erase(
-            std::remove(m_pressed_keys.begin(), m_pressed_keys.end(), key_code), m_pressed_keys.end()
-        );
-        m_pressed_keys.insert(m_pressed_keys.begin(), key_code);
+        if (is_direction_key(key_code)) {
+            m_pressed_direction_keys.erase(
+                std::remove(m_pressed_direction_keys.begin(), m_pressed_direction_keys.end(), key_code), m_pressed_direction_keys.end()
+            );
+            m_pressed_direction_keys.insert(m_pressed_direction_keys.begin(), key_code);
+        }
+
+        m_keyboard_events.push_back({key_code, KeyboardEventType::BUTTONDOWN});
     }
 
     if (e.type == SDL_KEYUP && e.key.repeat == 0) {
         SDL_Keycode key_code = e.key.keysym.sym;
 
-        m_pressed_keys.erase(
-            std::remove(m_pressed_keys.begin(), m_pressed_keys.end(), key_code), m_pressed_keys.end()
-        );
+        if (is_direction_key(key_code)) {
+            m_pressed_direction_keys.erase(
+                std::remove(m_pressed_direction_keys.begin(), m_pressed_direction_keys.end(), key_code), m_pressed_direction_keys.end()
+            );
+        }
+
+        m_keyboard_events.push_back({key_code, KeyboardEventType::BUTTONUP});
     }
 
     if (e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP) {
@@ -43,8 +51,8 @@ void InputManager::handle_input(SDL_Event& e) {
 }
 
 
-const std::vector<SDL_Keycode>& InputManager::get_pressed_keys() const {
-    return m_pressed_keys;
+const std::vector<KeyboardEvent>& InputManager::get_keyboard_events() const {
+    return m_keyboard_events;
 }
 
 
@@ -52,10 +60,32 @@ const std::map<Action, SDL_Keycode>& InputManager::get_keybinds() const {
     return m_keybinds;
 }
 
+
 const std::vector<MouseEvent>& InputManager::get_mouse_events() const {
     return m_mouse_events;
 }
 
+
 void InputManager::flush_mouse_events() {
     m_mouse_events.clear();
+}
+
+
+void InputManager::flush_keyboard_events() {
+    m_keyboard_events.clear();
+}
+
+
+const std::vector<SDL_Keycode>& InputManager::get_pressed_direction_keys() const {
+    return m_pressed_direction_keys;
+}
+
+
+bool InputManager::is_direction_key(SDL_Keycode code) {
+    return (
+        code == m_keybinds[Action::WALK_DOWN]
+        || code == m_keybinds[Action::WALK_UP]
+        || code == m_keybinds[Action::WALK_LEFT]
+        || code == m_keybinds[Action::WALK_RIGHT]
+    );
 }

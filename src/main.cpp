@@ -92,6 +92,7 @@ int main(int argc, char* args[]) {
         SDL_RenderPresent(renderer);
 
         input_manager.flush_mouse_events();
+        input_manager.flush_keyboard_events();
     }
 
     teardown_sdl();

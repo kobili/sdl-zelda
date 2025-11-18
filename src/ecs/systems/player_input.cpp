@@ -42,7 +42,7 @@ void PlayerInputSystem::update_entity(Entity& entity, Uint32 dt) {
     SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
 
 
-    auto pressed_keys = m_input_manager->get_pressed_keys();
+    auto pressed_keys = m_input_manager->get_pressed_direction_keys();
     auto key_binds = m_input_manager->get_keybinds();
 
     for (SDL_Keycode key : pressed_keys) {
