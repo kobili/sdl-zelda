@@ -2,7 +2,6 @@
 
 #include "../entity.h"
 #include "../components/player.h"
-#include "../components/movement.h"
 #include "../components/velocity.h"
 #include "../components/sprite_animation.h"
 
@@ -32,11 +31,6 @@ void reset_velocity(Velocity& velocity) {
 void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
     Player* player = m_ecs->get_component<Player>(entity);
     if (player == NULL) {
-        return;
-    }
-
-    Movement* movement = m_ecs->get_component<Movement>(entity);
-    if (movement == NULL) {
         return;
     }
 
@@ -93,31 +87,38 @@ void PlayerInputSystem::handle_input_for_entity(SDL_Event& e, Entity& entity) {
             break;
         }
 
-        // read key states and transition motion to whatever key is still being pressed
-        Direction new_direction = Direction::DOWN;
-        bool set_direction = false;
-        
-        const Uint8* key_states = SDL_GetKeyboardState(NULL);
-        if (key_states[SDL_SCANCODE_UP]) {
-            velocity.set_y(-1);
-            new_direction = Direction::UP;
-            set_direction = true;
-        } else if (key_states[SDL_SCANCODE_DOWN]) {
-            velocity.set_y(1);
-            new_direction = Direction::DOWN;
-            set_direction = true;
-        } else if (key_states[SDL_SCANCODE_LEFT]) {
-            velocity.set_x(-1);
-            new_direction = Direction::LEFT;
-            set_direction = true;
-        } else if (key_states[SDL_SCANCODE_RIGHT]) {
-            velocity.set_x(1);
-            new_direction = Direction::RIGHT;
-            set_direction = true;
-        }
-
-        if (set_direction) {
-            update_animation_direction(animation, new_direction);
+        if (
+            e.key.keysym.sym == SDLK_UP
+            || e.key.keysym.sym == SDLK_DOWN
+            || e.key.keysym.sym == SDLK_LEFT
+            || e.key.keysym.sym == SDLK_RIGHT
+        ) {
+            // read key states and transition motion to whatever key is still being pressed
+            Direction new_direction = Direction::DOWN;
+            bool set_direction = false;
+            
+            const Uint8* key_states = SDL_GetKeyboardState(NULL);
+            if (key_states[SDL_SCANCODE_UP]) {
+                velocity.set_y(-1);
+                new_direction = Direction::UP;
+                set_direction = true;
+            } else if (key_states[SDL_SCANCODE_DOWN]) {
+                velocity.set_y(1);
+                new_direction = Direction::DOWN;
+                set_direction = true;
+            } else if (key_states[SDL_SCANCODE_LEFT]) {
+                velocity.set_x(-1);
+                new_direction = Direction::LEFT;
+                set_direction = true;
+            } else if (key_states[SDL_SCANCODE_RIGHT]) {
+                velocity.set_x(1);
+                new_direction = Direction::RIGHT;
+                set_direction = true;
+            }
+    
+            if (set_direction) {
+                update_animation_direction(animation, new_direction);
+            }
         }
     }
 
