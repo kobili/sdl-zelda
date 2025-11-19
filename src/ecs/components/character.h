@@ -1,6 +1,8 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include "SDL.h"
+
 #include "../../constants.h"
 
 
@@ -15,9 +17,19 @@ public:
     CharacterState get_character_state();
     void set_character_state(CharacterState state);
 
+    Uint32 get_time_in_state_ms();
+    void update_time_in_state(Uint32 dt);
+
+    /**
+     * Return how long it takes to complete an attack
+     */
+    Uint32 get_attack_time_ms();
+
 private:
     Direction m_orientation;
     CharacterState m_state;
+
+    Uint32 m_time_in_state_ms;
 };
 
 #endif
