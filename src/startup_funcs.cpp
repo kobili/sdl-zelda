@@ -10,6 +10,7 @@
 #include "ecs/components/collider.h"
 #include "ecs/components/clickable.h"
 #include "ecs/components/sprite_animation.h"
+#include "ecs/components/character.h"
 
 #include "ecs/systems/click_system.h"
 #include "ecs/systems/movement_system.h"
@@ -54,27 +55,57 @@ bool load_textures(TextureManager* manager) {
 
 
 std::unique_ptr<SpriteAnimation> load_player_animations() {
-    std::vector<SpriteAnimationFrame> up_frames = {
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(100));
+
+    // setup idle animation
+    std::vector<AnimationFrameData> idle_up_frames = {
+        {4, 0, false, false}  
+    };
+
+    std::vector<AnimationFrameData> idle_down_frames = {
+        {0, 0, false, false}
+    };
+
+    std::vector<AnimationFrameData> idle_left_frames = {
+        {2, 0, true, false}
+    };
+
+    std::vector<AnimationFrameData> idle_right_frames = {
+        {2, 0, false, false}
+    };
+
+    AnimationSet idle_animation_set = {
+        {idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames}
+    };
+
+    animation->set_animation_set(CharacterState::IDLE, idle_animation_set);
+
+    // setup movement animation
+    std::vector<AnimationFrameData> move_up_frames = {
         {4, 0, false, false},
         {5, 0, false, false}
     };
 
-    std::vector<SpriteAnimationFrame> down_frames = {
+    std::vector<AnimationFrameData> move_down_frames = {
         {0, 0, false, false},
         {1, 0, false, false}
     };
 
-    std::vector<SpriteAnimationFrame> right_frames = {
+    std::vector<AnimationFrameData> move_right_frames = {
         {2, 0, false, false},
         {3, 0, false, false}
     };
 
-    std::vector<SpriteAnimationFrame> left_frames = {
+    std::vector<AnimationFrameData> move_left_frames = {
         {2, 0, true, false},
         {3, 0, true, false}
     };
 
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(up_frames, down_frames, left_frames, right_frames));
+    AnimationSet movement_animation_set = {
+        {move_up_frames, move_down_frames, move_left_frames, move_right_frames}
+    };
+
+    animation->set_animation_set(CharacterState::MOVING, movement_animation_set);
 
     return animation;
 }
@@ -87,6 +118,9 @@ Entity* load_player(ECSManager& ecs) {
     if (player == NULL) {
         return NULL;
     }
+
+    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE));
+    ecs.add_component(*player, std::move(character));
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/link.png", 16, 16));
     if (ecs.add_component<Sprite>(*player, std::move(sprite)) == NULL) {
@@ -148,29 +182,38 @@ Entity* load_player(ECSManager& ecs) {
 
 
 std::unique_ptr<SpriteAnimation> load_enemy_animation() {
-    std::vector<SpriteAnimationFrame> up_frames = {
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(200));
+
+    std::vector<AnimationFrameData> idle_up_frames = {
         {0, 0, false, true},
         {1, 0, false, true}
     };
 
-    std::vector<SpriteAnimationFrame> down_frames = {
+    std::vector<AnimationFrameData> idle_down_frames = {
         {0, 0, false, false},
         {1, 0, false, false}
     };
 
-    std::vector<SpriteAnimationFrame> right_frames = {
+    std::vector<AnimationFrameData> idle_right_frames = {
         {2, 0, true, false},
         {3, 0, true, false}
     };
 
-    std::vector<SpriteAnimationFrame> left_frames = {
+    std::vector<AnimationFrameData> idle_left_frames = {
         {2, 0, false, false},
         {3, 0, false, false}
     };
+    std::vector<AnimationFrameData> idle_frames[4] = {
+        idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
+    };
 
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(
-        Direction::UP, 200, up_frames, down_frames, left_frames, right_frames
-    ));
+    AnimationSet idle_set = {
+        {
+            idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
+        }
+    };
+
+    animation->set_animation_set(CharacterState::IDLE, idle_set);
 
     return animation;
 }
@@ -183,6 +226,9 @@ Entity* load_enemy(ECSManager& ecs) {
     if (enemy == NULL) {
         return NULL;
     }
+
+    std::unique_ptr<Character> character (new Character(Direction::UP, CharacterState::IDLE));
+    ecs.add_component(*enemy, std::move(character));
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/oktorok__red.png", 16, 16));
     if (ecs.add_component<Sprite>(*enemy, std::move(sprite)) == NULL) {
@@ -234,7 +280,6 @@ Entity* load_enemy(ECSManager& ecs) {
     
     std::unique_ptr<SpriteAnimation> animation = load_enemy_animation();
     animation->start_animation();
-    animation->set_direction(Direction::UP);
     if (ecs.add_component<SpriteAnimation>(*enemy, std::move(animation)) == NULL) {
         printf("failed to load animation for enemy.\n");
         return NULL;
@@ -250,8 +295,8 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<PlayerMovementInputSystem> player_input_system (new PlayerMovementInputSystem(&ecs, &input_manager));
     ecs.register_system(std::move(player_input_system), 2);
 
-    std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs, &input_manager));
-    ecs.register_system(std::move(player_attack_input_system), 3);
+    // std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs, &input_manager));
+    // ecs.register_system(std::move(player_attack_input_system), 3);
 
     std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
     ecs.register_system(std::move(movement_system), 4);

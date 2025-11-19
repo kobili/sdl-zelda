@@ -13,4 +13,19 @@ const int OVERWORLD_SCREEN_ROWS = 8;
 const int OVERWORLD_WIDTH = NES_SCREEN_WIDTH * 16;
 const int OVERWORLD_HEIGHT = NES_SCREEN_HEIGHT * 8;
 
+
+enum class Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
+
+enum class CharacterState {
+    IDLE,
+    MOVING,
+    ATTACKING
+};
+
 #endif

@@ -1,69 +1,24 @@
 #include "sprite_animation.h"
 
 
-SpriteAnimation::SpriteAnimation(
-    Direction direction,
-    int rate_of_change,
-    std::vector<SpriteAnimationFrame> up_frames,
-    std::vector<SpriteAnimationFrame> down_frames,
-    std::vector<SpriteAnimationFrame> left_frames,
-    std::vector<SpriteAnimationFrame> right_frames
-) : SpriteAnimation(up_frames, down_frames, left_frames, right_frames) {
-    m_direction = direction;
-    m_frame_duration_ms = rate_of_change;
-}
+SpriteAnimation::SpriteAnimation(int frame_duration_ms) {
+    m_frame_duration_ms = frame_duration_ms;
 
-
-SpriteAnimation::SpriteAnimation(
-    std::vector<SpriteAnimationFrame> up_frames,
-    std::vector<SpriteAnimationFrame> down_frames,
-    std::vector<SpriteAnimationFrame> left_frames,
-    std::vector<SpriteAnimationFrame> right_frames
-) {
-    m_up_frames = up_frames;
-    m_down_frames = down_frames;
-    m_left_frames = left_frames;
-    m_right_frames = right_frames;
-
-    m_direction = Direction::DOWN;
-
-    m_is_animating = false;
-
-    timer = 0;
-
-    m_frame_duration_ms = 100;
-}
-
-
-Direction SpriteAnimation::get_direction() {
-    return m_direction;
-}
-
-
-void SpriteAnimation::set_direction(Direction dir) {
-    m_direction = dir;
-
-    // reset the animation on direction change
+    m_is_animating = true;
     timer = 0;
 }
 
 
-SpriteAnimationFrame SpriteAnimation::get_current_frame() {
+SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Direction direction) {
     int selected_frame = timer / m_frame_duration_ms;
 
-    switch (m_direction) {
-        case Direction::UP:
-        return m_up_frames[selected_frame % m_up_frames.size()];
+    AnimationSet animation_set = m_state_animation_map[state];
 
-        case Direction::DOWN:
-        return m_down_frames[selected_frame % m_up_frames.size()];
-        
-        case Direction::RIGHT:
-        return m_right_frames[selected_frame % m_up_frames.size()];
+    std::vector<AnimationFrameData> direction_frames = animation_set.frames[(int) direction];
 
-        case Direction::LEFT:
-        return m_left_frames[selected_frame % m_up_frames.size()];
-    }
+    return {
+        direction_frames[selected_frame % direction_frames.size()]
+    };
 }
 
 
@@ -85,4 +40,9 @@ void SpriteAnimation::stop_animation() {
 
 bool SpriteAnimation::is_animating() {
     return m_is_animating;
+}
+
+
+void SpriteAnimation::set_animation_set(CharacterState state, AnimationSet animation_set) {
+    m_state_animation_map[state] = animation_set;
 }
