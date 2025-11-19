@@ -3,11 +3,11 @@
 
 SpriteAnimation::SpriteAnimation() {
     m_is_animating = true;
-    timer = 0;
+    m_timer = 0;
 }
 
 
-SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Direction direction) {
+SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Direction direction, Uint32 timer) {
     AnimationSet animation_set = m_state_animation_map[state];
     int selected_frame = timer / animation_set.frame_duration_ms;
     
@@ -20,7 +20,7 @@ SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Di
 
 
 void SpriteAnimation::update_timer(Uint32 dt) {
-    timer += dt;
+    m_timer += dt;
 }
 
 
@@ -31,7 +31,7 @@ void SpriteAnimation::start_animation() {
 
 void SpriteAnimation::stop_animation() {
     m_is_animating = false;
-    timer = 0;
+    m_timer = 0;
 }
 
 

@@ -40,7 +40,7 @@ class SpriteAnimation {
 public:
     SpriteAnimation();
 
-    SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction);
+    SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction, Uint32 timer);
 
     void update_timer(Uint32 dt);
 
@@ -56,7 +56,7 @@ public:
     void set_animation_set(CharacterState state, AnimationSet animation_set);
 
 private:
-    Uint32 timer;
+    Uint32 m_timer;
 
     bool m_is_animating;
 

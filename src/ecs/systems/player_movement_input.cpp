@@ -75,7 +75,9 @@ void PlayerMovementInputSystem::update_entity(Entity& entity, Uint32 dt) {
             break;
         }
 
-        character.set_character_state(CharacterState::MOVING);
+        if (character.get_character_state() != CharacterState::MOVING) {
+            character.set_character_state(CharacterState::MOVING);
+        }
 
         // return early once a direction has been set
         return;
