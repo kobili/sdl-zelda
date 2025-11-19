@@ -107,6 +107,38 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
 
     animation->set_animation_set(CharacterState::MOVING, movement_animation_set);
 
+
+    // setup attack animations
+    std::vector<AnimationFrameData> attack_up_frames = {
+        {8, 1, false, false},
+        {9, 1, false, false},
+        {10, 1, false, false},
+        {11, 1, false, false}
+    };
+    std::vector<AnimationFrameData> attack_down_frames = {
+        {0, 1, false, false},
+        {1, 1, false, false},
+        {2, 1, false, false},
+        {3, 1, false, false}
+    };
+    std::vector<AnimationFrameData> attack_left_frames = {
+        {4, 1, true, false},
+        {5, 1, true, false},
+        {6, 1, true, false},
+        {7, 1, true, false}
+    };
+    std::vector<AnimationFrameData> attack_right_frames = {
+        {4, 1, false, false},
+        {5, 1, false, false},
+        {6, 1, false, false},
+        {7, 1, false, false},
+    };
+    AnimationSet attack_animation_set = {
+        {attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames}
+    };
+
+    animation->set_animation_set(CharacterState::ATTACKING, attack_animation_set);
+
     return animation;
 }
 
@@ -227,7 +259,7 @@ Entity* load_enemy(ECSManager& ecs) {
         return NULL;
     }
 
-    std::unique_ptr<Character> character (new Character(Direction::UP, CharacterState::IDLE));
+    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE));
     ecs.add_component(*enemy, std::move(character));
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/oktorok__red.png", 16, 16));
@@ -295,8 +327,8 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<PlayerMovementInputSystem> player_input_system (new PlayerMovementInputSystem(&ecs, &input_manager));
     ecs.register_system(std::move(player_input_system), 2);
 
-    // std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs, &input_manager));
-    // ecs.register_system(std::move(player_attack_input_system), 3);
+    std::unique_ptr<PlayerAttackInputSystem> player_attack_input_system (new PlayerAttackInputSystem(&ecs, &input_manager));
+    ecs.register_system(std::move(player_attack_input_system), 3);
 
     std::unique_ptr<MovementSystem> movement_system (new MovementSystem(&ecs));
     ecs.register_system(std::move(movement_system), 4);

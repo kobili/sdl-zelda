@@ -31,6 +31,10 @@ void PlayerMovementInputSystem::update_entity(Entity& entity, Uint32 dt) {
         return;
     }
     Character& character = *_character;
+    if (character.get_character_state() == CharacterState::ATTACKING) {
+        printf("attacking... skipping player input...\n");
+        return;
+    }
 
     auto pressed_keys = m_input_manager->get_pressed_direction_keys();
     auto key_binds = m_input_manager->get_keybinds();

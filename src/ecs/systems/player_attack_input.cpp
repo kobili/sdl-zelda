@@ -3,6 +3,7 @@
 #include "../components/player.h"
 #include "../components/movement.h"
 #include "../components/velocity.h"
+#include "../components/character.h"
 #include "../components/sprite_animation.h"
 
 #include "../managers/ecs_manager.h"
@@ -14,13 +15,7 @@ void PlayerAttackInputSystem::update_entity(Entity& entity, Uint32 dt) {
         return;
     }
 
-    Velocity* _velocity = m_ecs->get_component<Velocity>(entity);
-    if (_velocity == NULL) {
-        return;
-    }
-    Velocity& velocity = *_velocity;
-
-    SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
+    Character* character = m_ecs->get_component<Character>(entity);
 
     auto key_presses = m_input_manager->get_keyboard_events();
     auto key_binds = m_input_manager->get_keybinds();
@@ -33,9 +28,10 @@ void PlayerAttackInputSystem::update_entity(Entity& entity, Uint32 dt) {
             continue;
         }
 
-        velocity.set_x(0);
-        velocity.set_y(0);
-        animation->stop_animation();
+        if (character) {
+            character->set_character_state(CharacterState::ATTACKING);
+        }
+
         printf("Attacked\n");
     }
 }

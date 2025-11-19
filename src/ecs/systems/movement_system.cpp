@@ -6,6 +6,7 @@
 #include "../components/velocity.h"
 #include "../components/position.h"
 #include "../components/collider.h"
+#include "../components/character.h"
 #include "../managers/ecs_manager.h"
 
 #include "../../constants.h"
@@ -15,6 +16,13 @@
 void MovementSystem::update_entity(Entity& entity, Uint32 dt) {
     Movement* movement = m_ecs->get_component<Movement>(entity);
     if (movement == NULL) {
+        return;
+    }
+
+    Character* character = m_ecs->get_component<Character>(entity);
+    if (character!= NULL && character->get_character_state() == CharacterState::ATTACKING) {
+        printf("attacking... skipping movement...\n");
+        // don't move while the character is attacking
         return;
     }
 
