@@ -15,7 +15,15 @@ void PlayerAttackInputSystem::update_entity(Entity& entity, Uint32 dt) {
         return;
     }
 
-    Character* character = m_ecs->get_component<Character>(entity);
+    Character* _character = m_ecs->get_component<Character>(entity);
+    if (!_character) {
+        return;
+    }
+    Character& character = *_character;
+
+    if (character.get_character_state() == CharacterState::ATTACKING) {
+        return;
+    }
 
     auto key_presses = m_input_manager->get_keyboard_events();
     auto key_binds = m_input_manager->get_keybinds();
@@ -28,9 +36,7 @@ void PlayerAttackInputSystem::update_entity(Entity& entity, Uint32 dt) {
             continue;
         }
 
-        if (character) {
-            character->set_character_state(CharacterState::ATTACKING);
-        }
+        character.set_character_state(CharacterState::ATTACKING);
 
         printf("Attacked\n");
     }

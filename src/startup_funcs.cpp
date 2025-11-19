@@ -155,7 +155,7 @@ Entity* load_player(ECSManager& ecs) {
         return NULL;
     }
 
-    std::unique_ptr<Character> character (new Character(Direction::UP, CharacterState::IDLE, LINK_ATTACK_DURATION_MS));
+    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS));
     ecs.add_component(*player, std::move(character));
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/link.png", 16, 16));
