@@ -16,7 +16,7 @@ void CharacterUpdateSystem::update_entity(Entity& entity, Uint32 dt) {
 
     if (
         character.get_character_state() == CharacterState::ATTACKING
-        && character.get_time_in_state_ms() >= character.get_attack_time_ms()
+        && character.get_time_in_state_ms() >= character.get_attack_duration_ms()
     ) {
         character.set_character_state(CharacterState::IDLE);
     }

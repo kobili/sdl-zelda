@@ -137,7 +137,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
         {7, 1, false, false},
     };
     AnimationSet attack_animation_set = {
-        100,
+        LINK_ATTACK_DURATION_MS / 4,
         {attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames}
     };
 
@@ -155,7 +155,7 @@ Entity* load_player(ECSManager& ecs) {
         return NULL;
     }
 
-    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE));
+    std::unique_ptr<Character> character (new Character(Direction::UP, CharacterState::IDLE, LINK_ATTACK_DURATION_MS));
     ecs.add_component(*player, std::move(character));
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/link.png", 16, 16));

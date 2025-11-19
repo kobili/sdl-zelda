@@ -14,6 +14,9 @@ const int OVERWORLD_WIDTH = NES_SCREEN_WIDTH * 16;
 const int OVERWORLD_HEIGHT = NES_SCREEN_HEIGHT * 8;
 
 
+const int LINK_ATTACK_DURATION_MS = 300;
+
+
 enum class Direction {
     UP,
     DOWN,

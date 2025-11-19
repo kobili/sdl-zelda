@@ -6,13 +6,23 @@ Character::Character() {
     m_state = CharacterState::IDLE;
 
     m_time_in_state_ms = 0;
+    m_attack_duration_ms = 0;
 }
 
 
-Character::Character(Direction orientation, CharacterState state) {
+Character::Character(Direction orientation, CharacterState state) : Character() {
     m_orientation = orientation;
     m_state = state;
 }
+
+Character::Character(
+    Direction orientation,
+    CharacterState state,
+    Uint32 attack_duration_ms
+) : Character(orientation, state) {
+    m_attack_duration_ms = attack_duration_ms;
+}
+
 
 
 Direction Character::get_orientation() {
@@ -46,6 +56,6 @@ void Character::update_time_in_state(Uint32 dt) {
 }
 
 
-Uint32 Character::get_attack_time_ms() {
-    return 500;
+Uint32 Character::get_attack_duration_ms() {
+    return m_attack_duration_ms;
 }
