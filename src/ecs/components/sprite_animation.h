@@ -42,12 +42,12 @@ public:
 
     SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction, Uint32 timer);
 
+    /*
+    * Overloaded method to use internal timer instead
+    */
+    SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction);
+
     void update_timer(Uint32 dt);
-
-    void start_animation();
-    void stop_animation();
-
-    bool is_animating();
 
     /**
      * \param state The character state for which the animation will play
@@ -57,8 +57,6 @@ public:
 
 private:
     Uint32 m_timer;
-
-    bool m_is_animating;
 
     std::map<CharacterState, AnimationSet> m_state_animation_map;
 };

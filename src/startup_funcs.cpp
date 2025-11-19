@@ -316,7 +316,6 @@ Entity* load_enemy(ECSManager& ecs) {
     }
     
     std::unique_ptr<SpriteAnimation> animation = load_enemy_animation();
-    animation->start_animation();
     if (ecs.add_component<SpriteAnimation>(*enemy, std::move(animation)) == NULL) {
         printf("failed to load animation for enemy.\n");
         return NULL;

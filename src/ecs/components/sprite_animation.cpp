@@ -2,7 +2,6 @@
 
 
 SpriteAnimation::SpriteAnimation() {
-    m_is_animating = true;
     m_timer = 0;
 }
 
@@ -19,25 +18,15 @@ SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Di
 }
 
 
+SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Direction direction) {
+    return get_current_frame(state, direction, m_timer);
+}
+
+
 void SpriteAnimation::update_timer(Uint32 dt) {
     m_timer += dt;
 }
 
-
-void SpriteAnimation::start_animation() {
-    m_is_animating = true;
-}
-
-
-void SpriteAnimation::stop_animation() {
-    m_is_animating = false;
-    m_timer = 0;
-}
-
-
-bool SpriteAnimation::is_animating() {
-    return m_is_animating;
-}
 
 
 void SpriteAnimation::set_animation_set(CharacterState state, AnimationSet animation_set) {

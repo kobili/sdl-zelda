@@ -12,9 +12,5 @@ void SpriteAnimationSystem::update_entity(Entity& entity, Uint32 dt) {
     }
     SpriteAnimation& animation = *_animation;
 
-    if (!animation.is_animating()) {
-        return;
-    }
-
     animation.update_timer(dt);
 }
