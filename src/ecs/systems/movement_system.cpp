@@ -21,7 +21,7 @@ void MovementSystem::update_entity(Entity& entity, Uint32 dt) {
 
     Character* character = m_ecs->get_component<Character>(entity);
     if (character!= NULL && character->get_character_state() == CharacterState::ATTACKING) {
-        printf("attacking... skipping movement...\n");
+        // printf("attacking... skipping movement...\n");
         // don't move while the character is attacking
         return;
     }

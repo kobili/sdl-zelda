@@ -39,7 +39,8 @@ bool load_textures(TextureManager* manager) {
 
     std::vector<std::string> sprite_files = {
         "resources/sprites/link.png",
-        "resources/sprites/oktorok__red.png"
+        "resources/sprites/oktorok__red.png",
+        "resources/sprites/wood_sword_sprites.png"
     };
     RGB grey_colour_key = {116, 116, 116};
 
@@ -137,7 +138,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
         {7, 1, false, false},
     };
     AnimationSet attack_animation_set = {
-        LINK_ATTACK_DURATION_MS / 4,
+        LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
         {attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames}
     };
 
@@ -165,7 +166,8 @@ Entity* load_player(ECSManager& ecs) {
     }
 
     std::unique_ptr<Position> position (new Position(
-        7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT
+        (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16,
+        7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
     ));
     if (ecs.add_component<Position>(*player, std::move(position)) == NULL) {
         printf("failed to add Position for player\n");
@@ -191,7 +193,11 @@ Entity* load_player(ECSManager& ecs) {
     }
 
     std::unique_ptr<Collider> collider (new Collider(
-        7 * NES_SCREEN_WIDTH, 7 * NES_SCREEN_HEIGHT, 16, 16
+        (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16,
+        7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
+        ,
+        16,
+        16
     ));
     if (ecs.add_component<Collider>(*player, std::move(collider)) == NULL) {
         printf("failed to load collider for player\n");
@@ -323,6 +329,114 @@ Entity* load_enemy(ECSManager& ecs) {
 
     return enemy;
 }
+
+
+Entity* load_sword_sprite(ECSManager& ecs) {
+
+    int player_x = (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16;
+    int player_y = 7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2;
+
+    std::unique_ptr<Entity> _entity (new Entity(3));
+    Entity* entity = ecs.add_entity(std::move(_entity));
+
+    std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/wood_sword_sprites.png", 16, 16));
+    ecs.add_component<Sprite>(*entity, std::move(sprite));
+
+    std::unique_ptr<Position> position (new Position(
+        player_x + 5,
+        player_y + 11
+    ));
+    ecs.add_component<Position>(*entity, std::move(position));
+
+    // load animations
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation());
+
+    std::vector<AnimationFrameData> idle_up_frames = {
+        {0, 0, false, false}
+    };
+    std::vector<AnimationFrameData>  idle_down_frames = {
+        {-1, -1, false, true, 0, 0},
+        // {0, 0, false, true, 0, 0},
+        // {0, 0, false, true, 0, -4},
+        // {0, 0, false, true, 0, -8},
+    };
+    std::vector<AnimationFrameData> idle_left_frames = {
+        {1, 0, true, false}
+    };
+    std::vector<AnimationFrameData> idle_right_frames = {
+        {1, 0, false, false}
+    };
+    animation->set_animation_set(CharacterState::IDLE, {
+        LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
+        {
+            idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
+        }
+    });
+
+    std::vector<AnimationFrameData> attack_up_frames = {
+        {0, 0, false, false}
+    };
+    std::vector<AnimationFrameData>  attack_down_frames = {
+        {-1, -1, false, true, 0, 0},
+        {0, 0, false, true, 0, 0},
+        {0, 0, false, true, 0, -4},
+        {0, 0, false, true, 0, -8},
+    };
+    std::vector<AnimationFrameData> attack_left_frames = {
+        {1, 0, true, false}
+    };
+    std::vector<AnimationFrameData> attack_right_frames = {
+        {1, 0, false, false}
+    };
+    animation->set_animation_set(CharacterState::ATTACKING, {
+        LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
+        {
+            attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames
+        }
+    });
+
+    ecs.add_component<SpriteAnimation>(*entity, std::move(animation));
+
+    // TODO: Need a separate kind of animation for non character entities
+    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS));
+    ecs.add_component<Character>(*entity, std::move(character));
+
+    std::unique_ptr<Player> player (new Player());
+    ecs.add_component<Player>(*entity, std::move(player));
+
+    std::unique_ptr<Collider> collider (new Collider(
+        player_x,
+        player_y,
+        16,
+        16
+    ));
+    ecs.add_component<Collider>(*entity, std::move(collider));
+
+    ClickHandler on_click = [&ecs](Entity& entity) {
+        Sprite* _sprite_value = ecs.get_component<Sprite>(entity);
+        if (_sprite_value == NULL) {
+            return;
+        }
+        if (_sprite_value->get_texture_name() != "resources/sprites/wood_sword_sprites.png") {
+            return;
+        }
+        Character* _character_value = ecs.get_component<Character>(entity);
+        if (_character_value == NULL) {
+            return;
+        }
+
+        printf("Sword\n");
+        _character_value->set_character_state(CharacterState::ATTACKING);
+    };
+    std::unique_ptr<Clickable> clickable (new Clickable(on_click));
+    if (ecs.add_component<Clickable>(*entity, std::move(clickable)) == NULL) {
+        printf("failed to load clickable for enemy\n");
+        return NULL;
+    }
+
+    return entity;
+}
+
 
 void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* texture_manager, Camera* camera, Window* window) {
     std::unique_ptr<ClickSystem> click_system (new ClickSystem(&ecs, &input_manager, window, camera));

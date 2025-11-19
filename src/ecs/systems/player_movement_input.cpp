@@ -32,7 +32,7 @@ void PlayerMovementInputSystem::update_entity(Entity& entity, Uint32 dt) {
     }
     Character& character = *_character;
     if (character.get_character_state() == CharacterState::ATTACKING) {
-        printf("attacking... skipping player input...\n");
+        // printf("attacking... skipping player input...\n");
         return;
     }
 

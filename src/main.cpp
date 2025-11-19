@@ -43,12 +43,15 @@ int main(int argc, char* args[]) {
     InputManager input_manager;
 
     load_systems(ecs, input_manager, manager.get(), _camera.get(), &window);
-    if (load_player(ecs) == NULL) {
-        printf("failed to load player. Exiting...\n");
-        return -1;
-    }
+    
     if (load_enemy(ecs) == NULL) {
         printf("failed to load enemy. Exiting...\n");
+        return -1;
+    }
+
+    load_sword_sprite(ecs);
+    if (load_player(ecs) == NULL) {
+        printf("failed to load player. Exiting...\n");
         return -1;
     }
 

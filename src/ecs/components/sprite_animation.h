@@ -18,6 +18,9 @@ struct AnimationFrameData {
     // if the sprite should be flipped
     bool flip_horizontal;
     bool flip_vertical;
+
+    int offset_x;
+    int offset_y;
 };
 
 

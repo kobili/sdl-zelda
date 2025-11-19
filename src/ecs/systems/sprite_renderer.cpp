@@ -24,6 +24,10 @@ void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
     if (position == NULL) {
         return;
     }
+
+    int x = position->get_x();
+    int y = position->get_y();
+
     Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
     if (texture == NULL) {
         return;
@@ -36,17 +40,21 @@ void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
     bool flip_horizontal = false;
     bool flip_vertical = false;
     if (animation != NULL && character != NULL) {
+        printf("Entity %d; state: %d\n", entity.get_id(), (int) character->get_character_state());
         SpriteAnimationFrame frame = animation->get_current_frame(character->get_character_state(), character->get_orientation(), character->get_time_in_state_ms());
         flip_horizontal = frame.frame_data.flip_horizontal;
         flip_vertical = frame.frame_data.flip_vertical;
         clip = sprite->get_sprite(frame.frame_data.col, frame.frame_data.row);
+
+        x = x + frame.frame_data.offset_x;
+        y = y + frame.frame_data.offset_y;
     } else {
         clip = sprite->get_sprite(0, 0);
     }
 
     texture->render(
-        position->get_x() - m_camera->get_x(),
-        position->get_y() - m_camera->get_y(),
+        x - m_camera->get_x(),
+        y - m_camera->get_y(),
         &clip,
         m_window->get_scale_x(),
         m_window->get_scale_y(),
