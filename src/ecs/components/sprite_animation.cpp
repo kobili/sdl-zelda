@@ -1,19 +1,16 @@
 #include "sprite_animation.h"
 
 
-SpriteAnimation::SpriteAnimation(int frame_duration_ms) {
-    m_frame_duration_ms = frame_duration_ms;
-
+SpriteAnimation::SpriteAnimation() {
     m_is_animating = true;
     timer = 0;
 }
 
 
 SpriteAnimationFrame SpriteAnimation::get_current_frame(CharacterState state, Direction direction) {
-    int selected_frame = timer / m_frame_duration_ms;
-
     AnimationSet animation_set = m_state_animation_map[state];
-
+    int selected_frame = timer / animation_set.frame_duration_ms;
+    
     std::vector<AnimationFrameData> direction_frames = animation_set.frames[(int) direction];
 
     return {

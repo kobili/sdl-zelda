@@ -27,6 +27,9 @@ struct SpriteAnimationFrame {
 
 
 struct AnimationSet {
+    // how long each frame should last
+    int frame_duration_ms;
+
     // the SpriteAnimation frames for the animation for all 4 directions
     // ordered: UP, DOWN, LEFT, RIGHT
     std::vector<AnimationFrameData> frames[4];
@@ -35,7 +38,7 @@ struct AnimationSet {
 
 class SpriteAnimation {
 public:
-    SpriteAnimation(int frame_duration_ms);
+    SpriteAnimation();
 
     SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction);
 
@@ -56,9 +59,6 @@ private:
     Uint32 timer;
 
     bool m_is_animating;
-
-    // how long to stay on a single frame
-    int m_frame_duration_ms;
 
     std::map<CharacterState, AnimationSet> m_state_animation_map;
 };

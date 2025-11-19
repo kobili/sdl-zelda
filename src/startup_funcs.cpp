@@ -55,7 +55,7 @@ bool load_textures(TextureManager* manager) {
 
 
 std::unique_ptr<SpriteAnimation> load_player_animations() {
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(100));
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation());
 
     // setup idle animation
     std::vector<AnimationFrameData> idle_up_frames = {
@@ -75,6 +75,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
     };
 
     AnimationSet idle_animation_set = {
+        100,
         {idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames}
     };
 
@@ -102,6 +103,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
     };
 
     AnimationSet movement_animation_set = {
+        100,
         {move_up_frames, move_down_frames, move_left_frames, move_right_frames}
     };
 
@@ -134,6 +136,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
         {7, 1, false, false},
     };
     AnimationSet attack_animation_set = {
+        100,
         {attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames}
     };
 
@@ -214,7 +217,7 @@ Entity* load_player(ECSManager& ecs) {
 
 
 std::unique_ptr<SpriteAnimation> load_enemy_animation() {
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation(200));
+    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation());
 
     std::vector<AnimationFrameData> idle_up_frames = {
         {0, 0, false, true},
@@ -240,6 +243,7 @@ std::unique_ptr<SpriteAnimation> load_enemy_animation() {
     };
 
     AnimationSet idle_set = {
+        200,
         {
             idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
         }
@@ -259,7 +263,7 @@ Entity* load_enemy(ECSManager& ecs) {
         return NULL;
     }
 
-    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE));
+    std::unique_ptr<Character> character (new Character(Direction::LEFT, CharacterState::IDLE));
     ecs.add_component(*enemy, std::move(character));
 
     std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/oktorok__red.png", 16, 16));
