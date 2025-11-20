@@ -56,17 +56,15 @@ void ECSManager::remove_entity(int entity_id) {
 }
 
 
+void ECSManager::mark_remove(int entity_id) {
+    m_removal_queue.push_back(entity_id);
+}
+
+
 void ECSManager::prune_inactive_entities() {
-    std::vector<int> removal_ids;
-
-    for (std::unique_ptr<Entity>& entity : m_entities) {
-        if (entity->is_active()) {
-            continue;
-        }
-        removal_ids.push_back(entity->get_id());
-    }
-
-    for (int id : removal_ids) {
+    for (int id : m_removal_queue) {
         remove_entity(id);
+        printf("Removed Entity %d\n", id);
     }
+    m_removal_queue.clear();
 }

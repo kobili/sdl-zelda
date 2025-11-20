@@ -12,4 +12,11 @@ public:
     void update_entity(Entity& entity, Uint32 dt) override;
 };
 
+
+class RemovalFlagHandlerSystem : public ISystem {
+public:
+    using ISystem::ISystem;
+    void update_entity(Entity& entity, Uint32 dt) override;
+};
+
 #endif

@@ -14,7 +14,7 @@ void EntityLifetimeSystem::update_entity(Entity& entity, Uint32 dt) {
     lifetime.update_age(dt);
 
     if (lifetime.get_age_ms() >= lifetime.get_lifetime_ms()) {
-        entity.deactivate();
-        printf("Deactivated Entity %d\n", entity.get_id());
+        m_ecs->mark_remove(entity.get_id());
+        printf("Marked Entity %d for removal\n", entity.get_id());
     }
 }

@@ -21,6 +21,8 @@ public:
 
     void remove_entity(int entity_id);
 
+    void mark_remove(int entity_id);
+
     void prune_inactive_entities();
 
     template <typename T>
@@ -51,6 +53,9 @@ private:
 
     // for deduplication
     std::unordered_set<Entity> m_entity_set;
+
+    // entity ids marked to be removed
+    std::vector<int> m_removal_queue;
 };
 
 #endif
