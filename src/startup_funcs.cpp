@@ -344,7 +344,10 @@ Entity* load_enemy(ECSManager& ecs) {
 void load_sword_attack_animation(ECSManager& ecs, Entity& player_entity) {
     // load animations
     std::vector<AnimationFrameData> attack_up_frames = {
-        {0, 0, false, false}
+        {0, 0, false, false, 3, -12},
+        {0, 0, false, false, 3, -12},
+        {0, 0, false, false, 3, -11},
+        {0, 0, false, false, 3, -3},
     };
     std::vector<AnimationFrameData>  attack_down_frames = {
         {-1, -1, false, true, 0, 0},
@@ -353,10 +356,16 @@ void load_sword_attack_animation(ECSManager& ecs, Entity& player_entity) {
         {0, 0, false, true, 5, 3},
     };
     std::vector<AnimationFrameData> attack_left_frames = {
-        {1, 0, true, false}
+        {-1, -1, true, false, -12, 1},
+        {1, 0, true, false, -12, 1},
+        {1, 0, true, false, -8, 1},
+        {1, 0, true, false, -4, 1}
     };
     std::vector<AnimationFrameData> attack_right_frames = {
-        {1, 0, false, false}
+        {-1, -1, false, false, 12, 1},
+        {1, 0, false, false, 12, 1},
+        {1, 0, false, false, 8, 1},
+        {1, 0, false, false, 4, 1}
     };
 
     std::unique_ptr<SwordAnimation> animation (

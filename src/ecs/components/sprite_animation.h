@@ -41,7 +41,7 @@ struct AnimationSet {
     std::vector<AnimationFrameData> frames[4];
 };
 
-
+// TODO: Rename this to CharacterAnimation
 class SpriteAnimation {
 public:
     SpriteAnimation();
