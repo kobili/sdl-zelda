@@ -15,6 +15,8 @@ SpriteRenderSystem::SpriteRenderSystem(
     m_window = window;
 }
 
+// TODO: Rename this into CharacterRenderSystem that will expect Character and SpriteAnimation components
+// TODO: Split this into Player and Enemy character render systems so we can render with priority Player->Sword->Enemy
 void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
     Sprite* sprite = m_ecs->get_component<Sprite>(entity);
     if (sprite == NULL) {

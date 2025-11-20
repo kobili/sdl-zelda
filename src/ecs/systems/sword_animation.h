@@ -4,11 +4,20 @@
 
 #include "base_system.h"
 
+#include "../../texture_manager.h"
+#include "../../window.h"
+#include "../../cameras/camera.h"
+
 
 class SwordAnimationSystem : public ISystem {
 public:
-    using ISystem::ISystem;
+    SwordAnimationSystem(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
     void update_entity(Entity& entity, Uint32 dt) override;
+
+private:
+    TextureManager* m_texture_manager; // non-owning
+    Camera* m_camera;
+    Window* m_window;
 };
 
 #endif

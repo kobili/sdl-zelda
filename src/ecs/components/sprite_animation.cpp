@@ -33,7 +33,8 @@ void SpriteAnimation::set_animation_set(CharacterState state, AnimationSet anima
 }
 
 
-SwordAnimation::SwordAnimation(AnimationSet animation_set) {
+SwordAnimation::SwordAnimation(SpriteInformation sprite_info, AnimationSet animation_set) {
+    m_sprite_info = sprite_info;
     m_animation_set = animation_set;
 }
 
@@ -42,4 +43,15 @@ AnimationFrameData SwordAnimation::get_animation_frame(Direction direction, Uint
     int selected_frame = timer / m_animation_set.frame_duration_ms;
 
     std::vector<AnimationFrameData> direction_frames = m_animation_set.frames[(int) direction];
+
+    if (selected_frame == direction_frames.size()) {
+        selected_frame = direction_frames.size() - 1;
+    }
+
+    return direction_frames[selected_frame];
+}
+
+
+SpriteInformation& SwordAnimation::get_sprite_info() {
+    return m_sprite_info;
 }

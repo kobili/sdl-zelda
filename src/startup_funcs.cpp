@@ -21,6 +21,7 @@
 #include "ecs/systems/player_attack_input.h"
 #include "ecs/systems/character_update.h"
 #include "ecs/systems/entity_lifetime_system.h"
+#include "ecs/systems/sword_animation.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -224,6 +225,8 @@ Entity* load_player(ECSManager& ecs) {
         printf("failed to load player animations");
     }
 
+    load_sword_attack_animation(ecs, *player);
+
     return player;
 }
 
@@ -338,57 +341,16 @@ Entity* load_enemy(ECSManager& ecs) {
 }
 
 
-Entity* load_sword_sprite(ECSManager& ecs) {
-
-    int player_x = (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16;
-    int player_y = 7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2;
-
-    std::unique_ptr<Entity> _entity (new Entity(3));
-    Entity* entity = ecs.add_entity(std::move(_entity));
-
-    std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/wood_sword_sprites.png", 16, 16));
-    ecs.add_component<Sprite>(*entity, std::move(sprite));
-
-    std::unique_ptr<Position> position (new Position(
-        player_x + 5,
-        player_y + 11
-    ));
-    ecs.add_component<Position>(*entity, std::move(position));
-
+void load_sword_attack_animation(ECSManager& ecs, Entity& player_entity) {
     // load animations
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation());
-
-    std::vector<AnimationFrameData> idle_up_frames = {
-        {0, 0, false, false}
-    };
-    std::vector<AnimationFrameData>  idle_down_frames = {
-        {-1, -1, false, true, 0, 0},
-        // {0, 0, false, true, 0, 0},
-        // {0, 0, false, true, 0, -4},
-        // {0, 0, false, true, 0, -8},
-    };
-    std::vector<AnimationFrameData> idle_left_frames = {
-        {1, 0, true, false}
-    };
-    std::vector<AnimationFrameData> idle_right_frames = {
-        {1, 0, false, false}
-    };
-    animation->set_animation_set(CharacterState::IDLE, {
-        LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
-        true,
-        {
-            idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
-        }
-    });
-
     std::vector<AnimationFrameData> attack_up_frames = {
         {0, 0, false, false}
     };
     std::vector<AnimationFrameData>  attack_down_frames = {
         {-1, -1, false, true, 0, 0},
-        {0, 0, false, true, 0, 0},
-        {0, 0, false, true, 0, -4},
-        {0, 0, false, true, 0, -8},
+        {0, 0, false, true, 5, 11},
+        {0, 0, false, true, 5, 7},
+        {0, 0, false, true, 5, 3},
     };
     std::vector<AnimationFrameData> attack_left_frames = {
         {1, 0, true, false}
@@ -396,58 +358,21 @@ Entity* load_sword_sprite(ECSManager& ecs) {
     std::vector<AnimationFrameData> attack_right_frames = {
         {1, 0, false, false}
     };
-    animation->set_animation_set(CharacterState::ATTACKING, {
-        LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
-        false,
-        {
-            attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames
-        }
-    });
 
-    ecs.add_component<SpriteAnimation>(*entity, std::move(animation));
+    std::unique_ptr<SwordAnimation> animation (
+        new SwordAnimation(
+            {"resources/sprites/wood_sword_sprites.png", 16, 16},
+            {
+                LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
+                false,
+                {
+                    attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames
+                }
+            }
+        )
+    );
 
-    // TODO: Need a separate kind of animation for non character entities
-    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS));
-    ecs.add_component<Character>(*entity, std::move(character));
-
-    std::unique_ptr<Player> player (new Player());
-    ecs.add_component<Player>(*entity, std::move(player));
-
-    std::unique_ptr<Collider> collider (new Collider(
-        player_x,
-        player_y,
-        16,
-        16
-    ));
-    ecs.add_component<Collider>(*entity, std::move(collider));
-
-    ClickHandler on_click = [&ecs](Entity& entity) {
-        Sprite* _sprite_value = ecs.get_component<Sprite>(entity);
-        if (_sprite_value == NULL) {
-            return;
-        }
-        if (_sprite_value->get_texture_name() != "resources/sprites/wood_sword_sprites.png") {
-            return;
-        }
-        Character* _character_value = ecs.get_component<Character>(entity);
-        if (_character_value == NULL) {
-            return;
-        }
-
-        printf("Sword\n");
-        _character_value->set_character_state(CharacterState::ATTACKING);
-        // entity.deactivate();
-    };
-    std::unique_ptr<Clickable> clickable (new Clickable(on_click));
-    if (ecs.add_component<Clickable>(*entity, std::move(clickable)) == NULL) {
-        printf("failed to load clickable for enemy\n");
-        return NULL;
-    }
-
-    // std::unique_ptr<EntityLifetime> lifetime (new EntityLifetime(2000));
-    // ecs.add_component<EntityLifetime>(*entity, std::move(lifetime));
-
-    return entity;
+    ecs.add_component<SwordAnimation>(player_entity, std::move(animation));
 }
 
 
@@ -470,9 +395,12 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<SpriteAnimationSystem> sprite_animation_system (new SpriteAnimationSystem(&ecs));
     ecs.register_system(std::move(sprite_animation_system), 6);
 
+    std::unique_ptr<SwordAnimationSystem> sword_animation_system (new SwordAnimationSystem(&ecs, texture_manager, camera, window));
+    ecs.register_system(std::move(sword_animation_system), 7);
+
     std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(sprite_render_system), 7);
+    ecs.register_system(std::move(sprite_render_system), 8);
 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
-    ecs.register_system(std::move(entity_lifetime_system), 8);
+    ecs.register_system(std::move(entity_lifetime_system), 9);
 }

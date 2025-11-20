@@ -68,10 +68,18 @@ private:
 };
 
 
+struct SpriteInformation {
+    std::string texture_name;
+    int sprite_width_px;
+    int sprite_height_px;
+};
+
+
 // component solely for animating Link's sword
+// link it to the player entity
 class SwordAnimation {
 public:
-    SwordAnimation(AnimationSet animation_set);
+    SwordAnimation(SpriteInformation sprite_info, AnimationSet animation_set);
 
     /**
      * \param direction The direction link is facing while attacking
@@ -79,7 +87,10 @@ public:
      */
     AnimationFrameData get_animation_frame(Direction direction, Uint32 timer);
 
+    SpriteInformation& get_sprite_info();
+
 private:
+    SpriteInformation m_sprite_info;
     AnimationSet m_animation_set;
 };
 
