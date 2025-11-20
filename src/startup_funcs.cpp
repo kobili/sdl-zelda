@@ -313,8 +313,8 @@ Entity* load_enemy(ECSManager& ecs) {
         if (_sprite_value->get_texture_name() != "resources/sprites/oktorok__red.png") {
             return;
         }
-        // printf("I'm so hungry, I could eat an oktorok!\n");
-        ecs.remove_entity(entity.get_id());
+        printf("I'm so hungry, I could eat an oktorok!\n");
+        // entity.deactivate();
     };
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
     if (ecs.add_component<Clickable>(*enemy, std::move(clickable)) == NULL) {
@@ -426,8 +426,9 @@ Entity* load_sword_sprite(ECSManager& ecs) {
             return;
         }
 
-        printf("Sword\n");
-        _character_value->set_character_state(CharacterState::ATTACKING);
+        // printf("Sword\n");
+        // _character_value->set_character_state(CharacterState::ATTACKING);
+        entity.deactivate();
     };
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
     if (ecs.add_component<Clickable>(*entity, std::move(clickable)) == NULL) {

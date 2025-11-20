@@ -95,6 +95,8 @@ int main(int argc, char* args[]) {
         SDL_RenderPresent(renderer);
 
         input_manager.flush_events();
+
+        ecs.prune_inactive_entities();
     }
 
     teardown_sdl();

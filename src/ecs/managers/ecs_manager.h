@@ -21,6 +21,8 @@ public:
 
     void remove_entity(int entity_id);
 
+    void prune_inactive_entities();
+
     template <typename T>
     T* add_component(Entity entity, std::unique_ptr<T> component) {
         if (m_entity_set.find(entity) == m_entity_set.end()) {

@@ -10,12 +10,16 @@ public:
 
     int get_id() const;
 
+    bool is_active() const;
+    void deactivate();
+
     bool operator==(const Entity& other) const {
         return m_id == other.m_id;
     }
 
 private:
     int m_id;
+    bool m_is_active;
 };
 
 namespace std {

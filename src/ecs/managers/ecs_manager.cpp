@@ -54,3 +54,19 @@ void ECSManager::remove_entity(int entity_id) {
 
     m_component_manager.remove_components(entity_id);
 }
+
+
+void ECSManager::prune_inactive_entities() {
+    std::vector<int> removal_ids;
+
+    for (std::unique_ptr<Entity>& entity : m_entities) {
+        if (entity->is_active()) {
+            continue;
+        }
+        removal_ids.push_back(entity->get_id());
+    }
+
+    for (int id : removal_ids) {
+        remove_entity(id);
+    }
+}
