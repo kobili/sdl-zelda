@@ -11,6 +11,7 @@
 #include "ecs/components/clickable.h"
 #include "ecs/components/sprite_animation.h"
 #include "ecs/components/character.h"
+#include "ecs/components/entity_lifetime.h"
 
 #include "ecs/systems/click_system.h"
 #include "ecs/systems/movement_system.h"
@@ -19,6 +20,7 @@
 #include "ecs/systems/sprite_animation_system.h"
 #include "ecs/systems/player_attack_input.h"
 #include "ecs/systems/character_update.h"
+#include "ecs/systems/entity_lifetime_system.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -426,15 +428,18 @@ Entity* load_sword_sprite(ECSManager& ecs) {
             return;
         }
 
-        // printf("Sword\n");
-        // _character_value->set_character_state(CharacterState::ATTACKING);
-        entity.deactivate();
+        printf("Sword\n");
+        _character_value->set_character_state(CharacterState::ATTACKING);
+        // entity.deactivate();
     };
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
     if (ecs.add_component<Clickable>(*entity, std::move(clickable)) == NULL) {
         printf("failed to load clickable for enemy\n");
         return NULL;
     }
+
+    // std::unique_ptr<EntityLifetime> lifetime (new EntityLifetime(2000));
+    // ecs.add_component<EntityLifetime>(*entity, std::move(lifetime));
 
     return entity;
 }
@@ -461,4 +466,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
 
     std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
     ecs.register_system(std::move(sprite_render_system), 7);
+
+    std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
+    ecs.register_system(std::move(entity_lifetime_system), 8);
 }
