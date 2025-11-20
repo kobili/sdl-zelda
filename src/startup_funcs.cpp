@@ -59,8 +59,8 @@ bool load_textures(TextureManager* manager) {
 }
 
 
-std::unique_ptr<CharacterAnimation> load_player_animations() {
-    std::unique_ptr<CharacterAnimation> animation (new CharacterAnimation());
+CharacterAnimation load_player_animations() {
+    CharacterAnimation animation = CharacterAnimation();
 
     // setup idle animation
     std::vector<AnimationFrameData> idle_up_frames = {
@@ -85,7 +85,7 @@ std::unique_ptr<CharacterAnimation> load_player_animations() {
         {idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames}
     };
 
-    animation->set_animation_set(CharacterState::IDLE, idle_animation_set);
+    animation.set_animation_set(CharacterState::IDLE, idle_animation_set);
 
     // setup movement animation
     std::vector<AnimationFrameData> move_up_frames = {
@@ -114,7 +114,7 @@ std::unique_ptr<CharacterAnimation> load_player_animations() {
         {move_up_frames, move_down_frames, move_left_frames, move_right_frames}
     };
 
-    animation->set_animation_set(CharacterState::MOVING, movement_animation_set);
+    animation.set_animation_set(CharacterState::MOVING, movement_animation_set);
 
 
     // setup attack animations
@@ -148,7 +148,7 @@ std::unique_ptr<CharacterAnimation> load_player_animations() {
         {attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames}
     };
 
-    animation->set_animation_set(CharacterState::ATTACKING, attack_animation_set);
+    animation.set_animation_set(CharacterState::ATTACKING, attack_animation_set);
 
     return animation;
 }
@@ -158,50 +158,47 @@ void load_player(ECSManager& ecs) {
     int player = 1;
     ecs.add_entity(player);
 
-    std::unique_ptr<Character> character (new Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS));
-    ecs.add_component(player, std::move(character));
+    Character character = Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS);
+    ecs.add_component(player, character);
 
-    std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/link.png", 16, 16));
-    if (ecs.add_component<Sprite>(player, std::move(sprite)) == NULL) {
+    Sprite sprite = Sprite("resources/sprites/link.png", 16, 16);
+    if (ecs.add_component<Sprite>(player, sprite) == NULL) {
         printf("failed to add Sprite component for Player\n");
         return;
     }
 
-    std::unique_ptr<Position> position (new Position(
+    Position position = Position(
         (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
-    ));
-    if (ecs.add_component<Position>(player, std::move(position)) == NULL) {
+    );
+    if (ecs.add_component<Position>(player, position) == NULL) {
         printf("failed to add Position for player\n");
         return;
     }
 
-    std::unique_ptr<Velocity> velocity (new Velocity());
-    if (ecs.add_component<Velocity>(player, std::move(velocity)) == NULL) {
+    if (ecs.add_component<Velocity>(player, Velocity()) == NULL) {
         printf("failed to add Velocity for player\n");
         return;
     }
 
-    std::unique_ptr<Movement> movement (new Movement());
-    if (ecs.add_component<Movement>(player, std::move(movement)) == NULL) {
+    if (ecs.add_component<Movement>(player, Movement()) == NULL) {
         printf("failed to add Movement for player\n");
         return;
     }
 
-    std::unique_ptr<Player> player_comp (new Player());
-    if (ecs.add_component<Player>(player, std::move(player_comp)) == NULL) {
+    if (ecs.add_component<Player>(player, Player()) == NULL) {
         printf("failed to load player component for player\n");
         return;
     }
 
-    std::unique_ptr<Collider> collider (new Collider(
+    Collider collider = Collider(
         (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
         ,
         16,
         16
-    ));
-    if (ecs.add_component<Collider>(player, std::move(collider)) == NULL) {
+    );
+    if (ecs.add_component<Collider>(player, collider) == NULL) {
         printf("failed to load collider for player\n");
         return;
     }
@@ -211,8 +208,7 @@ void load_player(ECSManager& ecs) {
         printf("Player at (%d, %d)\n", player_position.get_x(), player_position.get_y());
     };
 
-    std::unique_ptr<Clickable> clickable (new Clickable(on_click));
-    if (ecs.add_component<Clickable>(player, std::move(clickable)) == NULL) {
+    if (ecs.add_component<Clickable>(player, Clickable(on_click)) == NULL) {
         printf("failed to load clickable for player\n");
     }
 
@@ -225,8 +221,8 @@ void load_player(ECSManager& ecs) {
 }
 
 
-std::unique_ptr<CharacterAnimation> load_enemy_animation() {
-    std::unique_ptr<CharacterAnimation> animation (new CharacterAnimation());
+CharacterAnimation load_enemy_animation() {
+    CharacterAnimation animation = CharacterAnimation();
 
     std::vector<AnimationFrameData> idle_up_frames = {
         {0, 0, false, true},
@@ -259,7 +255,7 @@ std::unique_ptr<CharacterAnimation> load_enemy_animation() {
         }
     };
 
-    animation->set_animation_set(CharacterState::IDLE, idle_set);
+    animation.set_animation_set(CharacterState::IDLE, idle_set);
 
     return animation;
 }
@@ -269,37 +265,35 @@ void load_enemy(ECSManager& ecs) {
     int enemy = 2;
     ecs.add_entity(enemy);
 
-    std::unique_ptr<Character> character (new Character(Direction::LEFT, CharacterState::IDLE));
+    Character character = Character(Direction::LEFT, CharacterState::IDLE);
     ecs.add_component(enemy, std::move(character));
 
-    std::unique_ptr<Sprite> sprite (new Sprite("resources/sprites/oktorok__red.png", 16, 16));
-    if (ecs.add_component<Sprite>(enemy, std::move(sprite)) == NULL) {
+    if (ecs.add_component<Sprite>(enemy, Sprite("resources/sprites/oktorok__red.png", 16, 16)) == NULL) {
         printf("failed to add Sprite component for enemy\n");
         return;
     }
 
-    std::unique_ptr<Position> position (new Position(
+    Position position = Position(
         7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
-    ));
-    if (ecs.add_component<Position>(enemy, std::move(position)) == NULL) {
+    );
+    if (ecs.add_component<Position>(enemy, position) == NULL) {
         printf("failed to add Position for enemy\n");
         return;
     }
 
-    std::unique_ptr<Velocity> velocity (new Velocity());
-    if (ecs.add_component<Velocity>(enemy, std::move(velocity)) == NULL) {
+    if (ecs.add_component<Velocity>(enemy, Velocity()) == NULL) {
         printf("failed to add Velocity for enemy\n");
         return;
     }
 
-    std::unique_ptr<Collider> collider (new Collider(
+    Collider collider = Collider(
         7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2,
         16,
         16
-    ));
-    if (ecs.add_component<Collider>(enemy, std::move(collider)) == NULL) {
+    );
+    if (ecs.add_component<Collider>(enemy, collider) == NULL) {
         printf("failed to load collider for enemy\n");
         return;
     }
@@ -315,14 +309,13 @@ void load_enemy(ECSManager& ecs) {
         printf("I'm so hungry, I could eat an oktorok!\n");
         ecs.mark_remove(entity_id);
     };
-    std::unique_ptr<Clickable> clickable (new Clickable(on_click));
-    if (ecs.add_component<Clickable>(enemy, std::move(clickable)) == NULL) {
+
+    if (ecs.add_component<Clickable>(enemy, Clickable(on_click)) == NULL) {
         printf("failed to load clickable for enemy\n");
         return;
     }
-    
-    std::unique_ptr<CharacterAnimation> animation = load_enemy_animation();
-    if (ecs.add_component<CharacterAnimation>(enemy, std::move(animation)) == NULL) {
+
+    if (ecs.add_component<CharacterAnimation>(enemy, load_enemy_animation()) == NULL) {
         printf("failed to load animation for enemy.\n");
         return;
     }
@@ -356,8 +349,8 @@ void load_sword_attack_animation(ECSManager& ecs, int player_entity) {
         {1, 0, false, false, 4, 1}
     };
 
-    std::unique_ptr<SwordAnimation> animation (
-        new SwordAnimation(
+    SwordAnimation animation = (
+        SwordAnimation(
             {"resources/sprites/wood_sword_sprites.png", 16, 16},
             {
                 LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,

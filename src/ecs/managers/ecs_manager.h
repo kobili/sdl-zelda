@@ -25,13 +25,13 @@ public:
     void prune_inactive_entities();
 
     template <typename T>
-    T* add_component(int entity_id, std::unique_ptr<T> component) {
+    T* add_component(int entity_id, T component) {
         if (m_entity_set.find(entity_id) == m_entity_set.end()) {
             printf("can't add %s for unregistered Entity with id %d\n", typeid(T).name(), entity_id);
             return NULL;
         }
 
-        return m_component_manager.add_component(entity_id, std::move(component));
+        return m_component_manager.add_component(entity_id, component);
     }
 
     template <typename T>

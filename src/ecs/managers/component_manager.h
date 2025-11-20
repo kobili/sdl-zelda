@@ -16,8 +16,8 @@ public:
 template <typename T>
 class ComponentStore : public IComponentStore {
 public:
-    T* add_component(int entity_id, std::unique_ptr<T> component) {
-        m_components[entity_id] = std::move(component);
+    T* add_component(int entity_id, T component) {
+        m_components[entity_id] = std::unique_ptr<T>(new T(std::move(component)));
         return m_components[entity_id].get();
     }
 
@@ -40,9 +40,9 @@ private:
 class ComponentManager {
 public:
     template <typename T>
-    T* add_component(int entity_id, std::unique_ptr<T> component) {
+    T* add_component(int entity_id, T component) {
         ComponentStore<T>& component_store = get_or_create_store<T>();
-        component_store.add_component(entity_id, std::move(component));
+        component_store.add_component(entity_id, component);
 
         return component_store.get_component(entity_id);
     }
