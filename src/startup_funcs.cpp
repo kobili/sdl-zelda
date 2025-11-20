@@ -6,6 +6,7 @@
 #include "ecs/components/velocity.h"
 #include "ecs/components/movement.h"
 #include "ecs/components/player.h"
+#include "ecs/components/enemy.h"
 #include "ecs/components/collider.h"
 #include "ecs/components/clickable.h"
 #include "ecs/components/sprite_animation.h"
@@ -266,6 +267,8 @@ void load_enemy(ECSManager& ecs) {
     Character character = Character(Direction::LEFT, CharacterState::IDLE);
     ecs.add_component(enemy, std::move(character));
 
+    ecs.add_component(enemy, Enemy());
+
     Position position = Position(
         7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
@@ -371,12 +374,15 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<SpriteAnimationSystem> sprite_animation_system (new SpriteAnimationSystem(&ecs));
     ecs.register_system(std::move(sprite_animation_system), 6);
 
-    std::unique_ptr<SwordAnimationSystem> sword_animation_system (new SwordAnimationSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(sword_animation_system), 7);
+    std::unique_ptr<EnemySpriteRenderSystem> enemy_render_system (new EnemySpriteRenderSystem(&ecs, texture_manager, camera, window));
+    ecs.register_system(std::move(enemy_render_system), 7);
 
-    std::unique_ptr<CharacterSpriteRenderSystem> sprite_render_system (new CharacterSpriteRenderSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(sprite_render_system), 8);
+    std::unique_ptr<SwordAnimationSystem> sword_animation_system (new SwordAnimationSystem(&ecs, texture_manager, camera, window));
+    ecs.register_system(std::move(sword_animation_system), 8);
+
+    std::unique_ptr<PlayerSpriteRenderSystem> player_render_system (new PlayerSpriteRenderSystem(&ecs, texture_manager, camera, window));
+    ecs.register_system(std::move(player_render_system), 9);
 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
-    ecs.register_system(std::move(entity_lifetime_system), 9);
+    ecs.register_system(std::move(entity_lifetime_system), 10);
 }

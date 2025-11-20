@@ -3,19 +3,23 @@
 #include "../components/position.h"
 #include "../components/sprite_animation.h"
 #include "../components/character.h"
+#include "../components/player.h"
+#include "../components/enemy.h"
 #include "../managers/ecs_manager.h"
 
 
-CharacterSpriteRenderSystem::CharacterSpriteRenderSystem(
+CharacterRenderer::CharacterRenderer(
     ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window
-) : ISystem(ecs) {
+){
+    m_ecs = ecs;
     m_texture_manager = texture_manager;
     m_camera = camera;
     m_window = window;
 }
 
-// TODO: Split this into Player and Enemy character render systems so we can render with priority Player->Sword->Enemy
-void CharacterSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
+
+void CharacterRenderer::render(int entity_id, Uint32 dt) {
+    
     Position* position = m_ecs->get_component<Position>(entity_id);
     if (position == NULL) {
         return;
@@ -56,4 +60,32 @@ void CharacterSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
         frame.flip_horizontal,
         frame.flip_vertical
     );
+}
+
+
+PlayerSpriteRenderSystem::PlayerSpriteRenderSystem(
+    ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window
+) : ISystem(ecs), m_renderer(ecs, texture_manager, camera, window) {}
+
+
+void PlayerSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
+    if (m_ecs->get_component<Player>(entity_id) == NULL) {
+        return;
+    }
+
+    m_renderer.render(entity_id, dt);
+}
+
+
+EnemySpriteRenderSystem::EnemySpriteRenderSystem(
+    ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window
+) : ISystem(ecs), m_renderer(ecs, texture_manager, camera, window) {}
+
+
+void EnemySpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
+    if (m_ecs->get_component<Enemy>(entity_id) == NULL) {
+        return;
+    }
+
+    m_renderer.render(entity_id, dt);
 }
