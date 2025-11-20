@@ -6,11 +6,11 @@
 
 
 void SpriteAnimationSystem::update_entity(Entity& entity, Uint32 dt) {
-    SpriteAnimation* _animation = m_ecs->get_component<SpriteAnimation>(entity);
+    CharacterAnimation* _animation = m_ecs->get_component<CharacterAnimation>(entity);
     if (_animation == NULL) {
         return;
     }
-    SpriteAnimation& animation = *_animation;
+    CharacterAnimation& animation = *_animation;
 
     animation.update_timer(dt);
 }

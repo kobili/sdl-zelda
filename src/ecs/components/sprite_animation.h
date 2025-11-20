@@ -41,10 +41,9 @@ struct AnimationSet {
     std::vector<AnimationFrameData> frames[4];
 };
 
-// TODO: Rename this to CharacterAnimation
-class SpriteAnimation {
+class CharacterAnimation {
 public:
-    SpriteAnimation();
+    CharacterAnimation();
 
     SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction, Uint32 timer);
 

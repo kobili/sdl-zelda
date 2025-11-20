@@ -59,8 +59,8 @@ bool load_textures(TextureManager* manager) {
 }
 
 
-std::unique_ptr<SpriteAnimation> load_player_animations() {
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation());
+std::unique_ptr<CharacterAnimation> load_player_animations() {
+    std::unique_ptr<CharacterAnimation> animation (new CharacterAnimation());
 
     // setup idle animation
     std::vector<AnimationFrameData> idle_up_frames = {
@@ -221,7 +221,7 @@ Entity* load_player(ECSManager& ecs) {
     }
 
     auto animation = load_player_animations();
-    if (ecs.add_component<SpriteAnimation>(*player, std::move(animation)) == NULL) {
+    if (ecs.add_component<CharacterAnimation>(*player, std::move(animation)) == NULL) {
         printf("failed to load player animations");
     }
 
@@ -231,8 +231,8 @@ Entity* load_player(ECSManager& ecs) {
 }
 
 
-std::unique_ptr<SpriteAnimation> load_enemy_animation() {
-    std::unique_ptr<SpriteAnimation> animation (new SpriteAnimation());
+std::unique_ptr<CharacterAnimation> load_enemy_animation() {
+    std::unique_ptr<CharacterAnimation> animation (new CharacterAnimation());
 
     std::vector<AnimationFrameData> idle_up_frames = {
         {0, 0, false, true},
@@ -331,8 +331,8 @@ Entity* load_enemy(ECSManager& ecs) {
         return NULL;
     }
     
-    std::unique_ptr<SpriteAnimation> animation = load_enemy_animation();
-    if (ecs.add_component<SpriteAnimation>(*enemy, std::move(animation)) == NULL) {
+    std::unique_ptr<CharacterAnimation> animation = load_enemy_animation();
+    if (ecs.add_component<CharacterAnimation>(*enemy, std::move(animation)) == NULL) {
         printf("failed to load animation for enemy.\n");
         return NULL;
     }
@@ -407,7 +407,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<SwordAnimationSystem> sword_animation_system (new SwordAnimationSystem(&ecs, texture_manager, camera, window));
     ecs.register_system(std::move(sword_animation_system), 7);
 
-    std::unique_ptr<SpriteRenderSystem> sprite_render_system (new SpriteRenderSystem(&ecs, texture_manager, camera, window));
+    std::unique_ptr<CharacterSpriteRenderSystem> sprite_render_system (new CharacterSpriteRenderSystem(&ecs, texture_manager, camera, window));
     ecs.register_system(std::move(sprite_render_system), 8);
 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));

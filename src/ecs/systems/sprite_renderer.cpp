@@ -7,7 +7,7 @@
 #include "../managers/ecs_manager.h"
 
 
-SpriteRenderSystem::SpriteRenderSystem(
+CharacterSpriteRenderSystem::CharacterSpriteRenderSystem(
     ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window
 ) : ISystem(ecs) {
     m_texture_manager = texture_manager;
@@ -15,9 +15,9 @@ SpriteRenderSystem::SpriteRenderSystem(
     m_window = window;
 }
 
-// TODO: Rename this into CharacterRenderSystem that will expect Character and SpriteAnimation components
 // TODO: Split this into Player and Enemy character render systems so we can render with priority Player->Sword->Enemy
-void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
+void CharacterSpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
+    // TODO: Remove dependency on sprite. Sprite info should be embedded in CharacterAnimation à la SwordAnimation
     Sprite* sprite = m_ecs->get_component<Sprite>(entity);
     if (sprite == NULL) {
         return;
@@ -27,32 +27,28 @@ void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
         return;
     }
 
-    int x = position->get_x();
-    int y = position->get_y();
-
     Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
     if (texture == NULL) {
         return;
     }
 
-    Character* character = m_ecs->get_component<Character>(entity);
-
-    SpriteAnimation* animation = m_ecs->get_component<SpriteAnimation>(entity);
-    SDL_Rect clip;
-    bool flip_horizontal = false;
-    bool flip_vertical = false;
-    if (animation != NULL && character != NULL) {
-        // printf("Entity %d; state: %d\n", entity.get_id(), (int) character->get_character_state());
-        SpriteAnimationFrame frame = animation->get_current_frame(character->get_character_state(), character->get_orientation(), character->get_time_in_state_ms());
-        flip_horizontal = frame.frame_data.flip_horizontal;
-        flip_vertical = frame.frame_data.flip_vertical;
-        clip = sprite->get_sprite(frame.frame_data.col, frame.frame_data.row);
-
-        x = x + frame.frame_data.offset_x;
-        y = y + frame.frame_data.offset_y;
-    } else {
-        clip = sprite->get_sprite(0, 0);
+    Character* _character = m_ecs->get_component<Character>(entity);
+    if (!_character) {
+        return;
     }
+    Character& character = *_character;
+
+    CharacterAnimation* _animation = m_ecs->get_component<CharacterAnimation>(entity);
+    if (!_animation) {
+        return;
+    }
+    CharacterAnimation& animation = *_animation;
+
+    SpriteAnimationFrame frame = animation.get_current_frame(character.get_character_state(), character.get_orientation(), character.get_time_in_state_ms());
+    SDL_Rect clip = sprite->get_sprite(frame.frame_data.col, frame.frame_data.row);
+
+    int x = position->get_x() + frame.frame_data.offset_x;
+    int y = position->get_y() + frame.frame_data.offset_y;
 
     texture->render(
         x - m_camera->get_x(),
@@ -60,7 +56,7 @@ void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
         &clip,
         m_window->get_scale_x(),
         m_window->get_scale_y(),
-        flip_horizontal,
-        flip_vertical
+        frame.frame_data.flip_horizontal,
+        frame.frame_data.flip_vertical
     );
 }
