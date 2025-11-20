@@ -288,7 +288,7 @@ void load_enemy(ECSManager& ecs) {
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2,
         16,
         16,
-        ColliderType::PASSTHROUGH
+        ColliderType::EPHEMERAL
     );
     if (ecs.add_component<Collider>(enemy, collider) == NULL) {
         printf("failed to load collider for enemy\n");

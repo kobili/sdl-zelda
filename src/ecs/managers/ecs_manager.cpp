@@ -52,3 +52,17 @@ void ECSManager::prune_inactive_entities() {
     }
     m_removal_queue.clear();
 }
+
+
+void ECSManager::add_operation(std::function<void()> operation) {
+    m_operations_queue.push_back(operation);
+}
+
+
+void ECSManager::run_operations() {
+    for (std::function<void()> op : m_operations_queue) {
+        op();
+    }
+
+    m_operations_queue.clear();
+}

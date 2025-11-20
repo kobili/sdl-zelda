@@ -6,7 +6,6 @@
 
 enum class ColliderType {
     OBSTACLE,
-    PASSTHROUGH,
     PUSHABLE,
     EPHEMERAL, // for things like hitboxes
 };

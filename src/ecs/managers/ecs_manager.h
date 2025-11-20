@@ -43,6 +43,9 @@ public:
 
     void update(Uint32 dt);
 
+    void add_operation(std::function<void()> operation);
+    void run_operations();
+
 private:
     ComponentManager m_component_manager;
 
@@ -55,6 +58,8 @@ private:
 
     // entity ids marked to be removed
     std::vector<int> m_removal_queue;
+
+    std::vector<std::function<void()>> m_operations_queue;
 };
 
 #endif
