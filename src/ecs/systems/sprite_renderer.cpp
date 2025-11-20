@@ -1,7 +1,6 @@
 #include "sprite_renderer.h"
 
 #include "../components/position.h"
-#include "../components/sprite.h"
 #include "../components/sprite_animation.h"
 #include "../components/character.h"
 #include "../managers/ecs_manager.h"
@@ -17,18 +16,8 @@ CharacterSpriteRenderSystem::CharacterSpriteRenderSystem(
 
 // TODO: Split this into Player and Enemy character render systems so we can render with priority Player->Sword->Enemy
 void CharacterSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
-    // TODO: Remove dependency on sprite. Sprite info should be embedded in CharacterAnimation à la SwordAnimation
-    Sprite* sprite = m_ecs->get_component<Sprite>(entity_id);
-    if (sprite == NULL) {
-        return;
-    }
     Position* position = m_ecs->get_component<Position>(entity_id);
     if (position == NULL) {
-        return;
-    }
-
-    Texture* texture = m_texture_manager->get_texture(sprite->get_texture_name());
-    if (texture == NULL) {
         return;
     }
 
@@ -44,11 +33,19 @@ void CharacterSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
     }
     CharacterAnimation& animation = *_animation;
 
-    SpriteAnimationFrame frame = animation.get_current_frame(character.get_character_state(), character.get_orientation(), character.get_time_in_state_ms());
-    SDL_Rect clip = sprite->get_sprite(frame.frame_data.col, frame.frame_data.row);
+    SpriteInformation sprite_info = animation.get_sprite_info();
 
-    int x = position->get_x() + frame.frame_data.offset_x;
-    int y = position->get_y() + frame.frame_data.offset_y;
+    Texture* texture = m_texture_manager->get_texture(sprite_info.texture_name);
+    if (texture == NULL) {
+        return;
+    }
+
+    AnimationFrameData frame = animation.get_current_frame(character.get_character_state(), character.get_orientation(), character.get_time_in_state_ms());
+    
+    SDL_Rect clip = animation.get_sprite(frame.col, frame.row);
+
+    int x = position->get_x() + frame.offset_x;
+    int y = position->get_y() + frame.offset_y;
 
     texture->render(
         x - m_camera->get_x(),
@@ -56,7 +53,7 @@ void CharacterSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
         &clip,
         m_window->get_scale_x(),
         m_window->get_scale_y(),
-        frame.frame_data.flip_horizontal,
-        frame.frame_data.flip_vertical
+        frame.flip_horizontal,
+        frame.flip_vertical
     );
 }

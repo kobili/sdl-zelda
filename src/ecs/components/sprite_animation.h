@@ -10,6 +10,13 @@
 #include "../../constants.h"
 
 
+struct SpriteInformation {
+    std::string texture_name;
+    int sprite_width_px;
+    int sprite_height_px;
+};
+
+
 struct AnimationFrameData {
     // column and row on the sprite sheet
     int col;
@@ -21,11 +28,6 @@ struct AnimationFrameData {
 
     int offset_x;
     int offset_y;
-};
-
-
-struct SpriteAnimationFrame {
-    AnimationFrameData frame_data;
 };
 
 
@@ -43,14 +45,14 @@ struct AnimationSet {
 
 class CharacterAnimation {
 public:
-    CharacterAnimation();
+    CharacterAnimation(SpriteInformation sprite_info);
 
-    SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction, Uint32 timer);
+    AnimationFrameData get_current_frame(CharacterState state, Direction direction, Uint32 timer);
 
     /*
     * Overloaded method to use internal timer instead
     */
-    SpriteAnimationFrame get_current_frame(CharacterState state, Direction direction);
+    AnimationFrameData get_current_frame(CharacterState state, Direction direction);
 
     void update_timer(Uint32 dt);
 
@@ -60,17 +62,19 @@ public:
      */
     void set_animation_set(CharacterState state, AnimationSet animation_set);
 
+
+    SpriteInformation get_sprite_info() const;
+
+    /**
+     * Return a clip for the sprite on the sprite sheet given by col and row
+     */
+    SDL_Rect get_sprite(int col, int row);
+
 private:
     Uint32 m_timer;
 
     std::map<CharacterState, AnimationSet> m_state_animation_map;
-};
-
-
-struct SpriteInformation {
-    std::string texture_name;
-    int sprite_width_px;
-    int sprite_height_px;
+    SpriteInformation m_sprite_info;
 };
 
 
@@ -86,7 +90,12 @@ public:
      */
     AnimationFrameData get_animation_frame(Direction direction, Uint32 timer);
 
-    SpriteInformation& get_sprite_info();
+    SpriteInformation get_sprite_info() const;
+
+    /**
+     * Return a clip for the sprite on the sprite sheet given by col and row
+     */
+    SDL_Rect get_sprite(int col, int row);
 
 private:
     SpriteInformation m_sprite_info;

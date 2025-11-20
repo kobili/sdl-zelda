@@ -1,12 +1,28 @@
 #include "sprite_animation.h"
 
 
-CharacterAnimation::CharacterAnimation() {
+CharacterAnimation::CharacterAnimation(SpriteInformation sprite_info) {
+    m_sprite_info = sprite_info;
     m_timer = 0;
 }
 
 
-SpriteAnimationFrame CharacterAnimation::get_current_frame(CharacterState state, Direction direction, Uint32 timer) {
+SpriteInformation CharacterAnimation::get_sprite_info() const {
+    return m_sprite_info;
+}
+
+
+SDL_Rect CharacterAnimation::get_sprite(int col, int row) {
+    return {
+        col * m_sprite_info.sprite_width_px,
+        row * m_sprite_info.sprite_height_px,
+        m_sprite_info.sprite_width_px,
+        m_sprite_info.sprite_height_px
+    };
+}
+
+
+AnimationFrameData CharacterAnimation::get_current_frame(CharacterState state, Direction direction, Uint32 timer) {
     AnimationSet animation_set = m_state_animation_map[state];
     int selected_frame = timer / animation_set.frame_duration_ms;
     
@@ -19,13 +35,11 @@ SpriteAnimationFrame CharacterAnimation::get_current_frame(CharacterState state,
         }
     }
 
-    return {
-        direction_frames[selected_frame]
-    };
+    return direction_frames[selected_frame];
 }
 
 
-SpriteAnimationFrame CharacterAnimation::get_current_frame(CharacterState state, Direction direction) {
+AnimationFrameData CharacterAnimation::get_current_frame(CharacterState state, Direction direction) {
     return get_current_frame(state, direction, m_timer);
 }
 
@@ -59,6 +73,16 @@ AnimationFrameData SwordAnimation::get_animation_frame(Direction direction, Uint
 }
 
 
-SpriteInformation& SwordAnimation::get_sprite_info() {
+SpriteInformation SwordAnimation::get_sprite_info() const {
     return m_sprite_info;
+}
+
+
+SDL_Rect SwordAnimation::get_sprite(int col, int row) {
+    return {
+        col * m_sprite_info.sprite_width_px,
+        row * m_sprite_info.sprite_height_px,
+        m_sprite_info.sprite_width_px,
+        m_sprite_info.sprite_height_px
+    };
 }

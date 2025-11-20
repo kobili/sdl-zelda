@@ -45,15 +45,10 @@ void SwordAnimationSystem::update_entity(int entity_id, Uint32 dt) {
 
     AnimationFrameData current_frame = sword_animation.get_animation_frame(character.get_orientation(), character.get_time_in_state_ms());
 
-    SpriteInformation& sprite_info = sword_animation.get_sprite_info();
+    SpriteInformation sprite_info = sword_animation.get_sprite_info();
 
     // see Sprite.get_sprite
-    SDL_Rect clip = {
-        current_frame.col * sprite_info.sprite_width_px,
-        current_frame.row * sprite_info.sprite_height_px,
-        sprite_info.sprite_width_px,
-        sprite_info.sprite_height_px
-    };
+    SDL_Rect clip = sword_animation.get_sprite(current_frame.col, current_frame.row);
 
     int x = position.get_x() + current_frame.offset_x;
     int y = position.get_y() + current_frame.offset_y;

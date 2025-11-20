@@ -2,7 +2,6 @@
 
 #include "constants.h"
 
-#include "ecs/components/sprite.h"
 #include "ecs/components/position.h"
 #include "ecs/components/velocity.h"
 #include "ecs/components/movement.h"
@@ -60,7 +59,7 @@ bool load_textures(TextureManager* manager) {
 
 
 CharacterAnimation load_player_animations() {
-    CharacterAnimation animation = CharacterAnimation();
+    CharacterAnimation animation = CharacterAnimation(SpriteInformation{"resources/sprites/link.png", 16, 16});
 
     // setup idle animation
     std::vector<AnimationFrameData> idle_up_frames = {
@@ -154,18 +153,18 @@ CharacterAnimation load_player_animations() {
 }
 
 
+void player_callback(ECSManager& ecs, int entity_id) {
+    Position& player_position = *ecs.get_component<Position>(entity_id);
+    printf("Player at (%d, %d)\n", player_position.get_x(), player_position.get_y());
+}
+
+
 void load_player(ECSManager& ecs) {
     int player = 1;
     ecs.add_entity(player);
 
     Character character = Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS);
     ecs.add_component(player, character);
-
-    Sprite sprite = Sprite("resources/sprites/link.png", 16, 16);
-    if (ecs.add_component<Sprite>(player, sprite) == NULL) {
-        printf("failed to add Sprite component for Player\n");
-        return;
-    }
 
     Position position = Position(
         (7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2) - 16,
@@ -204,8 +203,7 @@ void load_player(ECSManager& ecs) {
     }
 
     ClickHandler on_click = [&ecs](int entity_id) {
-        Position& player_position = *ecs.get_component<Position>(entity_id);
-        printf("Player at (%d, %d)\n", player_position.get_x(), player_position.get_y());
+        player_callback(ecs, entity_id);
     };
 
     if (ecs.add_component<Clickable>(player, Clickable(on_click)) == NULL) {
@@ -222,7 +220,7 @@ void load_player(ECSManager& ecs) {
 
 
 CharacterAnimation load_enemy_animation() {
-    CharacterAnimation animation = CharacterAnimation();
+    CharacterAnimation animation = CharacterAnimation(SpriteInformation{"resources/sprites/oktorok__red.png", 16, 16});
 
     std::vector<AnimationFrameData> idle_up_frames = {
         {0, 0, false, true},
@@ -268,11 +266,6 @@ void load_enemy(ECSManager& ecs) {
     Character character = Character(Direction::LEFT, CharacterState::IDLE);
     ecs.add_component(enemy, std::move(character));
 
-    if (ecs.add_component<Sprite>(enemy, Sprite("resources/sprites/oktorok__red.png", 16, 16)) == NULL) {
-        printf("failed to add Sprite component for enemy\n");
-        return;
-    }
-
     Position position = Position(
         7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2
@@ -299,13 +292,6 @@ void load_enemy(ECSManager& ecs) {
     }
 
     ClickHandler on_click = [&ecs](int entity_id) {
-        Sprite* _sprite_value = ecs.get_component<Sprite>(entity_id);
-        if (_sprite_value == NULL) {
-            return;
-        }
-        if (_sprite_value->get_texture_name() != "resources/sprites/oktorok__red.png") {
-            return;
-        }
         printf("I'm so hungry, I could eat an oktorok!\n");
         ecs.mark_remove(entity_id);
     };
