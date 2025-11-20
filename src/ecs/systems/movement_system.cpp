@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../components/movement.h"
+#include "../components/moveable.h"
 #include "../components/velocity.h"
 #include "../components/position.h"
 #include "../components/collider.h"
@@ -14,7 +14,7 @@
 
 
 void MovementSystem::update_entity(int entity_id, Uint32 dt) {
-    Movement* movement = m_ecs->get_component<Movement>(entity_id);
+    Movable* movement = m_ecs->get_component<Movable>(entity_id);
     if (movement == NULL) {
         return;
     }
@@ -84,6 +84,10 @@ std::vector<SDL_Rect*> MovementSystem::get_other_colliders(int entity_id) {
 
         Collider* collider = m_ecs->get_component<Collider>(other_entity_id);
         if (collider == NULL) {
+            continue;
+        }
+
+        if (collider->get_type() != ColliderType::OBSTACLE) {
             continue;
         }
 

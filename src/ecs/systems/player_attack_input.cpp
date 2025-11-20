@@ -1,7 +1,7 @@
 #include "player_attack_input.h"
 
 #include "../components/player.h"
-#include "../components/movement.h"
+#include "../components/moveable.h"
 #include "../components/velocity.h"
 #include "../components/character.h"
 #include "../components/sprite_animation.h"

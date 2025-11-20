@@ -13,8 +13,18 @@ Collider::Collider(int x, int y, int w, int h) : Collider(w, h) {
 }
 
 
+Collider::Collider(int x, int y, int w, int h, ColliderType type) : Collider(x, y, w, h) {
+    m_type = type;
+}
+
+
 SDL_Rect& Collider::get_hitbox() {
     return m_hitbox;
+}
+
+
+ColliderType Collider::get_type() const {
+    return m_type;
 }
 
 

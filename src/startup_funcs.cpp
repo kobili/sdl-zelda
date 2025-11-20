@@ -4,7 +4,7 @@
 
 #include "ecs/components/position.h"
 #include "ecs/components/velocity.h"
-#include "ecs/components/movement.h"
+#include "ecs/components/moveable.h"
 #include "ecs/components/player.h"
 #include "ecs/components/enemy.h"
 #include "ecs/components/collider.h"
@@ -181,8 +181,8 @@ void load_player(ECSManager& ecs) {
         return;
     }
 
-    if (ecs.add_component<Movement>(player, Movement()) == NULL) {
-        printf("failed to add Movement for player\n");
+    if (ecs.add_component<Movable>(player, Movable()) == NULL) {
+        printf("failed to add Movable for player\n");
         return;
     }
 
@@ -287,7 +287,8 @@ void load_enemy(ECSManager& ecs) {
         7 * NES_SCREEN_WIDTH + NES_SCREEN_WIDTH / 2,
         7 * NES_SCREEN_HEIGHT + NES_SCREEN_HEIGHT / 2,
         16,
-        16
+        16,
+        ColliderType::PASSTHROUGH
     );
     if (ecs.add_component<Collider>(enemy, collider) == NULL) {
         printf("failed to load collider for enemy\n");
