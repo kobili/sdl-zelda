@@ -22,6 +22,7 @@
 #include "ecs/systems/character_update.h"
 #include "ecs/systems/entity_lifetime_system.h"
 #include "ecs/systems/sword_animation.h"
+#include "ecs/systems/hurtbox_system.h"
 
 
 bool load_textures(TextureManager* manager) {
@@ -386,4 +387,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
     ecs.register_system(std::move(entity_lifetime_system), 10);
+
+    std::unique_ptr<HurtboxIncrementSystem> hurtbox_increment_system (new HurtboxIncrementSystem(&ecs));
+    ecs.register_system(std::move(hurtbox_increment_system), 11);
 }

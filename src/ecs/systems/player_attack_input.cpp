@@ -42,7 +42,6 @@ void PlayerAttackInputSystem::update_entity(int entity_id, Uint32 dt) {
 
         character.set_character_state(CharacterState::ATTACKING);
 
-        ECSManager& ecs = *m_ecs;
         std::function<void()> create_hurtbox = [this, &entity_id]() {
             create_sword_hurtbox(*this->m_ecs, entity_id);
             printf("created sword hitbox\n");
@@ -72,7 +71,7 @@ void create_sword_hurtbox(ECSManager& ecs, int player_entity) {
     ecs.add_entity(entity_id);
 
     ecs.add_component<Hurtbox>(entity_id, Hurtbox(
-        LINK_ATTACK_DURATION_MS,
+        3 * LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
         LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
         2 * LINK_ATTACK_ANIMATION_FRAME_DURATION_MS
     ));
