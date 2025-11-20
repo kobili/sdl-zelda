@@ -80,6 +80,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
 
     AnimationSet idle_animation_set = {
         100,
+        true,
         {idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames}
     };
 
@@ -108,6 +109,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
 
     AnimationSet movement_animation_set = {
         100,
+        true,
         {move_up_frames, move_down_frames, move_left_frames, move_right_frames}
     };
 
@@ -141,6 +143,7 @@ std::unique_ptr<SpriteAnimation> load_player_animations() {
     };
     AnimationSet attack_animation_set = {
         LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
+        false,
         {attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames}
     };
 
@@ -253,6 +256,7 @@ std::unique_ptr<SpriteAnimation> load_enemy_animation() {
 
     AnimationSet idle_set = {
         200,
+        false,
         {
             idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
         }
@@ -371,6 +375,7 @@ Entity* load_sword_sprite(ECSManager& ecs) {
     };
     animation->set_animation_set(CharacterState::IDLE, {
         LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
+        true,
         {
             idle_up_frames, idle_down_frames, idle_left_frames, idle_right_frames
         }
@@ -393,6 +398,7 @@ Entity* load_sword_sprite(ECSManager& ecs) {
     };
     animation->set_animation_set(CharacterState::ATTACKING, {
         LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
+        false,
         {
             attack_up_frames, attack_down_frames, attack_left_frames, attack_right_frames
         }

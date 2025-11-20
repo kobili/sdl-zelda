@@ -33,6 +33,9 @@ struct AnimationSet {
     // how long each frame should last
     int frame_duration_ms;
 
+    // whether or not the animation should continue to loop
+    bool looping;
+
     // the SpriteAnimation frames for the animation for all 4 directions
     // ordered: UP, DOWN, LEFT, RIGHT
     std::vector<AnimationFrameData> frames[4];
@@ -62,6 +65,22 @@ private:
     Uint32 m_timer;
 
     std::map<CharacterState, AnimationSet> m_state_animation_map;
+};
+
+
+// component solely for animating Link's sword
+class SwordAnimation {
+public:
+    SwordAnimation(AnimationSet animation_set);
+
+    /**
+     * \param direction The direction link is facing while attacking
+     * \param timer The time in which link has been in the attacking state
+     */
+    AnimationFrameData get_animation_frame(Direction direction, Uint32 timer);
+
+private:
+    AnimationSet m_animation_set;
 };
 
 

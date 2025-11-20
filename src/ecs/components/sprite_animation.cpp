@@ -28,7 +28,18 @@ void SpriteAnimation::update_timer(Uint32 dt) {
 }
 
 
-
 void SpriteAnimation::set_animation_set(CharacterState state, AnimationSet animation_set) {
     m_state_animation_map[state] = animation_set;
+}
+
+
+SwordAnimation::SwordAnimation(AnimationSet animation_set) {
+    m_animation_set = animation_set;
+}
+
+
+AnimationFrameData SwordAnimation::get_animation_frame(Direction direction, Uint32 timer) {
+    int selected_frame = timer / m_animation_set.frame_duration_ms;
+
+    std::vector<AnimationFrameData> direction_frames = m_animation_set.frames[(int) direction];
 }
