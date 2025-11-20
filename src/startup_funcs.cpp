@@ -313,7 +313,8 @@ Entity* load_enemy(ECSManager& ecs) {
         if (_sprite_value->get_texture_name() != "resources/sprites/oktorok__red.png") {
             return;
         }
-        printf("I'm so hungry, I could eat an oktorok!\n");
+        // printf("I'm so hungry, I could eat an oktorok!\n");
+        ecs.remove_entity(entity.get_id());
     };
     std::unique_ptr<Clickable> clickable (new Clickable(on_click));
     if (ecs.add_component<Clickable>(*enemy, std::move(clickable)) == NULL) {

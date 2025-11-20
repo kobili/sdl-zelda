@@ -49,7 +49,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    load_sword_sprite(ecs);
+    auto sword_sprite = load_sword_sprite(ecs);
     if (load_player(ecs) == NULL) {
         printf("failed to load player. Exiting...\n");
         return -1;

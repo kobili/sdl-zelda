@@ -66,5 +66,6 @@ void ClickSystem::update_entity(Entity& entity, Uint32 dt) {
 
         ClickHandler callback = clickable.get_callback();
         callback(entity);
+        printf("finished executing click callback\n");
     }
 }

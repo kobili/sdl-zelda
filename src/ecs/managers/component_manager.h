@@ -56,6 +56,12 @@ public:
         return component_store.get_component(entity);
     }
 
+    void remove_components(int entity_id) {
+        for (auto& pair : m_stores) {
+            pair.second->remove_component(entity_id);
+        }
+    }
+
 private:
     std::unordered_map<std::type_index, std::unique_ptr<IComponentStore>> m_stores;
 

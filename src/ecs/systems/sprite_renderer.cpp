@@ -40,7 +40,7 @@ void SpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
     bool flip_horizontal = false;
     bool flip_vertical = false;
     if (animation != NULL && character != NULL) {
-        printf("Entity %d; state: %d\n", entity.get_id(), (int) character->get_character_state());
+        // printf("Entity %d; state: %d\n", entity.get_id(), (int) character->get_character_state());
         SpriteAnimationFrame frame = animation->get_current_frame(character->get_character_state(), character->get_orientation(), character->get_time_in_state_ms());
         flip_horizontal = frame.frame_data.flip_horizontal;
         flip_vertical = frame.frame_data.flip_vertical;

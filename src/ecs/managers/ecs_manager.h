@@ -19,6 +19,8 @@ public:
 
     const std::vector<std::unique_ptr<Entity>>& get_entities() const;
 
+    void remove_entity(int entity_id);
+
     template <typename T>
     T* add_component(Entity entity, std::unique_ptr<T> component) {
         if (m_entity_set.find(entity) == m_entity_set.end()) {
