@@ -5,8 +5,8 @@
 #include "../managers/ecs_manager.h"
 
 
-void SpriteAnimationSystem::update_entity(Entity& entity, Uint32 dt) {
-    CharacterAnimation* _animation = m_ecs->get_component<CharacterAnimation>(entity);
+void SpriteAnimationSystem::update_entity(int entity_id, Uint32 dt) {
+    CharacterAnimation* _animation = m_ecs->get_component<CharacterAnimation>(entity_id);
     if (_animation == NULL) {
         return;
     }

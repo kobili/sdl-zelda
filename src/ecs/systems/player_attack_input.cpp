@@ -9,13 +9,13 @@
 #include "../managers/ecs_manager.h"
 
 
-void PlayerAttackInputSystem::update_entity(Entity& entity, Uint32 dt) {
-    Player* player = m_ecs->get_component<Player>(entity);
+void PlayerAttackInputSystem::update_entity(int entity_id, Uint32 dt) {
+    Player* player = m_ecs->get_component<Player>(entity_id);
     if (player == NULL) {
         return;
     }
 
-    Character* _character = m_ecs->get_component<Character>(entity);
+    Character* _character = m_ecs->get_component<Character>(entity_id);
     if (!_character) {
         return;
     }

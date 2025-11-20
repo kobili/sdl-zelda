@@ -1,6 +1,5 @@
 #include "player_movement_input.h"
 
-#include "../entity.h"
 #include "../components/player.h"
 #include "../components/character.h"
 #include "../components/velocity.h"
@@ -14,19 +13,19 @@ void reset_velocity(Velocity& velocity) {
     velocity.set_y(0);
 }
 
-void PlayerMovementInputSystem::update_entity(Entity& entity, Uint32 dt) {
-    Player* player = m_ecs->get_component<Player>(entity);
+void PlayerMovementInputSystem::update_entity(int entity_id, Uint32 dt) {
+    Player* player = m_ecs->get_component<Player>(entity_id);
     if (player == NULL) {
         return;
     }
 
-    Velocity* _velocity = m_ecs->get_component<Velocity>(entity);
+    Velocity* _velocity = m_ecs->get_component<Velocity>(entity_id);
     if (_velocity == NULL) {
         return;
     }
     Velocity& velocity = *_velocity;
 
-    Character* _character = m_ecs->get_component<Character>(entity);
+    Character* _character = m_ecs->get_component<Character>(entity_id);
     if (_character == NULL) {
         return;
     }

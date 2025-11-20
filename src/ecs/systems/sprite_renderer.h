@@ -12,7 +12,7 @@ class CharacterSpriteRenderSystem : public ISystem  {
 public:
     CharacterSpriteRenderSystem(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
 
-    void update_entity(Entity& entity, Uint32 dt) override;
+    void update_entity(int entity, Uint32 dt) override;
 
 private:
     TextureManager* m_texture_manager;

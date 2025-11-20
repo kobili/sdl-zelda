@@ -13,8 +13,6 @@
 #include "cameras/zone_camera.h"
 #include "cameras/panning_camera.h"
 
-#include "ecs/entity.h"
-
 #include "ecs/managers/ecs_manager.h"
 
 
@@ -44,16 +42,8 @@ int main(int argc, char* args[]) {
 
     load_systems(ecs, input_manager, manager.get(), _camera.get(), &window);
     
-    if (load_enemy(ecs) == NULL) {
-        printf("failed to load enemy. Exiting...\n");
-        return -1;
-    }
-
-    // auto sword_sprite = load_sword_sprite(ecs);
-    if (load_player(ecs) == NULL) {
-        printf("failed to load player. Exiting...\n");
-        return -1;
-    }
+    load_enemy(ecs);
+    load_player(ecs);
 
     SDL_Event e;
     int running = 1;

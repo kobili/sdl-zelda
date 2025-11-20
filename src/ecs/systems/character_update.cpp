@@ -5,8 +5,8 @@
 #include "../components/character.h"
 
 
-void CharacterUpdateSystem::update_entity(Entity& entity, Uint32 dt) {
-    Character* _character = m_ecs->get_component<Character>(entity);
+void CharacterUpdateSystem::update_entity(int entity_id, Uint32 dt) {
+    Character* _character = m_ecs->get_component<Character>(entity_id);
     if (_character == NULL) {
         return;
     }

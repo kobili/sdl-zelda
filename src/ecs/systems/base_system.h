@@ -3,7 +3,6 @@
 
 #include "SDL.h"
 
-#include "../entity.h"
 #include "../../input_manager.h"
 
 
@@ -20,7 +19,7 @@ public:
 
     void update(Uint32 dt);
 
-    void virtual update_entity(Entity& entity, Uint32 dt) = 0;
+    void virtual update_entity(int entity, Uint32 dt) = 0;
 
 protected:
     ECSManager* m_ecs;  // non-owning

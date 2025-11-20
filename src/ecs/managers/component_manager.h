@@ -5,8 +5,6 @@
 #include <typeindex>
 #include <memory>
 
-#include "../entity.h"
-
 
 class IComponentStore {
 public:
@@ -18,17 +16,17 @@ public:
 template <typename T>
 class ComponentStore : public IComponentStore {
 public:
-    T* add_component(Entity entity, std::unique_ptr<T> component) {
-        m_components[entity.get_id()] = std::move(component);
-        return m_components[entity.get_id()].get();
+    T* add_component(int entity_id, std::unique_ptr<T> component) {
+        m_components[entity_id] = std::move(component);
+        return m_components[entity_id].get();
     }
 
-    T* get_component(Entity entity) {
-        if (m_components.find(entity.get_id()) == m_components.end()) {
+    T* get_component(int entity_id) {
+        if (m_components.find(entity_id) == m_components.end()) {
             return NULL;
         }
 
-        return m_components[entity.get_id()].get();
+        return m_components[entity_id].get();
     }
 
     void remove_component(int entity_id) override {
@@ -42,18 +40,18 @@ private:
 class ComponentManager {
 public:
     template <typename T>
-    T* add_component(Entity entity, std::unique_ptr<T> component) {
+    T* add_component(int entity_id, std::unique_ptr<T> component) {
         ComponentStore<T>& component_store = get_or_create_store<T>();
-        component_store.add_component(entity, std::move(component));
+        component_store.add_component(entity_id, std::move(component));
 
-        return component_store.get_component(entity);
+        return component_store.get_component(entity_id);
     }
 
     template <typename T>
-    T* get_component(Entity entity) {
+    T* get_component(int entity_id) {
         ComponentStore<T>& component_store = get_or_create_store<T>();
 
-        return component_store.get_component(entity);
+        return component_store.get_component(entity_id);
     }
 
     void remove_components(int entity_id) {

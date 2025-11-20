@@ -10,9 +10,9 @@
 #include "ecs/managers/ecs_manager.h"
 
 bool load_textures(TextureManager* manager);
-Entity* load_player(ECSManager& ecs);
-Entity* load_enemy(ECSManager& ecs);
-void load_sword_attack_animation(ECSManager& ecs, Entity& player_entity);
+void load_player(ECSManager& ecs);
+void load_enemy(ECSManager& ecs);
+void load_sword_attack_animation(ECSManager& ecs, int player_entity);
 void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* texture_manager, Camera* camera, Window* window);
 
 #endif

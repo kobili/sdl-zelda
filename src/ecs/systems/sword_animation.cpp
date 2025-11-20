@@ -15,13 +15,13 @@ SwordAnimationSystem::SwordAnimationSystem(ECSManager* ecs, TextureManager* text
 }
 
 
-void SwordAnimationSystem::update_entity(Entity& entity, Uint32 dt) {
-    Player* _player = m_ecs->get_component<Player>(entity);
+void SwordAnimationSystem::update_entity(int entity_id, Uint32 dt) {
+    Player* _player = m_ecs->get_component<Player>(entity_id);
     if (!_player) {
         return;
     }
 
-    Character* _character = m_ecs->get_component<Character>(entity);
+    Character* _character = m_ecs->get_component<Character>(entity_id);
     if (!_character) {
         return;
     }
@@ -31,13 +31,13 @@ void SwordAnimationSystem::update_entity(Entity& entity, Uint32 dt) {
         return;
     }
 
-    Position* _position = m_ecs->get_component<Position>(entity);
+    Position* _position = m_ecs->get_component<Position>(entity_id);
     if (!_position) {
         return;
     }
     Position& position = *_position;
 
-    SwordAnimation* _sword_animation = m_ecs->get_component<SwordAnimation>(entity);
+    SwordAnimation* _sword_animation = m_ecs->get_component<SwordAnimation>(entity_id);
     if (!_sword_animation) {
         return;
     }

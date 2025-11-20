@@ -19,20 +19,20 @@ ClickSystem::ClickSystem(
 }
 
 
-void ClickSystem::update_entity(Entity& entity, Uint32 dt) {
+void ClickSystem::update_entity(int entity_id, Uint32 dt) {
     auto mouse_events = m_input_manager->get_mouse_events();
 
     if (mouse_events.size() == 0) {
         return;
     }
 
-    Clickable* _clickable = m_ecs->get_component<Clickable>(entity);
+    Clickable* _clickable = m_ecs->get_component<Clickable>(entity_id);
     if (_clickable == NULL) {
         return;
     }
     Clickable clickable = *_clickable;
 
-    Collider* _collider = m_ecs->get_component<Collider>(entity);
+    Collider* _collider = m_ecs->get_component<Collider>(entity_id);
     if (_collider == NULL) {
         return;
     }
@@ -65,6 +65,6 @@ void ClickSystem::update_entity(Entity& entity, Uint32 dt) {
         }
 
         ClickHandler callback = clickable.get_callback();
-        callback(entity);
+        callback(entity_id);
     }
 }

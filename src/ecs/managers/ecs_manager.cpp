@@ -1,23 +1,18 @@
 #include "ecs_manager.h"
 
 
-Entity* ECSManager::add_entity(std::unique_ptr<Entity> entity) {
-    if (m_entity_set.find(*entity.get()) != m_entity_set.end()) {
-        printf("Entity %d already registered\n", entity->get_id());
-        return NULL;
+bool ECSManager::add_entity(int entity_id) {
+    if (m_entity_set.find(entity_id) != m_entity_set.end()) {
+        printf("Entity %d already registered\n", entity_id);
+        return false;
     }
 
-    m_entity_set.insert(*entity.get());
-
-    Entity* retval = entity.get();
-
-    m_entities.push_back(std::move(entity));
-
-    return retval;
+    m_entity_set.insert(entity_id);
+    return true;
 }
 
-const std::vector<std::unique_ptr<Entity>>& ECSManager::get_entities() const {
-    return m_entities;
+const std::unordered_set<int>& ECSManager::get_entities() const {
+    return m_entity_set;
 }
 
 
@@ -32,20 +27,9 @@ void ECSManager::update(Uint32 dt) {
 
 
 void ECSManager::remove_entity(int entity_id) {
-    m_entities.erase(
-        std::remove_if(
-            m_entities.begin(),
-            m_entities.end(),
-            [entity_id](std::unique_ptr<Entity>& entity) {
-                return entity->get_id() == entity_id;
-            }
-        ),
-        m_entities.end()
-    );
-
     // remove from set
     for (auto it = m_entity_set.begin(); it != m_entity_set.end();) {
-        if (it->get_id() == entity_id) {
+        if (*it == entity_id) {
             it = m_entity_set.erase(it);
         } else {
             it++;

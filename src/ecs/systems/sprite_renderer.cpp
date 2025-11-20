@@ -16,13 +16,13 @@ CharacterSpriteRenderSystem::CharacterSpriteRenderSystem(
 }
 
 // TODO: Split this into Player and Enemy character render systems so we can render with priority Player->Sword->Enemy
-void CharacterSpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
+void CharacterSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
     // TODO: Remove dependency on sprite. Sprite info should be embedded in CharacterAnimation à la SwordAnimation
-    Sprite* sprite = m_ecs->get_component<Sprite>(entity);
+    Sprite* sprite = m_ecs->get_component<Sprite>(entity_id);
     if (sprite == NULL) {
         return;
     }
-    Position* position = m_ecs->get_component<Position>(entity);
+    Position* position = m_ecs->get_component<Position>(entity_id);
     if (position == NULL) {
         return;
     }
@@ -32,13 +32,13 @@ void CharacterSpriteRenderSystem::update_entity(Entity& entity, Uint32 dt) {
         return;
     }
 
-    Character* _character = m_ecs->get_component<Character>(entity);
+    Character* _character = m_ecs->get_component<Character>(entity_id);
     if (!_character) {
         return;
     }
     Character& character = *_character;
 
-    CharacterAnimation* _animation = m_ecs->get_component<CharacterAnimation>(entity);
+    CharacterAnimation* _animation = m_ecs->get_component<CharacterAnimation>(entity_id);
     if (!_animation) {
         return;
     }

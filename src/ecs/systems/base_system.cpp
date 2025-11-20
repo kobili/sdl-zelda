@@ -4,7 +4,6 @@
 
 void ISystem::update(Uint32 dt) {
     for (auto& _entity : m_ecs->get_entities()) {
-        Entity& entity = *_entity;
-        update_entity(entity, dt);
+        update_entity(_entity, dt);
     }
 }

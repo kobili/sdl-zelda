@@ -3,9 +3,8 @@
 
 #include <functional>
 
-#include "../entity.h"
 
-typedef std::function<void(Entity&)> ClickHandler;
+typedef std::function<void(int)> ClickHandler;
 
 
 class Clickable {

@@ -7,7 +7,7 @@ class SpriteAnimationSystem : public ISystem {
 public:
     using ISystem::ISystem;
 
-    void update_entity(Entity& entity, Uint32 dt) override;
+    void update_entity(int entity_id, Uint32 dt) override;
 };
 
 #endif

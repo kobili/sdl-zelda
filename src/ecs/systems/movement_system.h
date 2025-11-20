@@ -9,10 +9,10 @@ class MovementSystem : public ISystem {
 public:
     using ISystem::ISystem;
 
-    void virtual update_entity(Entity& entity, Uint32 dt) override;
+    void virtual update_entity(int entity_id, Uint32 dt) override;
 
 private:
-    std::vector<SDL_Rect*> get_other_colliders(Entity& entity);
+    std::vector<SDL_Rect*> get_other_colliders(int entity_id);
 };
 
 #endif

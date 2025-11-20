@@ -8,7 +8,7 @@ class PlayerAttackInputSystem : public IInputSystem {
 public:
     using IInputSystem::IInputSystem;
 
-    void virtual update_entity(Entity& entity, Uint32 dt) override;
+    void virtual update_entity(int entity_id, Uint32 dt) override;
 };
 
 #endif

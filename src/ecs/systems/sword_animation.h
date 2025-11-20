@@ -12,7 +12,7 @@
 class SwordAnimationSystem : public ISystem {
 public:
     SwordAnimationSystem(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
-    void update_entity(Entity& entity, Uint32 dt) override;
+    void update_entity(int entity_id, Uint32 dt) override;
 
 private:
     TextureManager* m_texture_manager; // non-owning
