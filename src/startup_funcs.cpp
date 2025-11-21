@@ -298,14 +298,12 @@ void load_enemy(ECSManager& ecs) {
         return;
     }
 
-    ecs.add_component<Invincibility>(enemy, Invincibility(1000));
-
     // ecs.add_component<Hurtbox>(enemy, Hurtbox(3));
 
     ClickHandler on_click = [&ecs](Uint32 entity_id) {
         printf("I'm so hungry, I could eat an oktorok!\n");
         // ecs.mark_remove(entity_id);
-        ecs.mark_remove(ComponentRemovalQueueItem{entity_id, std::type_index(typeid(Invincibility))});
+        ecs.add_component<Invincibility>(entity_id, Invincibility(5000));
     };
 
     if (ecs.add_component<Clickable>(enemy, Clickable(on_click)) == NULL) {
@@ -397,6 +395,9 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
     ecs.register_system(std::move(entity_lifetime_system));
+
+    std::unique_ptr<InvincibilityLifetimeSystem> invincibility_lifetime_system (new InvincibilityLifetimeSystem(&ecs));
+    ecs.register_system(std::move(invincibility_lifetime_system));
 
     std::unique_ptr<AttackHurtboxIncrementSystem> hurtbox_increment_system (new AttackHurtboxIncrementSystem(&ecs));
     ecs.register_system(std::move(hurtbox_increment_system));
