@@ -48,7 +48,7 @@ void PlayerMovementInputSystem::update_entity(Uint32 entity_id, Uint32 dt) {
             continue;
         }
 
-        const double VELOCITY = 0.7;
+        const float VELOCITY = 0.7f;
 
         switch (key) {
             case SDLK_UP:

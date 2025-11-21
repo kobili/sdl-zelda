@@ -5,18 +5,18 @@
 class Velocity {
 public:
     Velocity();
-    Velocity(double vel_x, double vel_y);
+    Velocity(float vel_x, float vel_y);
 
-    double get_x() const;
-    double get_y() const;
+    float get_x() const;
+    float get_y() const;
 
-    void set_x(double x);
-    void set_y(double y);
+    void set_x(float x);
+    void set_y(float y);
 
     bool in_motion();
 
 private:
-    double m_vel_x, m_vel_y;
+    float m_vel_x, m_vel_y;
 };
 
 #endif

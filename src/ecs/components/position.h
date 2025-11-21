@@ -3,15 +3,15 @@
 
 class Position {
 public:
-    Position(double x, double y);
+    Position(float x, float y);
 
-    double get_x();
-    double get_y();
-    void set_x(double val);
-    void set_y(double val);
+    float get_x();
+    float get_y();
+    void set_x(float val);
+    void set_y(float val);
 
 private:
-    double m_x, m_y;
+    float m_x, m_y;
 };
 
 #endif
