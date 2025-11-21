@@ -16,13 +16,13 @@ class ECSManager {
 public:
     ECSManager();
 
-    bool add_entity(int entity_id);
+    bool add_entity(Uint32 entity_id);
 
-    const std::unordered_set<int>& get_entities() const;
+    const std::unordered_set<Uint32>& get_entities() const;
 
-    void remove_entity(int entity_id);
+    void remove_entity(Uint32 entity_id);
 
-    void mark_remove(int entity_id);
+    void mark_remove(Uint32 entity_id);
 
     void prune_inactive_entities();
 
@@ -63,10 +63,10 @@ private:
     // std::vector<std::unique_ptr<Entity>> m_entities;
 
     // for deduplication
-    std::unordered_set<int> m_entity_set;
+    std::unordered_set<Uint32> m_entity_set;
 
     // entity ids marked to be removed
-    std::vector<int> m_removal_queue;
+    std::vector<Uint32> m_removal_queue;
 
     std::vector<std::function<void()>> m_operations_queue;
 };

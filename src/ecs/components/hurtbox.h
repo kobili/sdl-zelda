@@ -1,6 +1,8 @@
 #ifndef HURTBOX_H
 #define HURTBOX_H
 
+#include <unordered_set>
+
 #include "SDL.h"
 
 
@@ -37,6 +39,8 @@ private:
 
     // internal timer
     Uint32 m_timer_ms;
+
+    
 };
 
 #endif

@@ -6,7 +6,7 @@ ECSManager::ECSManager() {
 }
 
 
-bool ECSManager::add_entity(int entity_id) {
+bool ECSManager::add_entity(Uint32 entity_id) {
     if (m_entity_set.find(entity_id) != m_entity_set.end()) {
         printf("Entity %d already registered\n", entity_id);
         return false;
@@ -16,7 +16,7 @@ bool ECSManager::add_entity(int entity_id) {
     return true;
 }
 
-const std::unordered_set<int>& ECSManager::get_entities() const {
+const std::unordered_set<Uint32>& ECSManager::get_entities() const {
     return m_entity_set;
 }
 
@@ -31,7 +31,7 @@ void ECSManager::update(Uint32 dt) {
 }
 
 
-void ECSManager::remove_entity(int entity_id) {
+void ECSManager::remove_entity(Uint32 entity_id) {
     // remove from set
     for (auto it = m_entity_set.begin(); it != m_entity_set.end();) {
         if (*it == entity_id) {
@@ -45,13 +45,13 @@ void ECSManager::remove_entity(int entity_id) {
 }
 
 
-void ECSManager::mark_remove(int entity_id) {
+void ECSManager::mark_remove(Uint32 entity_id) {
     m_removal_queue.push_back(entity_id);
 }
 
 
 void ECSManager::prune_inactive_entities() {
-    for (int id : m_removal_queue) {
+    for (Uint32 id : m_removal_queue) {
         remove_entity(id);
     }
     m_removal_queue.clear();
