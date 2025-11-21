@@ -163,7 +163,7 @@ void player_callback(ECSManager& ecs, int entity_id) {
 
 
 void load_player(ECSManager& ecs) {
-    int player = 1;
+    Uint32 player = ecs.create_entity_id();
     ecs.add_entity(player);
 
     Character character = Character(Direction::DOWN, CharacterState::IDLE, LINK_ATTACK_DURATION_MS);
@@ -263,7 +263,7 @@ CharacterAnimation load_enemy_animation() {
 
 
 void load_enemy(ECSManager& ecs) {
-    int enemy = 2;
+    int enemy = ecs.create_entity_id();
     ecs.add_entity(enemy);
 
     Character character = Character(Direction::LEFT, CharacterState::IDLE);

@@ -1,7 +1,5 @@
 #include "player_attack_input.h"
 
-#include <random>
-
 #include "../../constants.h"
 
 #include "../components/player.h"
@@ -66,7 +64,7 @@ void PlayerAttackInputSystem::create_sword_hurtbox(int player_entity) {
     }
     Character player_character = *_player_character;
 
-    int entity_id = std::rand();
+    int entity_id = m_ecs->create_entity_id();
     m_ecs->add_entity(entity_id);
 
     m_ecs->add_component<Hurtbox>(entity_id, Hurtbox(

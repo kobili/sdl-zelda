@@ -1,6 +1,11 @@
 #include "ecs_manager.h"
 
 
+ECSManager::ECSManager() {
+    next_available_id = 0;
+}
+
+
 bool ECSManager::add_entity(int entity_id) {
     if (m_entity_set.find(entity_id) != m_entity_set.end()) {
         printf("Entity %d already registered\n", entity_id);
@@ -64,4 +69,11 @@ void ECSManager::run_operations() {
     }
 
     m_operations_queue.clear();
+}
+
+
+Uint32 ECSManager::create_entity_id() {
+    Uint32 id = next_available_id;
+    next_available_id++;
+    return id;
 }

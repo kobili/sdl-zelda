@@ -14,6 +14,8 @@
 
 class ECSManager {
 public:
+    ECSManager();
+
     bool add_entity(int entity_id);
 
     const std::unordered_set<int>& get_entities() const;
@@ -23,6 +25,11 @@ public:
     void mark_remove(int entity_id);
 
     void prune_inactive_entities();
+
+    /**
+     * Return the next available id and increment the counter
+     */
+    Uint32 create_entity_id();
 
     template <typename T>
     T* add_component(int entity_id, T component) {
@@ -47,6 +54,8 @@ public:
     void run_operations();
 
 private:
+    Uint32 next_available_id;
+
     ComponentManager m_component_manager;
 
     SystemManager m_system_manager;
