@@ -29,3 +29,10 @@ Uint32 Hurtbox::get_elapsed_time() const {
 void Hurtbox::update_timer(Uint32 dt) {
     m_timer_ms += dt;
 }
+
+bool Hurtbox::is_active() const {
+    return (
+        m_timer_ms >= m_active_start_time_ms
+        && m_timer_ms < m_active_end_time_ms
+    );
+}

@@ -16,6 +16,8 @@ public:
     Uint32 get_elapsed_time() const;
     void update_timer(Uint32 dt);
 
+    bool is_active() const;
+
 private:
     // how long the hurtbox should exist
     Uint32 m_duration_ms;
