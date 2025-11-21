@@ -1,5 +1,7 @@
 #include "player_attack_input.h"
 
+#include <random>
+
 #include "../../constants.h"
 
 #include "../components/player.h"
@@ -43,7 +45,7 @@ void PlayerAttackInputSystem::update_entity(int entity_id, Uint32 dt) {
         character.set_character_state(CharacterState::ATTACKING);
 
         std::function<void()> create_hurtbox = [this, &entity_id]() {
-            create_sword_hurtbox(*this->m_ecs, entity_id);
+            create_sword_hurtbox(entity_id);
         };
 
         m_ecs->add_operation(create_hurtbox);
@@ -51,23 +53,23 @@ void PlayerAttackInputSystem::update_entity(int entity_id, Uint32 dt) {
 }
 
 
-void create_sword_hurtbox(ECSManager& ecs, int player_entity) {
-    Position* _player_position = ecs.get_component<Position>(player_entity);
+void PlayerAttackInputSystem::create_sword_hurtbox(int player_entity) {
+    Position* _player_position = m_ecs->get_component<Position>(player_entity);
     if (!_player_position) {
         return;
     }
     Position player_position = *_player_position;
 
-    Character* _player_character = ecs.get_component<Character>(player_entity);
+    Character* _player_character = m_ecs->get_component<Character>(player_entity);
     if (!_player_character) {
         return;
     }
     Character player_character = *_player_character;
 
-    int entity_id = 23;  // TODO: should unhardcode this
-    ecs.add_entity(entity_id);
+    int entity_id = std::rand();
+    m_ecs->add_entity(entity_id);
 
-    ecs.add_component<Hurtbox>(entity_id, Hurtbox(
+    m_ecs->add_component<Hurtbox>(entity_id, Hurtbox(
         3,
         3 * LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
         LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
@@ -108,7 +110,7 @@ void create_sword_hurtbox(ECSManager& ecs, int player_entity) {
         break;
     }
 
-    ecs.add_component<Collider>(
+    m_ecs->add_component<Collider>(
         entity_id,
         Collider(
             collider_x,
@@ -118,4 +120,6 @@ void create_sword_hurtbox(ECSManager& ecs, int player_entity) {
             ColliderType::EPHEMERAL
         )
     );
+
+    printf("created sword hurtbox with id %d\n", entity_id);
 }

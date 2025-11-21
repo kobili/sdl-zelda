@@ -9,8 +9,9 @@ public:
     using IInputSystem::IInputSystem;
 
     void virtual update_entity(int entity_id, Uint32 dt) override;
-};
 
-void create_sword_hurtbox(ECSManager& ecs, int player_entity);
+private:
+    void create_sword_hurtbox(int player_entity);
+};
 
 #endif
