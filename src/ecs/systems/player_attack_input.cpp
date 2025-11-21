@@ -96,14 +96,14 @@ void create_sword_hurtbox(ECSManager& ecs, int player_entity) {
         break;
 
         case Direction::LEFT:
-        collider_x += 16;
         collider_y += 1;
         collider_w = 11;
         collider_h = 15;
+        collider_x -= collider_w;
         break;
 
         case Direction::RIGHT:
-        collider_x -= 16;
+        collider_x += 16;
         collider_y += 1;
         collider_w = 11;
         collider_h = 15;

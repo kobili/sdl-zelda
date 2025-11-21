@@ -390,4 +390,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
 
     std::unique_ptr<HurtboxIncrementSystem> hurtbox_increment_system (new HurtboxIncrementSystem(&ecs));
     ecs.register_system(std::move(hurtbox_increment_system), 11);
+
+    std::unique_ptr<HurtboxDebugRenderSystem> hurtbox_debug_render_system (new HurtboxDebugRenderSystem(&ecs, camera, window));
+    ecs.register_system(std::move(hurtbox_debug_render_system), 12);
 }

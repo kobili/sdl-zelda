@@ -47,6 +47,8 @@ bool Window::init() {
         return false;
     }
 
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+
     scale_x = (double) m_w / NES_SCREEN_WIDTH;
     scale_y = (double) m_h / NES_SCREEN_HEIGHT;
 
