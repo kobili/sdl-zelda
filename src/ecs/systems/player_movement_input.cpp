@@ -48,28 +48,30 @@ void PlayerMovementInputSystem::update_entity(Uint32 entity_id, Uint32 dt) {
             continue;
         }
 
+        const double VELOCITY = 0.7;
+
         switch (key) {
             case SDLK_UP:
             reset_velocity(velocity);
-            velocity.set_y(-1);
+            velocity.set_y(-VELOCITY);
             character.set_orientation(Direction::UP);
             break;
 
             case SDLK_DOWN:
             reset_velocity(velocity);
-            velocity.set_y(1);
+            velocity.set_y(VELOCITY);
             character.set_orientation(Direction::DOWN);
             break;
 
             case SDLK_LEFT:
             reset_velocity(velocity);
-            velocity.set_x(-1);
+            velocity.set_x(-VELOCITY);
             character.set_orientation(Direction::LEFT);
             break;
 
             case SDLK_RIGHT:
             reset_velocity(velocity);
-            velocity.set_x(1);
+            velocity.set_x(VELOCITY);
             character.set_orientation(Direction::RIGHT);
             break;
         }

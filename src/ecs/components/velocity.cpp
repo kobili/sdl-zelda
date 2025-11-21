@@ -7,28 +7,28 @@ Velocity::Velocity() {
 }
 
 
-Velocity::Velocity(int vel_x, int vel_y) {
+Velocity::Velocity(double vel_x, double vel_y) {
     m_vel_x = vel_x;
     m_vel_y = vel_y;
 }
 
 
-int Velocity::get_x() const {
+double Velocity::get_x() const {
     return m_vel_x;
 }
 
 
-int Velocity::get_y() const {
+double Velocity::get_y() const {
     return m_vel_y;
 }
 
 
-void Velocity::set_x(int x) {
+void Velocity::set_x(double x) {
     m_vel_x = x;
 }
 
 
-void Velocity::set_y(int y) {
+void Velocity::set_y(double y) {
     m_vel_y = y;
 }
 
