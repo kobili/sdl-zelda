@@ -82,31 +82,31 @@ void create_sword_hurtbox(ECSManager& ecs, int player_entity) {
 
     switch (player_character.get_orientation()) {
         case Direction::UP:
-        collider_x += 3;
+        collider_x += 2;
         collider_y -= 12;
-        collider_w = 8;
+        collider_w = 9;
         collider_h = 12;
         break;
 
         case Direction::DOWN:
-        collider_x += 5;
+        collider_x += 4;
         collider_y += 16;
-        collider_w = 8;
+        collider_w = 9;
         collider_h = 11;
         break;
 
         case Direction::LEFT:
-        collider_y += 1;
+        collider_y += 5;
         collider_w = 11;
-        collider_h = 15;
+        collider_h = 9;
         collider_x -= collider_w;
         break;
 
         case Direction::RIGHT:
         collider_x += 16;
-        collider_y += 1;
+        collider_y += 5;
         collider_w = 11;
-        collider_h = 15;
+        collider_h = 9;
         break;
     }
 
