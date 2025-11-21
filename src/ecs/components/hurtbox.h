@@ -7,6 +7,10 @@
 
 
 // Use in conjunction with Collider
+/**
+ * Component detailing the hurtboxes attached to things that should only damage an entity once in its lifetime
+ * ie. sword strikes, arrows, fireballs.
+ */
 class AttackHurtbox {
 public:
     AttackHurtbox(int damage_value);

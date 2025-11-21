@@ -12,6 +12,7 @@
 #include "ecs/components/sprite_animation.h"
 #include "ecs/components/character.h"
 #include "ecs/components/entity_lifetime.h"
+#include "ecs/components/invincibility.h"
 
 #include "ecs/systems/click_system.h"
 #include "ecs/systems/movement_system.h"
@@ -297,6 +298,8 @@ void load_enemy(ECSManager& ecs) {
         return;
     }
 
+    ecs.add_component<Invincibility>(enemy, Invincibility(1000));
+
     // ecs.add_component<Hurtbox>(enemy, Hurtbox(3));
 
     ClickHandler on_click = [&ecs](int entity_id) {
@@ -376,7 +379,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<CharacterUpdateSystem> character_update_system (new CharacterUpdateSystem(&ecs));
     ecs.register_system(std::move(character_update_system));
 
-    std::unique_ptr<DamageDetectionSystem> damage_detection_system (new DamageDetectionSystem(&ecs));
+    std::unique_ptr<AttackDamageDetectionSystem> damage_detection_system (new AttackDamageDetectionSystem(&ecs));
     ecs.register_system(std::move(damage_detection_system));
 
     std::unique_ptr<SpriteAnimationSystem> sprite_animation_system (new SpriteAnimationSystem(&ecs));

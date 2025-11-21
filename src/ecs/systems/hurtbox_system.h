@@ -14,7 +14,7 @@ public:
 };
 
 
-class DamageDetectionSystem : public ISystem {
+class AttackDamageDetectionSystem : public ISystem {
 public:
     using ISystem::ISystem;
     void update_entity(Uint32 entity, Uint32 dt) override;

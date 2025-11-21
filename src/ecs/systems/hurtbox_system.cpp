@@ -5,6 +5,7 @@
 #include "../components/hurtbox.h"
 #include "../components/collider.h"
 #include "../components/character.h"
+#include "../components/invincibility.h"
 
 #include "../managers/ecs_manager.h"
 #include "../../texture.h"
@@ -26,7 +27,7 @@ void AttackHurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
 }
 
 
-void DamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
+void AttackDamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
     Character* _character = m_ecs->get_component<Character>(entity);
     if (!_character) {
         return;
@@ -37,6 +38,11 @@ void DamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
         return;
     }
     Collider collider = *_collider;
+
+    if (m_ecs->get_component<Invincibility>(entity)) {
+        // entity can't be hurt right now
+        return;
+    }
 
     for (Uint32 other_entity : m_ecs->get_entities()) {
         if (other_entity == entity) {
