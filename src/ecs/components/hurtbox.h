@@ -7,11 +7,11 @@
 
 
 // Use in conjunction with Collider
-class Hurtbox {
+class AttackHurtbox {
 public:
-    Hurtbox(int damage_value);
+    AttackHurtbox(int damage_value);
 
-    Hurtbox(
+    AttackHurtbox(
         int damage_value,
         Uint32 duration_ms,
         Uint32 active_start_time_ms,

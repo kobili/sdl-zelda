@@ -11,12 +11,12 @@
 #include "../../utils.h"
 
 
-void HurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
-    Hurtbox* _hurtbox = m_ecs->get_component<Hurtbox>(entity);
+void AttackHurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
+    AttackHurtbox* _hurtbox = m_ecs->get_component<AttackHurtbox>(entity);
     if (!_hurtbox) {
         return;
     }
-    Hurtbox& hurtbox = *_hurtbox;
+    AttackHurtbox& hurtbox = *_hurtbox;
 
     hurtbox.update_timer(dt);
 
@@ -43,11 +43,11 @@ void DamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
             continue;
         }
 
-        Hurtbox* _hurtbox = m_ecs->get_component<Hurtbox>(other_entity);
+        AttackHurtbox* _hurtbox = m_ecs->get_component<AttackHurtbox>(other_entity);
         if (!_hurtbox) {
             continue;
         }
-        Hurtbox& hurtbox = *_hurtbox;
+        AttackHurtbox& hurtbox = *_hurtbox;
 
         if (!hurtbox.is_active()) {
             continue;

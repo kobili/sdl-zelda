@@ -297,7 +297,7 @@ void load_enemy(ECSManager& ecs) {
         return;
     }
 
-    ecs.add_component<Hurtbox>(enemy, Hurtbox(3));
+    // ecs.add_component<Hurtbox>(enemy, Hurtbox(3));
 
     ClickHandler on_click = [&ecs](int entity_id) {
         printf("I'm so hungry, I could eat an oktorok!\n");
@@ -394,7 +394,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
     ecs.register_system(std::move(entity_lifetime_system));
 
-    std::unique_ptr<HurtboxIncrementSystem> hurtbox_increment_system (new HurtboxIncrementSystem(&ecs));
+    std::unique_ptr<AttackHurtboxIncrementSystem> hurtbox_increment_system (new AttackHurtboxIncrementSystem(&ecs));
     ecs.register_system(std::move(hurtbox_increment_system));
 
     std::unique_ptr<ColliderDebugRenderSystem> collider_debug_render_system (new ColliderDebugRenderSystem(&ecs, camera, window));

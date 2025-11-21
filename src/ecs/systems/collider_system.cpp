@@ -18,13 +18,13 @@ void ColliderDebugRenderSystem::update_entity(Uint32 entity, Uint32 dt) {
     }
     Collider collider = *_collider;
 
-    Hurtbox* _hurtbox = m_ecs->get_component<Hurtbox>(entity);
+    AttackHurtbox* _hurtbox = m_ecs->get_component<AttackHurtbox>(entity);
     if (!_hurtbox) {
         return render_collider(collider);
     }
-    Hurtbox hurtbox = *_hurtbox;
+    AttackHurtbox hurtbox = *_hurtbox;
 
-    render_hurtbox(collider, hurtbox);
+    render_attack_hurtbox(collider, hurtbox);
 }
 
 
@@ -37,7 +37,7 @@ void ColliderDebugRenderSystem::render_collider(Collider collider) {
 }
 
 
-void ColliderDebugRenderSystem::render_hurtbox(Collider collider, Hurtbox hurtbox) {
+void ColliderDebugRenderSystem::render_attack_hurtbox(Collider collider, AttackHurtbox hurtbox) {
     SDL_Rect hitbox = collider.get_hitbox();
 
     RGB colour = {0xff, 0xff, 0x00};  // yellow
