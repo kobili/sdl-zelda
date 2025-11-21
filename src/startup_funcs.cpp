@@ -374,24 +374,27 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<CharacterUpdateSystem> character_update_system (new CharacterUpdateSystem(&ecs));
     ecs.register_system(std::move(character_update_system), 5);
 
+    std::unique_ptr<DamageDetectionSystem> damage_detection_system (new DamageDetectionSystem(&ecs));
+    ecs.register_system(std::move(damage_detection_system), 6);
+
     std::unique_ptr<SpriteAnimationSystem> sprite_animation_system (new SpriteAnimationSystem(&ecs));
-    ecs.register_system(std::move(sprite_animation_system), 6);
+    ecs.register_system(std::move(sprite_animation_system), 7);
 
     std::unique_ptr<EnemySpriteRenderSystem> enemy_render_system (new EnemySpriteRenderSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(enemy_render_system), 7);
+    ecs.register_system(std::move(enemy_render_system), 8);
 
     std::unique_ptr<SwordAnimationSystem> sword_animation_system (new SwordAnimationSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(sword_animation_system), 8);
+    ecs.register_system(std::move(sword_animation_system), 9);
 
     std::unique_ptr<PlayerSpriteRenderSystem> player_render_system (new PlayerSpriteRenderSystem(&ecs, texture_manager, camera, window));
-    ecs.register_system(std::move(player_render_system), 9);
+    ecs.register_system(std::move(player_render_system), 10);
 
     std::unique_ptr<EntityLifetimeSystem> entity_lifetime_system (new EntityLifetimeSystem(&ecs));
-    ecs.register_system(std::move(entity_lifetime_system), 10);
+    ecs.register_system(std::move(entity_lifetime_system), 11);
 
     std::unique_ptr<HurtboxIncrementSystem> hurtbox_increment_system (new HurtboxIncrementSystem(&ecs));
-    ecs.register_system(std::move(hurtbox_increment_system), 11);
+    ecs.register_system(std::move(hurtbox_increment_system), 12);
 
     std::unique_ptr<ColliderDebugRenderSystem> collider_debug_render_system (new ColliderDebugRenderSystem(&ecs, camera, window));
-    ecs.register_system(std::move(collider_debug_render_system), 12);
+    ecs.register_system(std::move(collider_debug_render_system), 13);
 }

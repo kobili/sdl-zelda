@@ -7,7 +7,14 @@
 // Use in conjunction with Collider
 class Hurtbox {
 public:
-    Hurtbox(Uint32 duration_ms, Uint32 active_start_time_ms, Uint32 active_end_time_ms);
+    Hurtbox(
+        int damage_value,
+        Uint32 duration_ms,
+        Uint32 active_start_time_ms,
+        Uint32 active_end_time_ms
+    );
+
+    int get_damage_value() const;
 
     Uint32 get_active_start_time() const;
     Uint32 get_active_end_time() const;
@@ -19,6 +26,8 @@ public:
     bool is_active() const;
 
 private:
+    int m_damage_value;
+
     // how long the hurtbox should exist
     Uint32 m_duration_ms;
 

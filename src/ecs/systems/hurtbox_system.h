@@ -13,4 +13,11 @@ public:
     void update_entity(int entity, Uint32 dt) override;
 };
 
+
+class DamageDetectionSystem : public ISystem {
+public:
+    using ISystem::ISystem;
+    void update_entity(int entity, Uint32 dt) override;
+};
+
 #endif

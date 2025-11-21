@@ -48,7 +48,6 @@ void ECSManager::mark_remove(int entity_id) {
 void ECSManager::prune_inactive_entities() {
     for (int id : m_removal_queue) {
         remove_entity(id);
-        printf("Removed Entity %d\n", id);
     }
     m_removal_queue.clear();
 }
