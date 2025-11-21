@@ -39,7 +39,7 @@ public:
         return m_component_manager.get_component<T>(entity_id);
     }
 
-    ISystem* register_system(std::unique_ptr<ISystem> system, int priority);
+    ISystem* register_system(std::unique_ptr<ISystem> system);
 
     void update(Uint32 dt);
 

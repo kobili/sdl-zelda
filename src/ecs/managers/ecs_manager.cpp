@@ -16,8 +16,8 @@ const std::unordered_set<int>& ECSManager::get_entities() const {
 }
 
 
-ISystem* ECSManager::register_system(std::unique_ptr<ISystem> system, int priority) {
-    return m_system_manager.register_system(std::move(system), priority);
+ISystem* ECSManager::register_system(std::unique_ptr<ISystem> system) {
+    return m_system_manager.register_system(std::move(system));
 }
 
 

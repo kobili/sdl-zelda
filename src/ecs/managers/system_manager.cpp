@@ -1,33 +1,21 @@
 #include "system_manager.h"
 
 
-ISystem* SystemManager::register_system(std::unique_ptr<ISystem> system, int priority) {
-    if (m_systems.find(priority) != m_systems.end()) {
-        printf("System with priority %d is already registered\n", priority);
-        return NULL;
-    }
+ISystem* SystemManager::register_system(std::unique_ptr<ISystem> system) {
+    m_systems.push_back(std::move(system));
 
-    m_systems[priority] = std::move(system);
-
-    return m_systems[priority].get();
+    return m_systems[m_systems.size()-1].get();
 }
-
-IInputSystem* SystemManager::register_system(std::unique_ptr<IInputSystem> system, int priority) {
-    if (m_input_systems.find(priority) != m_input_systems.end()) {
-        printf("Input system with priority %d is already registered\n", priority);
-        return NULL;
-    }
-
-    m_input_systems[priority] = std::move(system);
-
-    return m_input_systems[priority].get();
-}
-
 
 
 void SystemManager::update(Uint32 dt) {
-    for (const auto& iter : m_systems) {
-        ISystem& system = *iter.second;
+    // for (const auto& iter : m_systems) {
+    //     ISystem& system = *iter.second;
+    //     system.update(dt);
+    // }
+
+    for (const auto& _system : m_systems) {
+        ISystem& system = *_system;
         system.update(dt);
     }
 }

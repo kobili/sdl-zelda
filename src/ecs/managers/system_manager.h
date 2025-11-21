@@ -11,14 +11,12 @@
 
 class SystemManager {
 public:
-    ISystem* register_system(std::unique_ptr<ISystem> system, int priority);
-    IInputSystem* register_system(std::unique_ptr<IInputSystem> system, int priority);
+    ISystem* register_system(std::unique_ptr<ISystem> system);
 
     void update(Uint32 dt);
 
 private:
-    std::map<int, std::unique_ptr<ISystem>> m_systems;
-    std::map<int, std::unique_ptr<IInputSystem>> m_input_systems;
+    std::vector<std::unique_ptr<ISystem>> m_systems;
 };
 
 #endif
