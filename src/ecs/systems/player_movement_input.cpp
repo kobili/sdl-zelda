@@ -13,7 +13,7 @@ void reset_velocity(Velocity& velocity) {
     velocity.set_y(0);
 }
 
-void PlayerMovementInputSystem::update_entity(int entity_id, Uint32 dt) {
+void PlayerMovementInputSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     Player* player = m_ecs->get_component<Player>(entity_id);
     if (player == NULL) {
         return;

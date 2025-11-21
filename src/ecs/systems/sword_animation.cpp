@@ -15,7 +15,7 @@ SwordAnimationSystem::SwordAnimationSystem(ECSManager* ecs, TextureManager* text
 }
 
 
-void SwordAnimationSystem::update_entity(int entity_id, Uint32 dt) {
+void SwordAnimationSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     Player* _player = m_ecs->get_component<Player>(entity_id);
     if (!_player) {
         return;

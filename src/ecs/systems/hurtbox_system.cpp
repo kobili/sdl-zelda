@@ -11,7 +11,7 @@
 #include "../../utils.h"
 
 
-void HurtboxIncrementSystem::update_entity(int entity, Uint32 dt) {
+void HurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
     Hurtbox* _hurtbox = m_ecs->get_component<Hurtbox>(entity);
     if (!_hurtbox) {
         return;
@@ -26,7 +26,7 @@ void HurtboxIncrementSystem::update_entity(int entity, Uint32 dt) {
 }
 
 
-void DamageDetectionSystem::update_entity(int entity, Uint32 dt) {
+void DamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
     Character* _character = m_ecs->get_component<Character>(entity);
     if (!_character) {
         return;
@@ -38,7 +38,7 @@ void DamageDetectionSystem::update_entity(int entity, Uint32 dt) {
     }
     Collider collider = *_collider;
 
-    for (int other_entity : m_ecs->get_entities()) {
+    for (Uint32 other_entity : m_ecs->get_entities()) {
         if (other_entity == entity) {
             continue;
         }
@@ -47,9 +47,13 @@ void DamageDetectionSystem::update_entity(int entity, Uint32 dt) {
         if (!_hurtbox) {
             continue;
         }
-        Hurtbox hurtbox = *_hurtbox;
+        Hurtbox& hurtbox = *_hurtbox;
 
         if (!hurtbox.is_active()) {
+            continue;
+        }
+
+        if (hurtbox.has_entity_been_touched(entity)) {
             continue;
         }
 
@@ -63,6 +67,13 @@ void DamageDetectionSystem::update_entity(int entity, Uint32 dt) {
             continue;
         }
 
-        printf("Entity %d: Took %d damage\n", entity, hurtbox.get_damage_value());
+        hurtbox.touch_entity(entity);
+
+        printf(
+            "Entity %d: Took %d damage from hurtbox %d\n",
+            entity,
+            hurtbox.get_damage_value(),
+            other_entity
+        );
     }
 }

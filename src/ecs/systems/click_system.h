@@ -9,7 +9,7 @@
 class ClickSystem : public IInputSystem {
 public:
     ClickSystem(ECSManager* manager, InputManager* input_manager, Window* window, Camera* camera);
-    void virtual update_entity(int entity_id, Uint32 dt) override;
+    void virtual update_entity(Uint32 entity_id, Uint32 dt) override;
 
 private:
     Window* m_window;   // non-owning

@@ -18,7 +18,7 @@ CharacterRenderer::CharacterRenderer(
 }
 
 
-void CharacterRenderer::render(int entity_id, Uint32 dt) {
+void CharacterRenderer::render(Uint32 entity_id, Uint32 dt) {
     
     Position* position = m_ecs->get_component<Position>(entity_id);
     if (position == NULL) {
@@ -68,7 +68,7 @@ PlayerSpriteRenderSystem::PlayerSpriteRenderSystem(
 ) : ISystem(ecs), m_renderer(ecs, texture_manager, camera, window) {}
 
 
-void PlayerSpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
+void PlayerSpriteRenderSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     if (m_ecs->get_component<Player>(entity_id) == NULL) {
         return;
     }
@@ -82,7 +82,7 @@ EnemySpriteRenderSystem::EnemySpriteRenderSystem(
 ) : ISystem(ecs), m_renderer(ecs, texture_manager, camera, window) {}
 
 
-void EnemySpriteRenderSystem::update_entity(int entity_id, Uint32 dt) {
+void EnemySpriteRenderSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     if (m_ecs->get_component<Enemy>(entity_id) == NULL) {
         return;
     }

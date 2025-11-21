@@ -19,7 +19,7 @@ ClickSystem::ClickSystem(
 }
 
 
-void ClickSystem::update_entity(int entity_id, Uint32 dt) {
+void ClickSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     auto mouse_events = m_input_manager->get_mouse_events();
 
     if (mouse_events.size() == 0) {

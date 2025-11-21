@@ -14,7 +14,7 @@
 class ColliderDebugRenderSystem : public ISystem {
 public:
     ColliderDebugRenderSystem(ECSManager* ecs, Camera* camera, Window* window);
-    void update_entity(int entity, Uint32 dt) override;
+    void update_entity(Uint32 entity, Uint32 dt) override;
 
 private:
     Camera* m_camera;

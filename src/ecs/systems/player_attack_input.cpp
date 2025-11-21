@@ -13,7 +13,7 @@
 #include "../managers/ecs_manager.h"
 
 
-void PlayerAttackInputSystem::update_entity(int entity_id, Uint32 dt) {
+void PlayerAttackInputSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     Player* player = m_ecs->get_component<Player>(entity_id);
     if (player == NULL) {
         return;
@@ -51,7 +51,7 @@ void PlayerAttackInputSystem::update_entity(int entity_id, Uint32 dt) {
 }
 
 
-void PlayerAttackInputSystem::create_sword_hurtbox(int player_entity) {
+void PlayerAttackInputSystem::create_sword_hurtbox(Uint32 player_entity) {
     Position* _player_position = m_ecs->get_component<Position>(player_entity);
     if (!_player_position) {
         return;

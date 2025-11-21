@@ -12,7 +12,7 @@ class CharacterRenderer  {
 public:
     CharacterRenderer(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
 
-    void render(int entity, Uint32 dt);
+    void render(Uint32 entity, Uint32 dt);
 
 private:
     ECSManager* m_ecs;
@@ -26,7 +26,7 @@ class PlayerSpriteRenderSystem : public ISystem {
 public:
     PlayerSpriteRenderSystem(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
 
-    void update_entity(int entity, Uint32 dt) override;
+    void update_entity(Uint32 entity, Uint32 dt) override;
 
 private:
     CharacterRenderer m_renderer;
@@ -37,7 +37,7 @@ class EnemySpriteRenderSystem : public ISystem {
 public:
     EnemySpriteRenderSystem(ECSManager* ecs, TextureManager* texture_manager, Camera* camera, Window* window);
 
-    void update_entity(int entity, Uint32 dt);
+    void update_entity(Uint32 entity, Uint32 dt);
 
 private:
     CharacterRenderer m_renderer;

@@ -19,7 +19,7 @@ public:
 
     void update(Uint32 dt);
 
-    void virtual update_entity(int entity, Uint32 dt) = 0;
+    void virtual update_entity(Uint32 entity, Uint32 dt) = 0;
 
 protected:
     ECSManager* m_ecs;  // non-owning

@@ -158,7 +158,7 @@ CharacterAnimation load_player_animations() {
 
 void player_callback(ECSManager& ecs, int entity_id) {
     Position& player_position = *ecs.get_component<Position>(entity_id);
-    printf("Player at (%d, %d)\n", player_position.get_x(), player_position.get_y());
+    printf("Player with id %d at (%d, %d)\n", entity_id, player_position.get_x(), player_position.get_y());
 }
 
 

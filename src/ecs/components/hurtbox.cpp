@@ -45,3 +45,11 @@ bool Hurtbox::is_active() const {
         && m_timer_ms < m_active_end_time_ms
     );
 }
+
+void Hurtbox::touch_entity(Uint32 entity_id) {
+    m_touched_entities.insert(entity_id);
+}
+
+bool Hurtbox::has_entity_been_touched(Uint32 entity_id) {
+    return m_touched_entities.count(entity_id) != 0;
+}

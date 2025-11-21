@@ -8,7 +8,7 @@ class CharacterUpdateSystem : public ISystem {
 public:
     using ISystem::ISystem;
 
-    void update_entity(int entity_id, Uint32 dt) override;
+    void update_entity(Uint32 entity_id, Uint32 dt) override;
 };
 
 #endif

@@ -60,8 +60,6 @@ private:
 
     SystemManager m_system_manager;
 
-    // std::vector<std::unique_ptr<Entity>> m_entities;
-
     // for deduplication
     std::unordered_set<Uint32> m_entity_set;
 

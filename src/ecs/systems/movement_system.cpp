@@ -13,7 +13,7 @@
 #include "../../utils.h"
 
 
-void MovementSystem::update_entity(int entity_id, Uint32 dt) {
+void MovementSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     Movable* movement = m_ecs->get_component<Movable>(entity_id);
     if (movement == NULL) {
         return;
@@ -74,7 +74,7 @@ void MovementSystem::update_entity(int entity_id, Uint32 dt) {
 }
 
 
-std::vector<SDL_Rect*> MovementSystem::get_other_colliders(int entity_id) {
+std::vector<SDL_Rect*> MovementSystem::get_other_colliders(Uint32 entity_id) {
     std::vector<SDL_Rect*> colliders;
     for (auto& other_entity_id : m_ecs->get_entities()) {
         

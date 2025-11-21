@@ -4,7 +4,7 @@
 #include "../components/entity_lifetime.h"
 
 
-void EntityLifetimeSystem::update_entity(int entity_id, Uint32 dt) {
+void EntityLifetimeSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     EntityLifetime* _lifetime = m_ecs->get_component<EntityLifetime>(entity_id);
     if (!_lifetime) {
         return;

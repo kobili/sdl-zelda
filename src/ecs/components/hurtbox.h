@@ -27,6 +27,9 @@ public:
 
     bool is_active() const;
 
+    void touch_entity(Uint32 entity_id);
+    bool has_entity_been_touched(Uint32 entity_id);
+
 private:
     int m_damage_value;
 
@@ -40,7 +43,7 @@ private:
     // internal timer
     Uint32 m_timer_ms;
 
-    
+    std::unordered_set<Uint32> m_touched_entities;
 };
 
 #endif

@@ -11,7 +11,7 @@ ColliderDebugRenderSystem::ColliderDebugRenderSystem(
 }
 
 
-void ColliderDebugRenderSystem::update_entity(int entity, Uint32 dt) {
+void ColliderDebugRenderSystem::update_entity(Uint32 entity, Uint32 dt) {
     Collider* _collider = m_ecs->get_component<Collider>(entity);
     if (!_collider) {
         return;
