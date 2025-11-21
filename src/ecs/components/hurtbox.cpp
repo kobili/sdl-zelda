@@ -1,6 +1,18 @@
 #include "hurtbox.h"
 
 
+Hurtbox::Hurtbox(int damage_value) {
+    m_damage_value = damage_value;
+
+    m_timer_ms = 0;
+    m_is_permanently_active = true;
+
+    m_duration_ms = 0;
+    m_active_start_time_ms = 0;
+    m_active_end_time_ms = 0;
+}
+
+
 Hurtbox::Hurtbox(
     int damage_value,
     Uint32 duration_ms,
@@ -13,6 +25,8 @@ Hurtbox::Hurtbox(
     m_active_end_time_ms = active_end_time_ms;
 
     m_timer_ms = 0;
+
+    m_is_permanently_active = false;
 }
 
 int Hurtbox::get_damage_value() const {
@@ -40,7 +54,7 @@ void Hurtbox::update_timer(Uint32 dt) {
 }
 
 bool Hurtbox::is_active() const {
-    return (
+    return m_is_permanently_active || (
         m_timer_ms >= m_active_start_time_ms
         && m_timer_ms < m_active_end_time_ms
     );
@@ -52,4 +66,8 @@ void Hurtbox::touch_entity(Uint32 entity_id) {
 
 bool Hurtbox::has_entity_been_touched(Uint32 entity_id) {
     return m_touched_entities.count(entity_id) != 0;
+}
+
+bool Hurtbox::is_permanent() const {
+    return m_is_permanently_active;
 }

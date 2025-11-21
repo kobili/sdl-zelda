@@ -20,7 +20,7 @@ void HurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
 
     hurtbox.update_timer(dt);
 
-    if (hurtbox.get_elapsed_time() >= hurtbox.get_duration()) {
+    if (!hurtbox.is_permanent() && hurtbox.get_elapsed_time() >= hurtbox.get_duration()) {
         m_ecs->mark_remove(entity);
     }
 }

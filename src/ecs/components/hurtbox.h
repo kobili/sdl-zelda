@@ -9,6 +9,8 @@
 // Use in conjunction with Collider
 class Hurtbox {
 public:
+    Hurtbox(int damage_value);
+
     Hurtbox(
         int damage_value,
         Uint32 duration_ms,
@@ -30,6 +32,8 @@ public:
     void touch_entity(Uint32 entity_id);
     bool has_entity_been_touched(Uint32 entity_id);
 
+    bool is_permanent() const;
+
 private:
     int m_damage_value;
 
@@ -39,6 +43,8 @@ private:
     // the start and end times when the hurtbox is active
     Uint32 m_active_start_time_ms;
     Uint32 m_active_end_time_ms;
+
+    bool m_is_permanently_active;
 
     // internal timer
     Uint32 m_timer_ms;
