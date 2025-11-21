@@ -2,9 +2,10 @@
 #define CLICKABLE_H
 
 #include <functional>
+#include "SDL.h"
 
 
-typedef std::function<void(int)> ClickHandler;
+typedef std::function<void(Uint32)> ClickHandler;
 
 
 class Clickable {

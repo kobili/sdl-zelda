@@ -12,6 +12,12 @@
 #include "system_manager.h" // might cause a circular dependency
 
 
+struct ComponentRemovalQueueItem {
+    Uint32 entity;
+    std::type_index component_type;
+};
+
+
 class ECSManager {
 public:
     ECSManager();
@@ -20,11 +26,15 @@ public:
 
     const std::unordered_set<Uint32>& get_entities() const;
 
-    void remove_entity(Uint32 entity_id);
-
+    
     void mark_remove(Uint32 entity_id);
+    void mark_remove(ComponentRemovalQueueItem component);
+
+    void remove_entity(Uint32 entity_id);
+    void remove_component(ComponentRemovalQueueItem component);
 
     void prune_inactive_entities();
+    void prune_inactive_components();
 
     /**
      * Return the next available id and increment the counter
@@ -64,7 +74,8 @@ private:
     std::unordered_set<Uint32> m_entity_set;
 
     // entity ids marked to be removed
-    std::vector<Uint32> m_removal_queue;
+    std::vector<Uint32> m_entity_removal_queue;
+    std::vector<ComponentRemovalQueueItem> m_component_removal_queue;
 
     std::vector<std::function<void()>> m_operations_queue;
 };

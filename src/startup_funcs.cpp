@@ -302,9 +302,10 @@ void load_enemy(ECSManager& ecs) {
 
     // ecs.add_component<Hurtbox>(enemy, Hurtbox(3));
 
-    ClickHandler on_click = [&ecs](int entity_id) {
+    ClickHandler on_click = [&ecs](Uint32 entity_id) {
         printf("I'm so hungry, I could eat an oktorok!\n");
-        ecs.mark_remove(entity_id);
+        // ecs.mark_remove(entity_id);
+        ecs.mark_remove(ComponentRemovalQueueItem{entity_id, std::type_index(typeid(Invincibility))});
     };
 
     if (ecs.add_component<Clickable>(enemy, Clickable(on_click)) == NULL) {

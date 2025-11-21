@@ -5,23 +5,25 @@
 #include <typeindex>
 #include <memory>
 
+#include "SDL.h"
+
 
 class IComponentStore {
 public:
     virtual ~IComponentStore() = default;
-    virtual void remove_component(int entity_id) = 0;
+    virtual void remove_component(Uint32 entity_id) = 0;
 };
 
 
 template <typename T>
 class ComponentStore : public IComponentStore {
 public:
-    T* add_component(int entity_id, T component) {
+    T* add_component(Uint32 entity_id, T component) {
         m_components[entity_id] = std::unique_ptr<T>(new T(std::move(component)));
         return m_components[entity_id].get();
     }
 
-    T* get_component(int entity_id) {
+    T* get_component(Uint32 entity_id) {
         if (m_components.find(entity_id) == m_components.end()) {
             return NULL;
         }
@@ -29,18 +31,18 @@ public:
         return m_components[entity_id].get();
     }
 
-    void remove_component(int entity_id) override {
+    void remove_component(Uint32 entity_id) override {
         m_components.erase(entity_id);
     }
 private:
-    std::unordered_map<int, std::unique_ptr<T>> m_components;
+    std::unordered_map<Uint32, std::unique_ptr<T>> m_components;
 };
 
 
 class ComponentManager {
 public:
     template <typename T>
-    T* add_component(int entity_id, T component) {
+    T* add_component(Uint32 entity_id, T component) {
         ComponentStore<T>& component_store = get_or_create_store<T>();
         component_store.add_component(entity_id, component);
 
@@ -48,17 +50,19 @@ public:
     }
 
     template <typename T>
-    T* get_component(int entity_id) {
+    T* get_component(Uint32 entity_id) {
         ComponentStore<T>& component_store = get_or_create_store<T>();
 
         return component_store.get_component(entity_id);
     }
 
-    void remove_components(int entity_id) {
+    void remove_components(Uint32 entity_id) {
         for (auto& pair : m_stores) {
             pair.second->remove_component(entity_id);
         }
     }
+
+    void remove_component(Uint32 entity, std::type_index component_type);
 
 private:
     std::unordered_map<std::type_index, std::unique_ptr<IComponentStore>> m_stores;

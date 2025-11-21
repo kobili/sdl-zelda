@@ -46,15 +46,32 @@ void ECSManager::remove_entity(Uint32 entity_id) {
 
 
 void ECSManager::mark_remove(Uint32 entity_id) {
-    m_removal_queue.push_back(entity_id);
+    m_entity_removal_queue.push_back(entity_id);
+}
+
+
+void ECSManager::mark_remove(ComponentRemovalQueueItem component) {
+    m_component_removal_queue.push_back(component);
 }
 
 
 void ECSManager::prune_inactive_entities() {
-    for (Uint32 id : m_removal_queue) {
+    for (Uint32 id : m_entity_removal_queue) {
         remove_entity(id);
     }
-    m_removal_queue.clear();
+    m_entity_removal_queue.clear();
+}
+
+
+void ECSManager::prune_inactive_components() {
+    for (ComponentRemovalQueueItem component_removal : m_component_removal_queue) {
+        remove_component(component_removal);
+    }
+}
+
+
+void ECSManager::remove_component(ComponentRemovalQueueItem component) {
+    m_component_manager.remove_component(component.entity, component.component_type);
 }
 
 

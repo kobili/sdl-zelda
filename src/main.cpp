@@ -88,6 +88,7 @@ int main(int argc, char* args[]) {
 
         ecs.run_operations();
         ecs.prune_inactive_entities();
+        ecs.prune_inactive_components();
     }
 
     teardown_sdl();
