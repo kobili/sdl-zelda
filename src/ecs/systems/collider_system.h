@@ -21,7 +21,7 @@ private:
     Window* m_window;
 
     void render_collider(Collider collider);
-    void render_attack_hurtbox(Collider collider, AttackHurtbox hurtbox);
+    void render_attack_hurtbox(Collider collider, Hurtbox hurtbox);
     void render_rectangle(SDL_Rect rect, RGB colour, Uint8 alpha);
 };
 

@@ -67,7 +67,7 @@ void PlayerAttackInputSystem::create_sword_hurtbox(Uint32 player_entity) {
     int entity_id = m_ecs->create_entity_id();
     m_ecs->add_entity(entity_id);
 
-    m_ecs->add_component<AttackHurtbox>(entity_id, AttackHurtbox(
+    m_ecs->add_component<Hurtbox>(entity_id, Hurtbox(
         3,
         3 * LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,
         LINK_ATTACK_ANIMATION_FRAME_DURATION_MS,

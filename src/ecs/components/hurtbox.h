@@ -6,28 +6,14 @@
 #include "SDL.h"
 
 
-class ContactHurtbox {
-public:
-    ContactHurtbox(int damage_value);
-
-    int get_damage_value() const;
-
-private:
-    int m_damage_value;
-};
-
-
 /**
- * Component detailing the hurtboxes attached to things that should only damage an entity once in its lifetime
- * ie. sword strikes, arrows, fireballs.
- * 
  * Use in conjunction with a `Collider` component for position and width info
  */
-class AttackHurtbox {
+class Hurtbox {
 public:
-    AttackHurtbox(int damage_value);
+    Hurtbox(int damage_value);
 
-    AttackHurtbox(
+    Hurtbox(
         int damage_value,
         Uint32 duration_ms,
         Uint32 active_start_time_ms,

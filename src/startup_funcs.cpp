@@ -298,7 +298,7 @@ void load_enemy(ECSManager& ecs) {
         return;
     }
 
-    ecs.add_component<ContactHurtbox>(enemy, ContactHurtbox(3));
+    ecs.add_component<Hurtbox>(enemy, Hurtbox(3));
 
     ClickHandler on_click = [&ecs](Uint32 entity_id) {
         printf("I'm so hungry, I could eat an oktorok!\n");
