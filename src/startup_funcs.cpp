@@ -399,7 +399,7 @@ void load_systems(ECSManager& ecs, InputManager& input_manager, TextureManager* 
     std::unique_ptr<InvincibilityLifetimeSystem> invincibility_lifetime_system (new InvincibilityLifetimeSystem(&ecs));
     ecs.register_system(std::move(invincibility_lifetime_system));
 
-    std::unique_ptr<AttackHurtboxIncrementSystem> hurtbox_increment_system (new AttackHurtboxIncrementSystem(&ecs));
+    std::unique_ptr<HurtboxIncrementSystem> hurtbox_increment_system (new HurtboxIncrementSystem(&ecs));
     ecs.register_system(std::move(hurtbox_increment_system));
 
     std::unique_ptr<ColliderDebugRenderSystem> collider_debug_render_system (new ColliderDebugRenderSystem(&ecs, camera, window));

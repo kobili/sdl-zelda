@@ -9,7 +9,7 @@
 class Collider;
 
 
-class AttackHurtboxIncrementSystem : public ISystem {
+class HurtboxIncrementSystem : public ISystem {
 public:
     using ISystem::ISystem;
     void update_entity(Uint32 entity, Uint32 dt) override;

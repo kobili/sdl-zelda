@@ -6,13 +6,14 @@
 #include "../components/collider.h"
 #include "../components/character.h"
 #include "../components/invincibility.h"
+#include "../components/enemy.h"
 
 #include "../managers/ecs_manager.h"
 #include "../../texture.h"
 #include "../../utils.h"
 
 
-void AttackHurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
+void HurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
     Hurtbox* _hurtbox = m_ecs->get_component<Hurtbox>(entity);
     if (!_hurtbox) {
         return;
@@ -77,8 +78,13 @@ void AttackDamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
             continue;
         }
 
-        // hurtbox.touch_entity(entity);
-        m_ecs->add_component<Invincibility>(entity, Invincibility(750));
+        bool is_damage_source_enemy = m_ecs->get_component<Enemy>(other_entity) != NULL;
+
+        if (is_damage_source_enemy) {
+            m_ecs->add_component<Invincibility>(entity, Invincibility(750));
+        } else {
+            hurtbox.touch_entity(entity);
+        }
 
         printf(
             "Entity %d: Took %d damage from attack %d\n",
@@ -87,7 +93,7 @@ void AttackDamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
             other_entity
         );
 
-        // exit early
+        // exit early after taking damage
         return;
     }
 }
