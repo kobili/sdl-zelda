@@ -119,5 +119,5 @@ void PlayerAttackInputSystem::create_sword_hurtbox(Uint32 player_entity) {
         )
     );
 
-    printf("created sword hurtbox with id %d\n", entity_id);
+    // printf("created sword hurtbox with id %d\n", entity_id);
 }

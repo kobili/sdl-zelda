@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include <vector>
+#include <typeindex>
 
 /*
 * Check if rectangle A collides with rectangle B
@@ -23,5 +24,10 @@ struct Zone {
     int col;
     int row;
 };
+
+template <typename T>
+std::type_index get_type_index() {
+    return std::type_index(typeid(T));
+}
 
 #endif

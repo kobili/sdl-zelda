@@ -1,6 +1,16 @@
 #include "hurtbox.h"
 
 
+ContactHurtbox::ContactHurtbox(int damage_value) {
+    m_damage_value = damage_value;
+}
+
+
+int ContactHurtbox::get_damage_value() const {
+    return m_damage_value;
+}
+
+
 AttackHurtbox::AttackHurtbox(int damage_value) {
     m_damage_value = damage_value;
 

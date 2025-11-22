@@ -4,6 +4,8 @@
 #include "../components/entity_lifetime.h"
 #include "../components/invincibility.h"
 
+#include "../../utils.h"
+
 
 void EntityLifetimeSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     EntityLifetime* _lifetime = m_ecs->get_component<EntityLifetime>(entity_id);
@@ -31,8 +33,6 @@ void InvincibilityLifetimeSystem::update_entity(Uint32 entity_id, Uint32 dt) {
     invincibility.update_timer(dt);
 
     if (invincibility.get_elapsed_time() > invincibility.get_duration()) {
-        m_ecs->remove_component({
-            entity_id, std::type_index(typeid(Invincibility))
-        });
+        m_ecs->remove_component({ entity_id, get_type_index<Invincibility>() });
     }
 }

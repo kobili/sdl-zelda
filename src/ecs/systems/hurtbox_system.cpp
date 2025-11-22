@@ -19,9 +19,13 @@ void AttackHurtboxIncrementSystem::update_entity(Uint32 entity, Uint32 dt) {
     }
     AttackHurtbox& hurtbox = *_hurtbox;
 
+    if (hurtbox.is_permanent()) {
+        return;
+    }
+
     hurtbox.update_timer(dt);
 
-    if (!hurtbox.is_permanent() && hurtbox.get_elapsed_time() >= hurtbox.get_duration()) {
+    if (hurtbox.get_elapsed_time() >= hurtbox.get_duration()) {
         m_ecs->mark_remove(entity);
     }
 }
@@ -49,37 +53,82 @@ void AttackDamageDetectionSystem::update_entity(Uint32 entity, Uint32 dt) {
             continue;
         }
 
-        AttackHurtbox* _hurtbox = m_ecs->get_component<AttackHurtbox>(other_entity);
-        if (!_hurtbox) {
-            continue;
-        }
-        AttackHurtbox& hurtbox = *_hurtbox;
-
-        if (!hurtbox.is_active()) {
-            continue;
-        }
-
-        if (hurtbox.has_entity_been_touched(entity)) {
-            continue;
-        }
-
         Collider* _other_collider = m_ecs->get_component<Collider>(other_entity);
         if (!_other_collider) {
             continue;
         }
         Collider other_collider = *_other_collider;
 
-        if ( !check_collision(collider.get_hitbox(), other_collider.get_hitbox()) ) {
-            continue;
+        if (
+            check_attack_hurtbox(entity, other_entity, collider, other_collider)
+        ) {
+            return;
         }
-
-        hurtbox.touch_entity(entity);
-
-        printf(
-            "Entity %d: Took %d damage from hurtbox %d\n",
-            entity,
-            hurtbox.get_damage_value(),
-            other_entity
-        );
+        if (
+            check_contact_hurtbox(
+                entity, other_entity, collider, other_collider
+            )
+        ) {
+            return;
+        }
     }
+}
+
+bool AttackDamageDetectionSystem::check_attack_hurtbox(
+    Uint32 entity, Uint32 other_entity, Collider collider, Collider other_collider
+) {
+    AttackHurtbox* _hurtbox = m_ecs->get_component<AttackHurtbox>(other_entity);
+    if (!_hurtbox) {
+        return false;
+    }
+    AttackHurtbox& hurtbox = *_hurtbox;
+
+    if (!hurtbox.is_active()) {
+        return false;
+    }
+
+    if (hurtbox.has_entity_been_touched(entity)) {
+        return false;
+    }
+
+    if ( !check_collision(collider.get_hitbox(), other_collider.get_hitbox()) ) {
+        return false;
+    }
+
+    hurtbox.touch_entity(entity);
+
+    printf(
+        "Entity %d: Took %d damage from attack %d\n",
+        entity,
+        hurtbox.get_damage_value(),
+        other_entity
+    );
+
+    return true;
+}
+
+
+bool AttackDamageDetectionSystem::check_contact_hurtbox(
+    Uint32 entity, Uint32 other_entity, Collider collider, Collider other_collider
+) {
+    ContactHurtbox* _hurtbox = m_ecs->get_component<ContactHurtbox>(other_entity);
+    if (!_hurtbox) {
+        return false;
+    }
+    ContactHurtbox hurtbox = *_hurtbox;
+
+    if (!check_collision(collider.get_hitbox(), other_collider.get_hitbox())) {
+        return false;
+    }
+
+    printf(
+        "Entity %d: Took %d damage from hazard %d\n",
+        entity,
+        hurtbox.get_damage_value(),
+        other_entity
+    );
+
+    m_ecs->add_component<Invincibility>(entity, Invincibility(750));
+
+    return true;
 }

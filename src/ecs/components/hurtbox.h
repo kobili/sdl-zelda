@@ -6,10 +6,22 @@
 #include "SDL.h"
 
 
-// Use in conjunction with Collider
+class ContactHurtbox {
+public:
+    ContactHurtbox(int damage_value);
+
+    int get_damage_value() const;
+
+private:
+    int m_damage_value;
+};
+
+
 /**
  * Component detailing the hurtboxes attached to things that should only damage an entity once in its lifetime
  * ie. sword strikes, arrows, fireballs.
+ * 
+ * Use in conjunction with a `Collider` component for position and width info
  */
 class AttackHurtbox {
 public:
